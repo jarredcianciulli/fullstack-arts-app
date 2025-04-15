@@ -1,0 +1,255 @@
+.navIconStatic {
+  width: 40px;
+  margin: 7vh 5rem 7vh 7vh;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+
+.navIconStatic:hover {
+  transform: translateY(-2px);
+}
+
+.navIcon {
+  width: 80px;
+  margin: 7vh 5rem 7vh;
+  cursor: pointer;
+  transition: all ease 0.2s;
+}
+
+.navIcon:hover {
+  transform: translateY(-2px);
+}
+
+.navHeaderText {
+  border: none;
+  color: var(--color-primary-dark);
+  margin: 0 0 0 2vw;
+}
+
+.navigationIconsContainer {
+  display: flex;
+  width: 100%;
+  z-index: 100;
+  justify-content: start;
+}
+
+.navigationLineIcon {
+  width: 20px;
+  height: 418px;
+  margin-right: 4rem;
+}
+
+.navTextContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10vh;
+}
+
+.navHeaderText,
+.resume1 {
+  font-weight: 500;
+  width: 97px;
+  height: 46px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.navHeaderText,
+.resume1 {
+  height: 45px;
+}
+.home {
+  height: 46px;
+}
+
+.navigationSection {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-primary);
+}
+
+.navigationContainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: start;
+  font-size: 0.75rem;
+}
+.navigation {
+  display: flex;
+  overflow-x: scroll;
+  flex-direction: column;
+  height: 100vh;
+  z-index: 90;
+  background-color: var(--color-primary);
+
+  position: fixed;
+}
+
+.navigationHide {
+  display: flex;
+  /* position: fixed; */
+  flex-direction: column;
+  height: 100vh;
+  z-index: 10;
+}
+
+.navHorizontalLineMedia {
+  display: none;
+}
+.navHeaderIcon {
+  pointer-events: auto;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  fill: var(--color-primary-dark);
+  stroke: var(--color-primary-dark);
+  color: var(--color-primary-dark);
+  text-align: left;
+  pointer-events: all;
+  z-index: 10000;
+}
+
+.navHeaderIconAbout {
+  width: 40px;
+  height: 40px;
+}
+
+.navHeaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 3vh 0;
+  width: 100%;
+}
+
+.navHeaderContainerInner {
+  display: flex;
+  width: 100%;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  border-top: 2px solid var(--color-primary-light-1);
+  border-bottom: 2px solid var(--color-primary-light-1);
+  cursor: pointer;
+  padding: 1vh 0;
+  transition: all ease-in-out 0.3s;
+}
+
+.navHeaderIcon {
+  transition: all ease-in-out 0.3s;
+}
+
+.navHeaderText {
+  transition: all ease-in-out 0.3s;
+}
+
+.navHeaderContainerInner:hover .navHeaderIcon {
+  transition: all ease-in-out 0.3s;
+
+  transform: translateY(-2px);
+}
+
+.navHeaderContainerInner:hover .navHeaderText {
+  transition: all ease-in-out 0.3s;
+
+  transform: translateY(-2px);
+}
+
+.navHeaderText {
+  display: flex;
+  align-items: center;
+}
+
+.navigationActiveContainer {
+  display: flex;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 50;
+}
+
+@media screen and (max-width: 800px) {
+  /* .bio,
+  .contact,
+  .home,
+  .resources,
+  .resume1 {
+    font-size: 9px;
+  }
+  .navigationLineIcon {
+    margin-right: 1.5rem;
+  }
+  .navigationIconsContainer {
+    justify-content: right;
+  }
+  .navTextContainer {
+    transform: translate(-22.5px, -17px);
+    margin-top: 11.25rem;
+  }
+  .navIcon {
+    width: 24px;
+    height: 18px;
+    margin: 3rem 1.55rem 5rem 4rem;
+  } */
+}
+
+@media screen and (max-width: 800px) {
+  .navHorizontalLine {
+    display: none;
+  }
+  .navHorizontalLineMedia {
+    display: block;
+  }
+  .navTextContainer {
+    margin-top: 9.56rem;
+  }
+  .navHeaderIcon {
+    display: flex;
+    width: 17px;
+    height: 17px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    fill: var(--color-primary-dark);
+    stroke: var(--color-primary-dark);
+    color: var(--color-primary-dark);
+    text-align: right;
+    pointer-events: all;
+    z-index: 10000;
+  }
+
+  .navHeaderIconAbout {
+    width: 23px;
+    height: 23px;
+    transform: translateX(2px);
+    cursor: pointer;
+  }
+  .navHeaderText {
+    display: flex;
+    align-items: center;
+  }
+  .navigationLineIcon {
+    width: 15px;
+    margin-right: 1rem;
+  }
+  .navIcon {
+    margin-bottom: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+}
+
+.line1 {
+  stroke-dasharray: 0.2;
+  animation: dash 1s linear;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1;
+  }
+}

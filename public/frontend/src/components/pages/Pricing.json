@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Virtual Violin Lessons",
+    "header": "Private Violin Lessons",
+    "slogan": "Unlock your musical potential with expert guidance from a Master's degree-qualified instructor",
+    "frequency": "Weekly",
+    "duration": {
+      "duration_min": 30,
+      "duration_max": 60
+    },
+    "student_count": 1,
+    "session_count": 13,
+    "price": {
+      "price_min": 50,
+      "price_max": 100,
+      "price_per_15_minutes": 25
+    },
+    "cta_button_name": "Free Trial Lesson",
+    "calendly_url": "https://calendly.com/jcianci1/info-call",
+    "description": "Are you passionate about mastering the captivating melodies of the violin? Look no further! Private music lessons offer a tailored experience designed to elevate your skills and unleash your musical talent.",
+    "hashtags": "#unleashyourviolinist #learningisfun #beanartist"
+  },
+  {
+    "title": "Virtual Viola Lessons",
+    "header": "Private Viola Lessons",
+    "slogan": "Unlock your musical potential with expert guidance from a Master's degree-qualified instructor",
+    "frequency": "Weekly",
+    "duration": {
+      "duration_min": 30,
+      "duration_max": 60
+    },
+    "student_count": 1,
+    "session_count": 13,
+    "price": {
+      "price_min": 50,
+      "price_max": 100,
+      "price_per_15_minutes": 25
+    },
+    "cta_button_name": "Free Trial Lesson",
+    "calendly_url": "https://calendly.com/jcianci1/info-call",
+    "description": "Explore the enchantment of the viola! Private music lessons offer a tailored experience designed to elevate your skills and unleash your musical talent.",
+    "hashtags": "#violaequalsfun #exploreyourtalent #unleashyourpassion"
+  },
+  {
+    "title": "Piano Servicing",
+    "header": "Piano Tuning and Maintenance",
+    "slogan": "Elevate your piano's performance with precision tuning, repairs and cleaning",
+    "frequency": { "type": "months", "frequency_min": 6, "frequency_max": 12 },
+    "duration": {
+      "duration_min": 60,
+      "duration_max": 120
+    },
+    "student_count": "1 Piano",
+    "session_count": 1,
+    "price": {
+      "price_min": 120,
+      "price_max": 160,
+      "price_per_15_minutes": 20
+    },
+    "cta_button_name": "Book Now",
+    "calendly_url": "https://calendly.com/jcianci1/piano-tuning",
+    "description": "Every piano is unique, and I approach each tuning with the utmost care and attention to detail. Using traditional tools and techniques, I carefully assess the instrument's condition and make precise adjustments to ensure consistent tone and stability.",
+    "hashtags": "#tonalalignment #playintune #pianocare"
+  },
+  {
+    "title": "SoundWorks Virtual Workshop",
+    "header": "Group Musical Essentials Training",
+    "slogan": "Discover the essentials of music through engaging games and collaborative group activities",
+    "frequency": "Weekly",
+    "duration": 45,
+    "student_count": "Ages 8-12",
+    "session_count": 13,
+    "course_structure": {
+      "cadence": "trimester",
+      "first_class": "April 1, 2024 17:00:00 EST",
+      "current_enrollment_season": "Spring"
+    },
+
+    "price": 15,
+    "cta_button_name": "Register",
+    "calendly_url": "https://calendly.com/jcianci1/free-trial-lesson",
+    "description": "Introducing an innovative weekly virtual music class that gamifies music education for children of all ages. This interactive platform combines the joy of gaming with the fundamentals of music theory, providing a fun and engaging learning experience for kids. With expert instruction and carefully designed curriculum, your child will develop a deeper understanding and appreciation for music in a dynamic and exciting way. Join us and bring the joy of music to your home!",
+    "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge"
+  }
+]

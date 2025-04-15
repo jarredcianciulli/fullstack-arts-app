@@ -1,0 +1,73 @@
+[
+  {
+    "id": 1,
+    "type": "input",
+    "input_type": "checkbox",
+    "label": "I am 18 years of age or older",
+    "default": "unchecked"
+  },
+  {
+    "id": 2,
+    "type": "input",
+    "label": "What's your name?",
+    "input_type": "text",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Your name"
+  },
+  {
+    "id": 3,
+    "type": "input",
+    "label": "What's your child's name?",
+    "input_type": "text",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Your child's name"
+  },
+  {
+    "id": 4,
+    "type": "input",
+    "label": "What's your child's age?",
+    "input_type": "age",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Your child's age"
+  },
+  {
+    "id": 5,
+    "type": "input",
+    "label": "What's your grandchild's name?",
+    "input_type": "text",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Your grandchild's name"
+  },
+  {
+    "id": 6,
+    "type": "input",
+    "label": "What's your grandchild's age?",
+    "input_type": "age",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Your grandchild's age"
+  },
+  {
+    "id": 7,
+    "type": "input",
+    "input_type": "text",
+    "label": "What is your relationship to the student?",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Relationship to student"
+  },
+  {
+    "id": 8,
+    "type": "input",
+    "label": "What is the student's name?",
+    "input_type": "age",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Student's name"
+  },
+  {
+    "id": 9,
+    "type": "input",
+    "label": "What's your student's age?",
+    "input_type": "age",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Student's age"
+  }
+]

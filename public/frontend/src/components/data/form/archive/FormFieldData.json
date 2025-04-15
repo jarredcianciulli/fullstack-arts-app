@@ -1,0 +1,145 @@
+[
+  {
+    "id": 1,
+    "type": "input",
+    "input_type": "text",
+    "label": "What's your name?",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "placeholder": "Your name",
+    "required": true
+  },
+  {
+    "id": 2,
+    "type": "select",
+    "label": "Who are these lessons for?",
+    "required": true,
+    "options": [
+      { "id": 1, "label": "", "value": "" },
+      {
+        "id": 2,
+        "label": "Myself",
+        "value": "Myself",
+        "if_selected": [{ "formFieldNestedDataId": 1 }]
+      },
+      {
+        "id": 3,
+        "label": "My child",
+        "value": "My child",
+        "if_selected": [
+          { "formFieldNestedDataId": 3 },
+          { "formFieldNestedDataId": 4 }
+        ]
+      },
+      {
+        "id": 4,
+        "label": "My grandchild",
+        "value": "My grandchild",
+        "if_selected": [
+          { "formFieldNestedDataId": 5 },
+          { "formFieldNestedDataId": 6 }
+        ]
+      },
+      {
+        "id": 5,
+        "label": "other",
+        "value": "other",
+        "if_selected": [
+          { "formFieldNestedDataId": 7 },
+          { "formFieldNestedDataId": 8 },
+          { "formFieldNestedDataId": 9 }
+        ]
+      }
+    ],
+    "input_type": "text",
+    "validation": { "min_char": 3, "max_char": 120 },
+    "default_option": ""
+  },
+  {
+    "id": 3,
+    "type": "input",
+    "input_type": "location",
+    "label": "What is your location?",
+    "required": true,
+    "location": [
+      {
+        "location_radius_miles": 5,
+        "location_center_coordinates": [40.241493, -75.283783],
+        "location_price": 15
+      },
+      {
+        "location_radius_miles": 10,
+        "location_center_coordinates": [40.241493, -75.283783],
+        "location_price": 22
+      },
+      {
+        "location_radius_miles": 25,
+        "location_center_coordinates": [40.241493, -75.283783],
+        "location_price": 26
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "type": "input",
+    "input_type": "distance",
+    "label": "How far is your commute to Lansdale PA?",
+    "required": true,
+    "validation": { "min_char": 5, "max_char": 30 }
+  },
+  {
+    "id": 5,
+    "type": "input",
+    "input_type": "select",
+    "label": "Type of piano: ",
+    "required": true,
+    "options": [
+      { "id": 1, "label": "", "value": "" },
+      { "id": 2, "label": "Concert grand", "value": "Concert grand" },
+      { "id": 3, "label": "Studio grand", "value": "Studio grand" },
+      { "id": 4, "label": "Baby grand", "value": "Baby grand" },
+      { "id": 5, "label": "Petit grand", "value": "Petit grand" },
+      { "id": 6, "label": "Square grand", "value": "Square grand" },
+      { "id": 7, "label": "Grand", "value": "Grand" },
+      { "id": 8, "label": "Full size upright", "value": "Full size upright" },
+      { "id": 9, "label": "Studio upright", "value": "Studio upright" },
+      { "id": 10, "label": "Console upright", "value": "Console upright" },
+      { "id": 11, "label": "Spinet upright", "value": "Spinet upright" }
+    ],
+    "validation": { "min_char": 5, "max_char": 30 }
+  },
+  {
+    "id": 5,
+    "type": "input",
+    "input_type": "select",
+    "label": "Model of piano: ",
+    "required": true,
+    "options": [
+      { "id": 1, "label": "", "value": "" },
+      { "id": 2, "label": "Steinway & Sons", "value": "Steinway & Sons" },
+      { "id": 3, "label": "Baldwin", "value": "Baldwin" },
+      { "id": 4, "label": "Yahama", "value": "Yahama" },
+      { "id": 5, "label": "Young Chang", "value": "Young Chang" },
+      { "id": 6, "label": "Wurlitzer", "value": "Wurlitzer" },
+      { "id": 7, "label": "Kawai", "value": "Kawai" },
+      { "id": 8, "label": "Kimball", "value": "Kimball" },
+      { "id": 9, "label": "Kohler & Cambell", "value": "Kohler & Cambell" },
+      { "id": 10, "label": "Lester", "value": "Lester" },
+      { "id": 11, "label": "Other", "value": "Other" }
+    ],
+    "validation": { "min_char": 5, "max_char": 30 }
+  },
+  {
+    "id": 6,
+    "type": "input",
+    "input_type": "select",
+    "label": "Time since last tuning:",
+    "options": [
+      { "id": 1, "label": "", "value": "" },
+      { "id": 2, "label": "Less than 3 months", "value": "Less than 3 months" },
+      { "id": 3, "label": "3 to 6 months", "value": "3 to 6 months" },
+      { "id": 4, "label": "6 to 12 months", "value": "6 to 12 months" },
+      { "id": 5, "label": "12+ months", "value": "12+ months" }
+    ],
+    "required": true
+  }
+]

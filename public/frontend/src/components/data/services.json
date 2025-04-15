@@ -1,0 +1,224 @@
+{
+  "services": [
+    {
+      "id": 1,
+      "section": 1,
+      "service_type": "Private lessons",
+      "service_location_property": "In your home",
+      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation.",
+      "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
+
+      "frequency": {
+        "type": "absolute",
+        "frequency_min": "Weekly",
+        "frequency_max": "Monthly"
+      },
+
+      "duration": {
+        "type": "multiple minutes options",
+        "duration_min": 30,
+        "duration_max": 60,
+        "durations_allowed": [30, 45, 60],
+        "increment_min": 15
+      },
+      "student_count": 1,
+
+      "price": {
+        "price_min": 70,
+        "price_max": 240,
+        "price_per_15_minutes": 25
+      },
+      "location": {
+        "traveling_specification": "Teacher travels",
+        "radius_of_travel_in_miles": 10,
+        "type": "Point",
+        "original_location_coordinates": ["40.2376", "-75.2748"],
+        "original_location_address": {
+          "Street 1": "984 Lasndale Ave.",
+          "City": "Lansdale",
+          "State": "Pennsylvania",
+          "Zipcode": 19446
+        }
+      },
+      "availability_organization": 2,
+      "session_properties": {
+        "type": "Client option",
+        "calculate_travel_time": true
+      },
+      "instructor": 1,
+      "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
+      "active": true,
+      "cta_button_name": "Register"
+    },
+    {
+      "id": 2,
+
+      "section": 1,
+      "service_type": "Private lessons",
+      "service_location_property": "At my home",
+      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
+
+      "frequency": {
+        "type": "absolute",
+        "frequency_min": "Weekly",
+        "frequency_max": "Monthly"
+      },
+
+      "availability_organization": 2,
+      "duration": {
+        "type": "multiple minutes options",
+        "duration_min": 30,
+        "duration_max": 60,
+        "durations_allowed": [30, 45, 60],
+        "increment_min": 15
+      },
+      "student_count": 1,
+      "price": {
+        "price_min": 60,
+        "price_max": 120,
+        "price_per_15_minutes": 25
+      },
+      "location": {
+        "type": "Point",
+        "traveling_specification": "Client travels",
+        "service_location_coordinates": ["40.2376", "-75.2748"],
+        "service_location_address": {
+          "Street 1": "984 Lasndale Ave.",
+          "City": "Lansdale",
+          "State": "Pennsylvania",
+          "Zipcode": 19446
+        }
+      },
+      "service_session": {
+        "type": "Client option",
+        "schedule_assignment": 1
+      },
+      "instructor": 1,
+      "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
+      "active": true,
+      "cta_button_name": "Register"
+    },
+    {
+      "id": 3,
+
+      "section": 1,
+      "frequency": {
+        "type": "absolute",
+        "frequency_min": "Weekly",
+        "frequency_max": "Monthly"
+      },
+      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
+
+      "service_location_property": "Virtual",
+      "location": {
+        "type": "Virtual"
+      },
+
+      "duration": {
+        "type": "multiple minutes options",
+        "duration_min": 30,
+        "duration_max": 60,
+        "durations_allowed": [30, 45, 60],
+        "increment_min": 15
+      },
+      "student_count": 1,
+      "price": {
+        "price_min": 50,
+        "price_max": 100,
+        "price_per_15_minutes": 25
+      },
+      "availability_organization": 2,
+      "service_session": {
+        "type": "Client option",
+        "schedule_assignment": 1
+      },
+      "instructor": 1,
+      "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
+      "active": true,
+      "cta_button_name": "Register"
+    },
+    {
+      "id": 4,
+
+      "section": 2,
+      "service_type": "Piano tuning",
+      "service_location_property": "Your location",
+      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
+
+      "duration": {
+        "type": "multiple minutes determinate",
+        "duration_min": 60,
+        "duration_max": 150,
+        "durations_allowed": [60, 90, 120, 150],
+
+        "increment_min": 15
+      },
+      "frequency": {
+        "type": "months",
+        "frequency_min": 6,
+        "frequency_max": 12
+      },
+
+      "student_count": "1 Piano",
+      "session_count": 1,
+      "price": {
+        "price_min": 120,
+        "price_max": 160,
+        "price_per_15_minutes": 20
+      },
+      "availability_organization": 1,
+      "location": {
+        "traveling_specification": "Technician travels",
+        "radius_of_travel_in_miles": 30,
+        "type": "Point",
+        "original_location_coordinates": ["40.2376", "-75.2748"],
+        "original_location_address": {
+          "Street 1": "984 Lasndale Ave.",
+          "City": "Lansdale",
+          "State": "Pennsylvania",
+          "Zipcode": 19446
+        }
+      },
+      "service_session": {
+        "type": "Client option",
+        "schedule_assignment": 1,
+        "calculate_travel_time": true
+      },
+      "instructor": 1,
+      "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
+      "active": true,
+      "cta_button_name": "Book tuning"
+    },
+    {
+      "id": 5,
+
+      "section": 3,
+      "service_type": "Group music class",
+      "service_location_property": "Virtual",
+      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
+
+      "frequency": { "type": "static", "property": "Weekly" },
+
+      "location": {
+        "type": "Virtual"
+      },
+      "service_session": {
+        "type": "Client option"
+      },
+      "duration": { "type": "minutes static", "mins": 45 },
+
+      "student_count": "2-12 students",
+      "session_count": 13,
+      "instructor": 1,
+      "group_sessions": true,
+      "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
+      "required_audition": false,
+      "active": true,
+      "cta_button_name": "Register"
+    }
+  ]
+}

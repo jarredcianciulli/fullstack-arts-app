@@ -1,0 +1,297 @@
+.musicTable {
+  font-family: var(--font-primary);
+  color: var(--color-secondary-700);
+  margin: 2rem auto;
+  width: 90vw;
+}
+.musicTableHeader {
+  width: 90vw;
+}
+
+.musicTable tr {
+}
+
+.musicTableHeaderContainer th {
+  background-color: var(--color-secondary-200);
+  padding: 0.8rem 1rem;
+  color: white;
+}
+
+.musicTableHeaderContainer th:first-child {
+  border-top-left-radius: 3px;
+}
+
+.musicTableHeaderContainer th:last-child {
+  border-top-right-radius: 3px;
+}
+
+.musicTableActionField {
+  background-color: var(--color-white);
+  width: 100px;
+}
+
+.musicTableBodyContainer td {
+  padding: 0.8rem 1rem;
+  /* border: 1px solid black; */
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.musicTableHeader tr:first-child {
+  border-bottom: 1pt solid white;
+}
+
+.musicTableBodyContainer {
+  border-left: 1pt solid var(--color-secondary-100);
+  border-right: 1pt solid var(--color-secondary-100);
+}
+
+tr {
+  border-bottom: 1pt solid var(--color-secondary-100);
+}
+
+.actionContainer {
+  width: 100vw;
+  font-family: var(--font-primary);
+  display: flex;
+}
+
+.actionCreate {
+  all: unset;
+  margin: 1rem 5rem;
+  border: 1px solid var(--color-white);
+  background-color: var(--color-primary-300);
+  padding: 0.7rem 1rem;
+  border-radius: 3px;
+  color: var(--color-secondary-600);
+  cursor: pointer;
+  transition: ease 0.3s;
+  margin-left: auto;
+}
+
+.actionCreate:hover {
+  border: 1px solid var(--color-primary-300);
+  background-color: var(--color-primary-100);
+}
+
+.classTitle {
+  display: flex;
+  align-items: center;
+  margin-left: 5rem;
+  text-align: center;
+  color: var(--color-secondary-700);
+  font-size: 1.2rem;
+  letter-spacing: 1.25px;
+}
+
+.actionLink {
+  all: unset;
+  cursor: pointer;
+  color: var(--color-primary-1000);
+}
+
+.courseNameValueContainer {
+  text-align: center;
+}
+
+/* FORM */
+
+.formContentContainer {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: 350px 350px;
+  grid-template-rows: 1fr 1fr;
+  font-family: var(--font-primary);
+  justify-content: center;
+  row-gap: 2rem;
+  column-gap: 2rem;
+  margin: 0 auto;
+  margin-bottom: 6rem;
+}
+
+.formContentHeader {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  margin-bottom: 3rem;
+  color: var(--color-quarciary-1000);
+  font-family: var(--font-primary);
+}
+
+.formButtonContainer {
+  grid-column: 1/-1;
+  grid-row: 3/-1;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  align-items: center;
+}
+
+.formButton {
+  all: unset;
+  border: 1px solid var(--color-tertiary-100);
+  background-color: var(--color-tertiary-300);
+  color: var(--color-secondary-700);
+  /* width: fit-content; */
+  width: 88%;
+  text-align: center;
+  padding: 0.7rem 3rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.formButton:hover {
+  background-color: var(--color-tertiary-500);
+}
+
+.formSectionHeader_1 {
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin: 1rem auto;
+}
+
+.formSectionHeader_2 {
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 1rem auto;
+}
+
+.formSection {
+  margin: 0 auto;
+  border: 1px solid var(--color-primary-300);
+  border-radius: 3px;
+  padding: 2rem;
+  width: 350px;
+}
+
+.formFieldContainer {
+  margin: 1rem;
+}
+
+.formLabel {
+  margin: 1rem 1rem 1rem 0;
+}
+
+.formInput {
+  width: 100px;
+}
+
+.formInputNumber {
+  width: 50px;
+  height: 25px;
+}
+
+.formInputTextArea {
+  width: 250px;
+  height: 50px;
+  margin-top: 0.5rem;
+}
+
+.formInputTextAreaDescription {
+  height: 100px;
+}
+
+.formInputUpload {
+  width: 200px;
+  margin-top: 0.5rem;
+}
+.formSelection {
+  padding: 0.3rem 0.4rem;
+  border: 1px solid var(--color-primary-300);
+  border-radius: 3px;
+  display: flex;
+  width: fit-content;
+}
+
+.removeItem {
+  margin-left: 0.3rem;
+  padding: 0 0.5rem;
+  font-size: 0.8rem;
+  align-items: end;
+  align-self: flex-start;
+  cursor: pointer;
+}
+
+.addValue {
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  margin-left: 1.2rem;
+  font-size: 1.2rem;
+  border: 1px solid var(--color-sextiary-1000);
+  padding: 2px 10px;
+  border-radius: 3px;
+}
+
+.addValue:hover {
+  background-color: var(--color-sextiary-100);
+}
+
+.formFieldContainerArray {
+  display: flex;
+  white-space: nowrap;
+}
+
+.formFieldContainerArray select {
+  display: flex;
+  height: max-content;
+  align-self: center;
+  padding: 0.35rem 0.75rem;
+}
+
+.imagesContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.imagesSelectedContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1.5rem;
+}
+
+.removeImagesImage {
+  cursor: pointer;
+}
+
+/* Create form page */
+
+.formCreateContentContainer {
+  font-family: var(--font-primary);
+
+  width: 25rem;
+  margin: 3rem auto;
+}
+
+.formLabel {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 8rem;
+}
+
+.formInput {
+  width: 15rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.formFieldContainer {
+  display: flex;
+  padding: 1rem 0 0 0;
+  margin: 0;
+  width: 100%;
+}
+
+.formButtonContainer {
+  font-family: var(--font-primary);
+  margin-top: 3rem;
+}
+
+.formInputCheckbox {
+  width: fit-content;
+  margin-left: 3rem;
+}

@@ -1,0 +1,164 @@
+.headerSpace {
+}
+
+.rhythmContainer {
+  /* display: block; */
+  /* width: 100%; */
+  position: absolute;
+}
+.rhythmSection {
+  width: 450px;
+}
+
+.rhythmSection img {
+  position: fixed;
+  margin-top: 5rem;
+  width: 20px;
+  height: 20px;
+  margin-left: calc(50% - 300px);
+  left: 0;
+  top: 100px;
+}
+
+.gameInstructionsContainer {
+  display: flex;
+  position: fixed;
+  font-family: var(--font-primary);
+  color: var(--color-primary-dark-2);
+  width: 100%;
+  justify-content: center;
+  transform: translatey(-120px);
+}
+
+.gameInstructionsText {
+  text-align: center;
+  width: 620px;
+}
+/* img.start {
+  animation: x 1s linear 0s 4, y 1s none 0s 4 cubic-bezier(0, 333.33, 1, 333.33),
+    x1 1s linear 4s, y1 1s none 4s cubic-bezier(0, 333.33, 1, 333.33),
+    x2 1s linear 5s, y2 1s none 5s cubic-bezier(0, 333.33, 1, 333.33),
+    x3 0.5s linear 6s, y3 0.5s none 6s cubic-bezier(0, 233.33, 1, 233.33),
+    x4 0.5s linear 6.5s, y4 0.5s none 6.5s cubic-bezier(0, 233.33, 1, 233.33),
+    x5 1s linear 7s, y5 1s none 7s cubic-bezier(0, 333.33, 1, 333.33),
+    x6 1s linear 8s, y6 1s none 8s cubic-bezier(0, 333.33, 1, 333.33);
+  /* x7 1s linear 9s, y7 1s none 9s cubic-bezier(0, 333.33, 1, 333.33); */
+/* animation-iteration-count: x 4, y 4; */
+/* }  */
+
+/* @keyframes x {
+  to {
+    left: 0px;
+  }
+}
+@keyframes y {
+  to {
+    top: 99.5px;
+  }
+}
+@keyframes x1 {
+  from {
+    left: 0px;
+  }
+  to {
+    left: 7%;
+  }
+}
+@keyframes y1 {
+  to {
+    top: 99.5px;
+  }
+}
+@keyframes x2 {
+  from {
+    left: 7%;
+  }
+  to {
+    left: 17%;
+  }
+}
+@keyframes y2 {
+  to {
+    top: 99.5px;
+  }
+}
+
+@keyframes x3 {
+  from {
+    left: 17%;
+  }
+  to {
+    left: 22%;
+  }
+}
+@keyframes y3 {
+  to {
+    top: 99.5px;
+  }
+}
+@keyframes x4 {
+  from {
+    left: 220px;
+  }
+  to {
+    left: 270px;
+  }
+}
+@keyframes y4 {
+  to {
+    top: 99.5px;
+  }
+}
+@keyframes x5 {
+  from {
+    left: 270px;
+  }
+  to {
+    left: 360px;
+  }
+}
+@keyframes y5 {
+  to {
+    top: 99.5px;
+  }
+}
+@keyframes x6 {
+  from {
+    left: 360px;
+  }
+  to {
+    left: 900px;
+  }
+}
+@keyframes y6 {
+  to {
+    top: 99.5px;
+  }
+}
+@keyframes x7 {
+  from {
+    left: 900px;
+  }
+  to {
+    left: 1000px;
+  }
+}
+@keyframes y7 {
+  to {
+    top: 99.5px;
+  }
+} */
+
+.animationButton {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-family: sans-serif;
+  font-size: 30px;
+  background: #67dcab;
+  color: #fff;
+}

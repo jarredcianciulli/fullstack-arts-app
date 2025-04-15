@@ -1,0 +1,5 @@
+.header {
+  display: flex;
+  position: absolute;
+  width: 300px;
+}

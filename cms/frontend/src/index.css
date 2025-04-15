@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zen+Tokyo+Zoo&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  margin: 0;
+  overflow-y: scroll;
+}
+
+:root {
+  /* fonts */
+  --font-zen-maru-gothic: "Zen Maru Gothic";
+  --font-family-primary: "Quicksand", sans-serif;
+  --font-zen-tokyo-zoo: "Zen Tokyo Zoo";
+  --font-primary: "Quicksand", sans-serif;
+  --font-family-secondary: "Zen Tokyo Zoo";
+  --font-inherit: inherit;
+
+  /* font sizes */
+  --font-size-3xl: 22px;
+  --font-size-81xl: 100px;
+  --font-size-xl: 20px;
+  --font-size-6xl: 25px;
+  --font-size-5xl: 24px;
+  --font-size-31xl: 50px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-white-opaque: #ffffff9a;
+  --color-black: #000;
+  --color-succes: rgba(121, 207, 101, 0.726);
+
+  --color-fail: rgba(212, 113, 113, 0.792);
+  --color-pending: rgba(217, 217, 82, 0.783);
+  --color-grey: rgb(96, 96, 63);
+  --color-grey-light: rgba(96, 96, 63, 0.54);
+
+  --color-primary-opaque-3: #c19400;
+
+  /* Colors */
+  /* --color-primary: rgb(245, 206, 78);
+  --color-primary-2: rgb(241, 217, 141);
+  --color-primary-3: rgb(191, 148, 6);
+  --color-primary-100: rgb(245, 238, 215);
+  --color-primary-200: rgb(238, 220, 160);
+  --color-primary-300: rgb(240, 227, 185);
+  --color-primary-400: rgb(245, 219, 133);
+  --color-primary-700: rgb(127, 196, 0);
+  --color-primary-800: rgb(255, 252, 241);
+  --color-primary-900: rgb(107, 82, 0); */
+  --color-primary-light: rgba(245, 206, 78, 0.539);
+  --color-primary-light-1s: rgba(114, 96, 36, 0.437);
+  --color-primary-light-2: rgba(245, 214, 112, 0.073);
+  --color-primary-light-3: rgb(204, 153, 0);
+  --color-primary-light-4: rgb(254, 249, 234);
+  --color-primary-light-5: rgb(254, 255, 226);
+  --color-primary-dark: rgba(158, 122, 1);
+  --color-primary-dark-1: rgba(54, 52, 44, 0.727);
+  --color-primary-dark-2: rgba(78, 60, 2, 0.727);
+  --color-primary-opaque: rgb(255, 244, 205);
+  --color-primary-opaque-2: rgb(253, 232, 157);
+  --color-primary-opaque-3: rgba(189, 183, 164, 0.159);
+  /* Paddings */
+  --padding-8xl: 27px;
+
+  /* Border radiuses */
+  --br-11xs: 2px;
+
+  --color-primary-100: rgba(186, 165, 255, 0.1);
+  --color-primary-200: rgba(186, 165, 255, 0.2);
+  --color-primary-300: rgba(186, 165, 255, 0.3);
+  --color-primary-400: rgba(186, 165, 255, 0.4);
+  --color-primary-500: rgba(186, 165, 255, 0.5);
+  --color-primary-600: rgba(186, 165, 255, 0.6);
+  --color-primary-700: rgba(186, 165, 255, 0.7);
+  --color-primary-800: rgba(186, 165, 255, 0.8);
+  --color-primary-900: rgba(186, 165, 255, 0.9);
+  --color-primary-1000: rgba(186, 165, 255);
+  --color-secondary-100: rgba(65, 34, 52, 0.1);
+  --color-secondary-200: rgba(65, 34, 52, 0.2);
+  --color-secondary-300: rgba(65, 34, 52, 0.3);
+  --color-secondary-400: rgba(65, 34, 52, 0.4);
+  --color-secondary-500: rgba(65, 34, 52, 0.5);
+  --color-secondary-600: rgba(65, 34, 52, 0.6);
+  --color-secondary-700: rgba(65, 34, 52, 0.7);
+  --color-secondary-800: rgba(65, 34, 52, 0.8);
+  --color-secondary-900: rgba(65, 34, 52, 0.9);
+  --color-secondary-1000: rgba(65, 34, 52);
+  --color-tertiary-100: rgba(196, 198, 231, 0.1);
+  --color-tertiary-200: rgba(196, 198, 231, 0.2);
+  --color-tertiary-300: rgba(196, 198, 231, 0.3);
+  --color-tertiary-400: rgba(196, 198, 231, 0.4);
+  --color-tertiary-500: rgba(196, 198, 231, 0.5);
+  --color-tertiary-600: rgba(196, 198, 231, 0.5);
+  --color-tertiary-700: rgba(196, 198, 231, 0.5);
+  --color-tertiary-800: rgba(196, 198, 231, 0.8);
+  --color-tertiary-1000: rgba(196, 198, 231);
+  --color-quarciary-100: rgba(70, 92, 105, 0.1);
+  --color-quarciary-1000: rgba(70, 92, 105);
+  --color-quadiary-100: rgba(161, 229, 171, 0.1);
+  --color-quadiary-1000: rgba(161, 229, 171);
+  --color-sextiary-100: rgba(161, 229, 171, 0.1);
+  --color-sextiary-200: rgba(161, 229, 171, 0.2);
+  --color-sextiary-500: rgba(161, 229, 171, 0.5);
+  --color-sextiary-600: rgba(161, 229, 171, 0.6);
+  --color-sextiary-700: rgba(161, 229, 171, 0.7);
+  --color-sextiary-800: rgba(161, 229, 171, 0.8);
+  --color-sextiary-1000: rgba(161, 229, 171, 1);
+
+  --colors-success-100: rgb(197, 241, 204);
+  --colors-success-200: rgb(183, 220, 188);
+  --colors-success-300: rgb(162, 220, 170);
+  --colors-success-1000: rgb(39, 177, 60);
+  --colors-fail-100: rgb(249, 234, 233);
+  --colors-fail-200: rgb(247, 220, 216);
+  --colors-fail-300: rgb(248, 207, 203);
+  --colors-fail-1000: rgb(202, 63, 50);
+}

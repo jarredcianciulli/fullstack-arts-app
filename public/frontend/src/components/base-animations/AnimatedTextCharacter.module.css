@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  overflow: wrap;
+  white-space: nowrap;
+  word-wrap: break-word;
+  z-index: 100;
+}
+
+.text {
+  display: flex;
+  /* position: absolute; */
+  margin-right: 1px;
+  opacity: 1;
+}

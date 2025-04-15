@@ -1,0 +1,86 @@
+export const formFieldConditionals = [
+  {
+    id: 3,
+    type: "input",
+    input_type: "text",
+    label: "What's your child's name?",
+    placeholder: "Your child's name",
+    required: true,
+    validation: {
+      min_char: 3,
+      max_char: 120,
+    },
+  },
+  {
+    id: 4,
+    type: "input",
+    input_type: "age",
+    label: "What's your child's age?",
+    placeholder: "Your child's age",
+    required: true,
+    validation: {
+      min_char: 1,
+      max_char: 3,
+    },
+  },
+  {
+    id: 5,
+    type: "input",
+    input_type: "text",
+    label: "What's your grandchild's name?",
+    placeholder: "Your grandchild's name",
+    required: true,
+    validation: {
+      min_char: 3,
+      max_char: 120,
+    },
+  },
+  {
+    id: 6,
+    type: "input",
+    input_type: "age",
+    label: "What's your grandchild's age?",
+    placeholder: "Your grandchild's age",
+    required: true,
+    validation: {
+      min_char: 1,
+      max_char: 3,
+    },
+  },
+  {
+    id: 7,
+    type: "input",
+    input_type: "text",
+    label: "What is your relationship to the student?",
+    placeholder: "Relationship to student",
+    required: true,
+    validation: {
+      min_char: 3,
+      max_char: 120,
+    },
+  },
+  {
+    id: 8,
+    type: "input",
+    input_type: "text",
+    label: "What is the student's name?",
+    placeholder: "Student's name",
+    required: true,
+    validation: {
+      min_char: 3,
+      max_char: 120,
+    },
+  },
+  {
+    id: 9,
+    type: "input",
+    input_type: "age",
+    label: "What's your student's age?",
+    placeholder: "Student's age",
+    required: true,
+    validation: {
+      min_char: 1,
+      max_char: 3,
+    },
+  },
+];

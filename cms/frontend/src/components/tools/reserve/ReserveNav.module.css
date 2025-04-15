@@ -1,0 +1,60 @@
+.mainTreck {
+  display: grid;
+  width: 100vw;
+  font-family: var(--font-primary);
+  /* margin-top: 5.7rem; */
+  /* position: fixed; */
+}
+
+.list {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  padding-right: 2rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.listElement {
+  /* text-align: right;
+  width: 100%; */
+  list-style: none;
+}
+.listElement a {
+  width: fit-content;
+  margin: 0.6rem auto 0.2rem auto;
+  transition: ease 0.3s;
+}
+.list a {
+  display: flex;
+  text-decoration: none;
+  color: var(--color-secondary-800);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 1.2px;
+  text-shadow: 0.5px 0.5px 0.5px var(--color-secondary-text-shadow);
+  padding: 0 1rem 0.5rem 1rem;
+  text-align: right;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.list a:hover,
+.list a.active {
+  color: var(--color-tertiary-1000);
+  text-shadow: 0.5px 0.5px 0.5px var(--color-secondary-text-shadow);
+}
+.list a:focus {
+  outline: none !important;
+}
+
+/* .lineBreakReserveNav {
+  height: 1px;
+  width: 100vw;
+  background-color: var(--color-secondary-100);
+} */

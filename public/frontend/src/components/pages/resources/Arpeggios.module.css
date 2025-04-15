@@ -1,0 +1,6 @@
+.music_output {
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  margin: 0 auto;
+}

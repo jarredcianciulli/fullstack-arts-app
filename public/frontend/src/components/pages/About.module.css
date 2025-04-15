@@ -1,0 +1,147 @@
+.aboutHeaderContainer {
+  display: flex;
+  margin-top: 7rem;
+}
+
+.bioParagraphContainer {
+  letter-spacing: 1.1px;
+  line-height: 4rem;
+  margin: -15rem 25% 0.5rem 25%;
+}
+
+.bioParagraphText {
+  text-align: center;
+  font-family: var(--font-primary);
+  color: var(--color-primary-dark-1);
+}
+
+.vectorIcon {
+  position: relative;
+  width: 29px;
+  height: 38.7px;
+  cursor: pointer;
+  transition: all ease 0.2s;
+  z-index: 1;
+}
+
+.vectorIcon:hover {
+  transform: translateY(-2px);
+}
+
+.iconPDFFile {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.iconWordFile {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.aboutHeaderImg {
+  margin-left: 4rem;
+  width: 29px;
+}
+
+/* .aboutVerticleHeaderContainer {
+
+} */
+
+.sectionAboutHeader {
+  font-family: var(--font-primary);
+  color: var(--color-primary-dark);
+  font-size: 100px;
+  margin-top: -5rem;
+  margin-left: 3rem;
+  /* margin-top: 2rem; */
+}
+
+.aboutHeaderIconsContainer {
+  margin-left: 1rem;
+}
+
+.iconPDFFile {
+  margin-top: 4.85rem;
+}
+.iconWordFile {
+  margin-top: 7.5rem;
+}
+
+.vectorIcon {
+  width: 25px;
+}
+
+@media (min-width: 1000px) {
+  .bioParagraphContainer {
+    margin: -15rem 25% 0.5rem 25%;
+
+    font-size: 1rem;
+    line-height: 4rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .aboutHeaderContainer {
+    margin-top: 2rem;
+  }
+  .aboutHeaderImg {
+    width: 4vw;
+    margin-left: 1rem;
+    margin-top: 1.8rem;
+    height: min-content;
+  }
+  .sectionAboutHeader {
+    font-size: 10vw;
+    margin: 0;
+    margin-left: 0.75rem;
+  }
+  .aboutHeaderIconsContainer {
+    margin-left: 0.5rem;
+  }
+  .bioParagraphText_1 {
+    margin-top: 3.65rem;
+  }
+  .vectorIcon {
+    width: 3vw;
+  }
+  .iconPDFFile {
+    margin-top: 10vw;
+  }
+  .iconWordFile {
+    margin-top: 11vw;
+  }
+  .bioParagraphContainer {
+    margin: -37vw 18% 0.5rem 18%;
+    font-size: 1rem;
+    line-height: 3rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .bioParagraphText_1 {
+    margin-top: 3.65rem;
+  }
+  .bioParagraphContainer {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .bioParagraphText_1 {
+    margin-top: 1rem;
+  }
+  .bioParagraphContainer {
+  }
+  .bioParagraphContainer {
+    margin: -37vw 10% 0.5rem 22%;
+    line-height: 2rem;
+    font-size: 0.8rem;
+    text-align: left;
+  }
+  .bioParagraphText {
+    text-align: left;
+  }
+}

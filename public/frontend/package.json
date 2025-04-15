@@ -1,0 +1,57 @@
+{
+  "name": "soundworks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@react-pdf/renderer": "^3.1.14",
+    "@tanstack/react-query": "^5.51.21",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@tonaljs/tonal": "4.6.0",
+    "babel-preset-react-app": "^10.0.1",
+    "blob-stream": "^0.1.3",
+    "canvas2pdf": "^1.0.7",
+    "file-saver": "^2.0.5",
+    "framer-motion": "^10.16.4",
+    "html-to-image": "^1.11.11",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "moment": "^2.30.1",
+    "pdfkit": "^0.14.0",
+    "react": "^18.2.0",
+    "react-calendar": "^5.0.0",
+    "react-dom": "^18.2.0",
+    "react-media": "^1.10.0",
+    "react-query": "^3.39.3",
+    "react-router": "^6.21.1",
+    "react-router-dom": "^6.21.1",
+    "react-scripts": "^5.0.1",
+    "react-select": "^5.8.0",
+    "stream": "^0.0.2",
+    "styled-components": "^6.1.1",
+    "util": "^0.12.5",
+    "vexchords": "1.2.0",
+    "vexflow": "^4.0.3",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@babel/runtime": "7.13.8",
+    "typescript": "4.1.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "author": "Jarred Cianciulli",
+  "license": "ISC",
+  "description": ""
+}

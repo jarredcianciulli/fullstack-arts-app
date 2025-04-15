@@ -1,0 +1,102 @@
+/* Popup.css */
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: unset;
+  z-index: 10;
+}
+
+.popupContent {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  font-family: var(--font-family-primary);
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.calendarActionsContainer {
+  overflow-y: scroll;
+  height: 315px;
+  width: 200px;
+  border: 1px solid var(--color-secondary-200);
+  margin: 0 1rem;
+  padding: 1rem;
+  border-radius: 3px;
+}
+
+.selectedDate {
+  margin: 1rem 2rem;
+  font-size: 0.75rem;
+}
+
+.selectedDateSpec {
+  font-size: 0.95rem;
+  margin: 0.5rem 0.25rem 0.5rem 0.25rem;
+  font-weight: 500;
+}
+
+.popupClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.backToTodayBtn {
+  display: flex;
+  font-size: 0.75rem;
+  justify-content: center;
+  justify-self: center;
+  margin-bottom: 10px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  background-color: var(--color-secondary-600);
+  color: var(--color-white);
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.availability {
+  display: flex;
+  flex-direction: column;
+}
+
+.availability__time {
+  display: flex;
+  padding: 0.4rem 0.75rem;
+  margin-top: 1rem;
+  align-self: center;
+  font-size: 0.8rem;
+  /* margin-left: 1rem; */
+  border: 1px solid var(--color-sextiary-400);
+  background-color: var(--color-white);
+  border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: ease 0.3s;
+}
+
+.availability__time:hover,
+.availability__time:focus {
+  background-color: var(--color-primary-100);
+}

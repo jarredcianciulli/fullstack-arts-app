@@ -1,0 +1,23 @@
+.formContainer {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: aqua;
+  padding: 20px; /* optional: add padding for better spacing inside the container */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* optional: add shadow for better visual appearance */
+  border-radius: 3px; /* optional: add rounded corners */
+  z-index: 3;
+  font-family: var(--font-family-primary);
+}
+
+.close_container {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+}
+
+.close {
+  width: 10px;
+  cursor: pointer;
+}

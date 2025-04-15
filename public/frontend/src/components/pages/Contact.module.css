@@ -1,0 +1,246 @@
+.contact {
+  font-size: var(--font-size-81xl);
+  line-height: 40px;
+  display: inline-block;
+  width: 402px;
+  height: 58px;
+  color: var(--color-primary-dark-1);
+}
+
+.contactHeaderContainer {
+  display: flex;
+  margin-top: 5rem;
+}
+
+.desktop5Child,
+.email,
+.message {
+  position: absolute;
+  top: 99px;
+  left: 49px;
+  width: 29px;
+  height: 117px;
+}
+.email,
+.message {
+  top: 274px;
+  left: 183px;
+  display: inline-block;
+  width: 227px;
+  height: 94px;
+}
+.message {
+  top: 414px;
+}
+.desktop5Item {
+  position: absolute;
+  top: 274px;
+  left: 362px;
+  border-radius: var(--br-11xs);
+  background-color: var(--color-white);
+  border: 0.5px solid var(--color-black);
+  box-sizing: border-box;
+  width: 356px;
+  height: 69px;
+}
+
+.desktop5 {
+  position: relative;
+  background-color: var(--color-white);
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-3xl);
+  color: var(--color-black);
+  font-family: var(--font-primary);
+  width: 100vw;
+}
+
+.sectionHeaderSVG {
+  margin-left: 4rem;
+}
+
+.sectionHeaderSVG line {
+  color: var(--color-primary-dark);
+  fill: var(--color-primary-dark);
+  stroke: var(--color-primary-dark);
+}
+
+.sectionHeader {
+  margin-top: -1.6rem;
+  transform: translateX(25px);
+}
+
+.send {
+  border: none;
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.2rem;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: inherit;
+  transition: all ease 0.3s;
+  width: 50%;
+}
+
+.sendButton {
+  display: flex;
+  justify-content: center;
+  /* margin-left: 8rem; */
+}
+.send:hover {
+  transform: translateY(-2px);
+}
+
+.contactEmailLabel {
+  display: flex;
+  flex-direction: column;
+}
+
+.contactMessageCounter {
+  height: 200px;
+}
+
+.contactLabel {
+  width: 7rem;
+  height: 2rem;
+  margin-right: 0.1rem;
+  color: var(--color-primary-dark);
+  letter-spacing: 2px;
+}
+.contactFieldContainer {
+  display: flex;
+  margin: 0 0 3rem 0;
+  font-size: 0.9rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.contactFieldContainer input,
+textarea {
+  border: 1px solid var(--color-primary-dark);
+}
+
+.contactInputContainer {
+  width: 50%;
+}
+.contactInputContainer input,
+textarea {
+  width: 100%;
+}
+
+.contactInputContainer input:focus,
+textarea:focus {
+  border: 1px solid var(--color-primary);
+  outline: none;
+}
+
+.contactFieldContainer input {
+  height: 40px;
+  padding: 1rem;
+  font-family: inherit;
+  color: var(--color-primary-dark);
+  font-size: inherit;
+  letter-spacing: 2px;
+}
+
+.contactFieldContainer input::placeholder {
+  font-size: inherit;
+}
+
+.contactFormContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+
+.contactMessageCounter textarea {
+  height: 200px;
+  font-size: inherit;
+  color: var(--color-primary-dark);
+  letter-spacing: 1.5px;
+  padding: 1rem;
+  font-family: inherit;
+}
+
+.contactFormError {
+  transition: all ease 0.2s;
+  color: var(--color-fail);
+  font-family: var(--font-primary);
+  font-size: inherit;
+  margin-left: 1rem;
+  visibility: hidden;
+  height: 24px;
+  margin-top: 0.5rem;
+}
+
+.contactFormErrorActive {
+  visibility: visible;
+  position: relative;
+}
+
+.sectionHeaderContact {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin-bottom: 4rem;
+  color: var(--color-primary-dark);
+}
+
+@media screen and (max-width: 1080px) {
+  .sectionHeader {
+    font-size: 4rem;
+    margin-top: -1.5rem;
+    transform: translateX(15px);
+  }
+  .sectionHeaderSVG {
+    margin-left: 4rem;
+  }
+
+  .sectionHeaderSVG line {
+    color: var(--color-primary-dark);
+    fill: var(--color-primary-dark);
+    stroke: var(--color-primary-dark);
+  }
+}
+
+@media screen and (max-width: 870px) {
+  .sectionHeader {
+    font-size: 3rem;
+    margin-left: 2.5rem;
+    margin-top: -1.5rem;
+    transform: translateX(-15px);
+  }
+
+  .sectionHeaderSVG {
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .sectionHeader {
+    font-size: 2.5rem;
+    margin-left: 1.7rem;
+    font-size: 2rem;
+  }
+  .sectionHeaderSVG {
+    width: 1.2rem;
+    margin-left: 4rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .sectionHeader {
+    font-size: 2rem;
+    margin-left: 1.5rem;
+    font-size: 1.5rem;
+  }
+  .sectionHeaderSVG {
+    width: 1rem;
+  }
+}

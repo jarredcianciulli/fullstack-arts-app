@@ -1,0 +1,32 @@
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  width: 70vw;
+  display: flex;
+  align-items: center;
+  margin: 3rem 2rem 1rem;
+}
+
+.title {
+  font-family: var(--font-family-secondary);
+  width: max-content;
+  white-space: nowrap;
+  color: var(--color-primary-dark);
+  margin-left: 4rem;
+  font-weight: 500;
+  font-size: 2rem;
+}
+/* 
+.titleLineContainer {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  width: 70%;
+} */
+
+.titleLine {
+  height: 1px;
+  background-color: var(--color-sextiary-500);
+  width: inherit;
+  margin: 4px 2rem 0 2rem;
+}

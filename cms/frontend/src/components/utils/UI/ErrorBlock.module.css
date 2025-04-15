@@ -1,0 +1,38 @@
+.errorBlock {
+  background-color: var(--colors-fail-200);
+  position: fixed;
+  margin: 1rem 0;
+  padding: 1rem;
+  width: 100vw;
+  border-radius: 4px;
+  color: var(--colors-fail-1000);
+  display: flex;
+  gap: 2rem;
+  top: 0;
+  z-index: 10;
+  align-items: center;
+  text-align: left;
+  font-family: var(--font-primary);
+}
+
+.errorBlockIcon {
+  font-size: 2rem;
+  width: 3rem;
+  height: 3rem;
+  color: var(--colors-fail-100);
+  background-color: var(--colors-fail-1000);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorBlock h2 {
+  color: inherit;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.errorBlock p {
+  margin: 0;
+}

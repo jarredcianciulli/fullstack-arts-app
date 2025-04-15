@@ -1,0 +1,14 @@
+@media (max-width: 799px) {
+  .body {
+    height: calc(100vh - 5rem);
+    overflow-x: hidden;
+  }
+}
+
+@media (min-width: 800px) {
+  .body {
+    height: calc(100vh - 48px);
+    overflow-x: hidden;
+    background-color: var();
+  }
+}

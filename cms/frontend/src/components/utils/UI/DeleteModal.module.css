@@ -1,0 +1,53 @@
+.errorBlock {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  margin: 10% 25%;
+  background-color: var(--color-white);
+}
+
+.errorBlockText {
+  font-family: var(--font-primary);
+  border: 1px solid var(--color-primary-1000);
+  border-radius: 3px;
+  padding: 2rem;
+}
+
+.checkBoxContainer {
+  display: flex;
+}
+
+.checkBox {
+  margin-right: 1rem;
+}
+
+.button {
+  all: unset;
+  margin: 2rem 2rem 2rem 1rem;
+  cursor: pointer;
+  border: 1px solid var(--color-secondary-400);
+  padding: 0.7rem 1rem;
+  border-radius: 3px;
+  letter-spacing: 1px;
+  transition: 0.3s ease;
+  background-color: var(--color-primary-300);
+}
+.button:hover {
+  background-color: var(--color-primary-200);
+}
+
+.errorBlockContainer {
+  position: absolute;
+  top: 0;
+  /* background-color: aqua; */
+  width: 100vw;
+  z-index: 10;
+  height: 100vh;
+}
+
+.errorMessage {
+  margin-top: 0.75rem;
+  color: var(--color-fail);
+}

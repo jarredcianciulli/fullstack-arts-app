@@ -1,0 +1,7 @@
+.header {
+  display: flex;
+  position: absolute;
+  width: 300px;
+  height: none;
+  overflow: wrap;
+}

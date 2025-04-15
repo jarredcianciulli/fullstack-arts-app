@@ -1,0 +1,307 @@
+@media (max-width: 999px) {
+  .headerMain {
+    display: flex;
+    overflow: hidden;
+    height: 5rem;
+    position: relative;
+  }
+  .header_1 {
+    overflow: hidden;
+    height: 80px;
+    width: 100vw;
+    z-index: 9;
+  }
+
+  .navContainer {
+    background-color: var(--color-white);
+
+    /* position: fixed; */
+    display: flex;
+    overflow: hidden;
+
+    height: 100%;
+  }
+  .listElement {
+    font-family: var(--font-family-primary);
+    list-style: none;
+  }
+
+  .listContainer {
+    /* visibility: hidden; */
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin-right: auto;
+  }
+
+  .listContainerActive {
+    visibility: visible;
+    display: flex;
+  }
+
+  .listOuter {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    height: 100%;
+    width: 60%;
+    z-index: 10;
+    /* background-color: var(--color-tertiary-300); */
+    filter: blur(100px);
+    transition: ease-in-out 0.3;
+  }
+
+  .listLineBreak {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    height: 100%;
+    margin-left: 61%;
+    width: 2px;
+    background-color: var(--color-secondary-1000);
+  }
+
+  .navLogoContainer {
+    width: 100%;
+    list-style: none;
+  }
+
+  .navLogo {
+    display: flex;
+    justify-content: center;
+    width: 90px;
+    margin: 0 auto;
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    padding: 10% 2%;
+    background-color: white;
+    margin-left: auto;
+    text-align: right;
+    border-left: 2px solid var(--color-secondary-300);
+    margin-top: 0;
+    width: 40%;
+    height: 100%;
+    margin-left: 60%;
+    position: fixed;
+    z-index: 10;
+
+    /* display: none; */
+  }
+
+  .listElement {
+    text-align: right;
+    width: 100%;
+    list-style: none;
+  }
+  .listElement a {
+    width: fit-content;
+    margin: 1rem auto 1rem auto;
+    transition: ease 0.3s;
+  }
+  .list a {
+    display: flex;
+    text-decoration: none;
+    color: var(--color-secondary-800);
+    font-weight: 400;
+    font-size: 15px;
+    letter-spacing: 1.2px;
+    text-shadow: 0.5px 0.5px 0.5px var(--color-secondary-text-shadow);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    text-align: right;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .list a:hover,
+  .list a.active {
+    color: var(--color-secondary-500);
+    text-shadow: 0.5px 0.5px 0.5px var(--color-secondary-text-shadow);
+  }
+
+  .list a:focus {
+    outline: none !important;
+  }
+
+  .list a.active {
+    text-shadow: none;
+    color: var(--color-secondary-500);
+  }
+
+  .homeNavLi a {
+    margin-top: 2rem;
+  }
+
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 5%;
+  }
+
+  .logo {
+    display: flex;
+    width: 270px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .menuContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-right: 5%;
+    margin-left: auto;
+  }
+
+  .menu {
+    display: flex;
+    height: 20px;
+    text-align: center;
+    align-items: center;
+    cursor: pointer;
+    fill: var(--color-primary-1000);
+    color: var(--color-primary-1000);
+    stroke: var(--color-primary-1000);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .liLineBreak {
+    text-decoration: none;
+    list-style: none;
+    height: 1px;
+    width: 30px;
+    margin: 1rem 0;
+    background-color: var(--color-primary-1000);
+    margin: 1rem auto;
+  }
+
+  .menu:focus {
+    outline: none !important;
+  }
+}
+
+@media (min-width: 1000px) {
+  .headerMain {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    /* height: 100%; */
+  }
+  .header_1 {
+    /* max-width: 60rem; */
+    /* padding: 3rem 6rem 3rem 6rem; */
+    display: flex;
+    overflow: hidden;
+
+    /* margin: auto; */
+    justify-content: space-between;
+    /* background-color: var(--color-primary-700); */
+
+    z-index: 10;
+  }
+
+  .navContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 70px 40px 1fr;
+
+    width: 100%;
+    overflow: hidden;
+
+    background-color: var(--color-white);
+    z-index: 9;
+    transition: ease 0.3s;
+  }
+
+  .navLogo {
+    /* width: 10rem; */
+    height: 20px;
+  }
+  .navContainer:hover {
+    /* background-color: var(--color-tertiary-1000); */
+  }
+
+  .listContainer {
+    display: grid;
+    grid-column: 0/-1;
+    grid-row: 2/3;
+    margin-left: auto;
+    background-color: var(--color-secondary-100);
+    height: 100%;
+    width: 100vw;
+  }
+  .listElement {
+    font-family: var(--font-family-primary);
+    list-style: none;
+    /* transform: translateY(-2px); */
+  }
+
+  .list {
+    display: flex;
+    margin: auto auto auto 0;
+
+    gap: 3rem;
+    align-items: center;
+
+    padding-right: 2rem;
+  }
+
+  .list a {
+    display: flex;
+
+    text-decoration: none;
+    color: var(--color-quarciary-1000);
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 1.2px;
+    /* text-shadow: 0.5px 0.5px 0.5px var(--color-primary-text-shadow); */
+    padding: 0.75rem 1rem 0.75rem 1rem;
+    transform: translateY(-2px);
+  }
+
+  .list a:hover,
+  .list a.active {
+    text-shadow: 10px 10px 25px var(--color-primary-text-shadow),
+      -10px 10px 25px #469d701f, -10px -10px 25px #367e5918,
+      10px -10px 25px #469d701a;
+  }
+
+  .list a.active {
+    color: var(--color-secondary-500);
+    background-color: var(--color-white);
+  }
+
+  .logo {
+    display: flex;
+    width: 300px;
+    margin: 1rem 2rem 2rem 2rem;
+    align-items: center;
+  }
+
+  .calendly {
+    min-width: 320px;
+    height: 700px;
+    display: flex;
+    position: absolute;
+  }
+  .listLineBreak {
+    display: none;
+  }
+  .listOuter {
+    display: none;
+  }
+}

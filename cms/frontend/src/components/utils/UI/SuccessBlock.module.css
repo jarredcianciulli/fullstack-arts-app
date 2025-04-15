@@ -1,0 +1,38 @@
+.successBlock {
+  background-color: var(--colors-success-200);
+  position: fixed;
+  margin: 1rem 0;
+  padding: 1rem;
+  width: 100vw;
+  border-radius: 4px;
+  color: var(--colors-success-1000);
+  display: flex;
+  gap: 2rem;
+  top: 0;
+  z-index: 10;
+  align-items: center;
+  text-align: left;
+  font-family: var(--font-primary);
+}
+
+.successBlockIcon {
+  font-size: 2rem;
+  width: 3rem;
+  height: 3rem;
+  color: var(--colors-success-100);
+  background-color: var(--colors-success-1000);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.successBlock h2 {
+  color: inherit;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.successBlock p {
+  margin: 0;
+}

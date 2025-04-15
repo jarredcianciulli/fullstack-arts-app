@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200 200"
+   version="1.1"
+   id="svg143089"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlnsSvg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs143086" />
+  <g
+     id="layer1">
+    <ellipse
+       style="fill:none;stroke:#604f05;stroke-width:8.00002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       id="path143625-7"
+       cx="87.848091"
+       cy="85.344048"
+       rx="15.353679"
+       ry="15.907514" />
+    <path
+       style="fill:none;stroke:#604f05;stroke-width:8.00002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       d="m 66.782964,180.04619 -1.053257,-50.64444 23.396465,-7.30818 20.840268,7.30818 v 50.64444 z"
+       id="path205906-0" />
+    <ellipse
+       style="fill:none;stroke:#604f05;stroke-width:8.00002;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       id="path143625-7-2"
+       cx="157.15407"
+       cy="45.791866"
+       rx="20.436758"
+       ry="23.930143" />
+    <path
+       style="fill:none;stroke:#604f05;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       d="m 129.11473,181.11368 -1.40195,-76.18593 31.14223,-10.993884 27.73981,10.993884 v 76.18593 z"
+       id="path205906-0-4" />
+    <ellipse
+       style="fill:none;stroke:#604f05;stroke-width:8.00004;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       id="path143625-7-8"
+       cx="32.03426"
+       cy="108.47134"
+       rx="11.071239"
+       ry="11.879642" />
+    <path
+       style="fill:none;stroke:#604f05;stroke-width:7.99999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       d="m 16.844605,179.58953 -0.759484,-37.82099 16.870739,-5.4577 15.027536,5.4577 v 37.82099 z"
+       id="path205906-0-6" />
+  </g>
+</svg>

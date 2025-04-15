@@ -1,0 +1,42 @@
+{
+  "files": {
+    "main.css": "/static/css/main.4e4ad4b3.css",
+    "main.js": "/static/js/main.d6d2164b.js",
+    "static/js/703.83e7a0f1.chunk.js": "/static/js/703.83e7a0f1.chunk.js",
+    "static/js/423.a7d89ba9.chunk.js": "/static/js/423.a7d89ba9.chunk.js",
+    "static/media/jcianciulli-cv.docx": "/static/media/jcianciulli-cv.5f11d679cbd7ec653743.docx",
+    "static/media/jcianciulli-cv.pdf": "/static/media/jcianciulli-cv.4a83ded6034290892633.pdf",
+    "static/media/logo-private-lessons.svg": "/static/media/logo-private-lessons.d1d81c9998a4dc9d31989b1730ee7ba6.svg",
+    "static/media/home-trial-circle.svg": "/static/media/home-trial-circle.765eead537a523d8327554e62a41e280.svg",
+    "static/media/nav-home-static.svg": "/static/media/nav-home-static.4e4dac148a6fc31b09b2ea4644343996.svg",
+    "static/media/home-trial-text.svg": "/static/media/home-trial-text.945c222b8813d744dd882cad3bc8b9c8.svg",
+    "static/media/logo_icon_whitebckgrd_white.svg": "/static/media/logo_icon_whitebckgrd_white.4b8ba5500860ab82dd81132283792a4b.svg",
+    "static/media/subscription_schedule_icon.svg": "/static/media/subscription_schedule_icon.57d1d3d20e10919b15d98b61e933e089.svg",
+    "static/media/subscription_calendar_icon.svg": "/static/media/subscription_calendar_icon.0e600bfbbd692bf2b0bec77adb36ab14.svg",
+    "static/media/icon_pdf.svg": "/static/media/icon_pdf.c075ddb7d60dd3454bdc095393177db1.svg",
+    "static/media/subscription_timeline_icon.svg": "/static/media/subscription_timeline_icon.a38ae6229bf5688d77b6042831b1fd38.svg",
+    "static/media/logo-icon.svg": "/static/media/logo-icon.aa3c79588d502e94659fc4239ba74624.svg",
+    "static/media/icon_word.svg": "/static/media/icon_word.7a2c8ae160e928981147bca33e3d26cd.svg",
+    "static/media/subscription_policy_icon.svg": "/static/media/subscription_policy_icon.b56b4ce1b34611e13c4380fc9ef11298.svg",
+    "static/media/subscription_age_group_icon.svg": "/static/media/subscription_age_group_icon.3494ea2f2e3c4e853bd451e4da27de35.svg",
+    "static/media/subscription_group_icon.svg": "/static/media/subscription_group_icon.f105605a5e3338c16358863eac5ed249.svg",
+    "static/media/user-id-landscape-svgrepo-com.svg": "/static/media/user-id-landscape-svgrepo-com.e6a4549a6a50625dd0077de47f1bba81.svg",
+    "static/media/subscription_time_icon.svg": "/static/media/subscription_time_icon.80bc2f86ff02877ba0dcfef3df087ff0.svg",
+    "static/media/subscription_download_icon.svg": "/static/media/subscription_download_icon.df0d5416f714bc607261ae7658d3ba61.svg",
+    "static/media/contact-message-svgrepo-com.svg": "/static/media/contact-message-svgrepo-com.0efdb6aa6e63c1bb1782687cd63a7cfa.svg",
+    "static/media/project-svgrepo-com.svg": "/static/media/project-svgrepo-com.f4d7ef791fffd7c6b5060570dd842695.svg",
+    "static/media/subscription_arrow_left_icon.svg": "/static/media/subscription_arrow_left_icon.70a1a334c2bcd80e4621804561f5710e.svg",
+    "index.html": "/index.html",
+    "static/media/resume_header_line.svg": "/static/media/resume_header_line.f11a753d0e6595714eceafe791c790f0.svg",
+    "static/media/home-2-svgrepo-com.svg": "/static/media/home-2-svgrepo-com.3265370f692df76c08e4ed147244bd61.svg",
+    "static/media/nav_icon.svg": "/static/media/nav_icon.88c9f922e685ce7a41e9a404834292e5.svg",
+    "main.4e4ad4b3.css.map": "/static/css/main.4e4ad4b3.css.map",
+    "main.d6d2164b.js.map": "/static/js/main.d6d2164b.js.map",
+    "703.83e7a0f1.chunk.js.map": "/static/js/703.83e7a0f1.chunk.js.map",
+    "423.a7d89ba9.chunk.js.map": "/static/js/423.a7d89ba9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4e4ad4b3.css",
+    "static/js/main.d6d2164b.js"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "sessions_organization": [
+    {
+      "id": 1,
+      "services": 3,
+      "cadence": "Tri-yearly",
+      "season": "Summer",
+      "year": 2024,
+      "lanch_date": "2024-05-27T00:00:00.000Z",
+      "frequency": "Weekly",
+      "day": "Thursday",
+      "start_date": "2024-06-27T00:00:00.000Z",
+      "end_date": "2024-08-27T00:00:00.000Z",
+      "start_hours": 12,
+      "start_minutes": 30,
+      "end_hours": 13,
+      "end_minutes": 30,
+      "auto_re-enrollment": true,
+      "re-enrollment_opt-out_deadline": "2024-07-27T00:00:00.000Z",
+      "enrollment_deadline": "2024-08-17T00:00:00.000Z",
+      "maxGroupSize": 12,
+      "minGroupSize": 2,
+      "maxAge": 10,
+      "minAge": 7,
+      "level": 1,
+      "active": true,
+      "archived": false,
+      "stripeId": 1
+    }
+  ]
+}

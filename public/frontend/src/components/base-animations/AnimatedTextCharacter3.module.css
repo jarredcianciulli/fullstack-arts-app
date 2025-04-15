@@ -1,0 +1,15 @@
+.header3 {
+  display: flex;
+  /* position: absolute; */
+  overflow: wrap;
+  white-space: nowrap;
+  word-wrap: break-word;
+  z-index: 100;
+}
+
+.text3 {
+  display: flex;
+  /* position: absolute; */
+  margin-right: 1px;
+  opacity: 1;
+}

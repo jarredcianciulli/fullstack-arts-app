@@ -1,0 +1,45 @@
+{
+  "sections": [
+    {
+      "id": 1,
+      "format": 1,
+      "title": "One-on-one Violin and Viola Lessons",
+      "specification": "Private Lessons",
+      "service_type": "one-on-one lessons",
+      "instruments": ["Violin", "Viola"],
+      "headline": "Unlock Your Musical Potential with Personalized Violin and Viola Lessons",
+      "description": "Discover the joy of music with our personalized violin and viola lessons, designed for all ages and skill levels. Whether your child is just starting out, you're an adult beginner, or an advanced player looking to refine your technique, expert instruction is here to guide you. For younger learners, I create a fun and supportive environment that fosters a love for music and builds foundational skills. Advanced players will benefit from tailored coaching aimed at perfecting their artistry and technique. Enjoy the ease of scheduling and the focused attention that comes with private lessons. Start your musical journey today and reach your full potential with me!",
+      "summary": "Discover personalized violin and viola lessons for all ages and skill levels. Master's degreed instruction provide fun, supportive sessions for young beginners and tailored coaching for advanced players. Enjoy simplified scheduling and focused, one-on-one attention to reach your full musical potential.",
+      "hashtags": "#unleashyourstringplayer #learningisfun #beanartist",
+      "active": true
+    },
+    {
+      "id": 2,
+      "format": 2,
+
+      "title": "Expert Piano Tuning Services",
+      "specification": "Piano Tuning",
+      "service_type": "individual tuning",
+      "instruments": ["Piano"],
+      "headline": "Ensure Perfect Harmony with Professional Piano Tuning",
+      "description": "Keep your piano sounding its best with our professional tuning services. Our experienced technicians use precise techniques to ensure every note is pitch-perfect, providing a rich and harmonious sound. Whether your piano is new, old, frequently used, or in need of special care, we offer tailored tuning to meet its specific needs. Regular tuning not only enhances sound quality but also extends the life of your instrument. Trust us to deliver exceptional service and keep your piano in optimal condition. Schedule your tuning today and experience the difference a well-tuned piano makes.",
+      "summary": "Ensure your piano sounds perfect with our expert tuning services. Our experienced technicians use precise techniques to provide rich, harmonious sound and extend your piano's life. Trust us for exceptional service and optimal piano performance.",
+      "hashtags": "#tonalalignment #playintune #pianocare",
+      "active": true
+    },
+    {
+      "id": 3,
+      "format": 3,
+      "title": "Group Music Fundamentals Class",
+      "specification": "Group Class",
+      "instruments": [],
+
+      "headline": "Build a Strong Musical Foundation with Our Group Classes",
+      "service_type": "group class",
+      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "summary": "Join our Group Music Fundamentals Class to learn the basics of music in a supportive, collaborative environment. Perfect for beginners, our classes cover rhythm, melody, harmony",
+      "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
+      "active": true
+    }
+  ]
+}
