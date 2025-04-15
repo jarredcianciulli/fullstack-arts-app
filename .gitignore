@@ -36,3 +36,6 @@ Thumbs.db
 # React-specific
 *.cache/
 *.eslintcache
+
+# Misc files
+/info
