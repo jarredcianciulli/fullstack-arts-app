@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="250.248mm"
+   height="173.51601mm"
+   viewBox="0 0 250.248 173.51601"
+   version="1.1"
+   id="svg2671"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlnsSvg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2668" />
+  <g
+     id="layer1">
+    <path
+       id="path2875"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.6265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:58.8;stroke-opacity:0.931707;paint-order:stroke fill markers"
+       d="m 366.72431,92.07235 h 85.06806 l 10e-6,28.31566" />
+    <g
+       id="g2880"
+       transform="translate(37.524393,-42.737849)">
+      <path
+         id="rect2792-3"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.6265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:58.8;stroke-opacity:0.931707;paint-order:stroke fill markers"
+         d="m 139.55147,134.02753 -1e-5,79.91315 H -35.211246 v -108.22881 0 h 89.694647" />
+      <rect
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.6265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:58.8;stroke-opacity:0.931707;paint-order:stroke fill markers"
+         id="rect2792-8"
+         width="143.32689"
+         height="79.28389"
+         x="67.083572"
+         y="45.051025" />
+    </g>
+    <rect
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:4.6265;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:58.8;stroke-opacity:0.931707;paint-order:stroke fill markers"
+       id="rect2792-3-1"
+       width="174.76271"
+       height="108.22881"
+       x="254.92374"
+       y="270.57202" />
+  </g>
+</svg>

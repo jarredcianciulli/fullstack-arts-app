@@ -1,0 +1,92 @@
+.button,
+input[type="submit"],
+input[type="reset"] {
+  display: block;
+  background: none;
+  color: var(--color-white);
+  letter-spacing: 1.2px;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  font-weight: 500;
+  background-color: var(--color-quadiary-1000);
+  outline: inherit;
+  border: 1px solid var(--color-quarciary-200);
+  padding: 0.5rem 0.9rem;
+  font-weight: 1000;
+  border-radius: 5px;
+  transition: all 0.2s ease-in;
+  white-space: nowrap;
+  margin: 2rem auto 0 auto;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
+.buttonBlank {
+  display: block;
+  position: absolute;
+  background: none;
+  color: var(--color-secondary-500);
+  letter-spacing: 1.2px;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  border: 1px solid var(--color-secondary-500);
+  padding: 0.5rem 0.9rem;
+  font-weight: 600;
+  border-radius: 20px;
+  transition: all 0.2s ease-in;
+  white-space: nowrap;
+  margin-top: 2rem;
+  font-size: 12px;
+}
+
+.button:hover,
+.button:active {
+  background-color: var(--color-quadiary-900);
+  transition: all 0.2s ease-in;
+  box-shadow: 2px 2px 1px var(--color-primary-box-shadow);
+  text-shadow: 10px 10px 25px var(--color-primary-text-shadow),
+    -10px 10px 25px #469d701f, -10px -10px 25px #367e5918,
+    10px -10px 25px #469d701a;
+  cursor: pointer;
+}
+
+@media (min-width: 1000px) {
+  .button,
+  input[type="submit"],
+  input[type="reset"] {
+    /* border: 1px solid var(--color-primary-1000); */
+    color: var(--color-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: auto;
+    padding: 0.5rem 1.2rem;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+  }
+  .buttonBlank {
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid white;
+    margin: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .button {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    padding: 0.3rem 0.8rem;
+  }
+}

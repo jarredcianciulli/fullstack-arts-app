@@ -1,0 +1,67 @@
+.enrollmentOverview {
+  max-width: 90%;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.tableContainer {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.backButton {
+  display: block;
+  width: 100%;
+  max-width: 250px;
+  padding: 12px;
+  font-size: 1rem;
+  background-color: var(--color-quadiary-800);
+
+  color: var(--color-background-color-1000);
+  border: none;
+  border-radius: 5px;
+  margin: 20px auto;
+  cursor: pointer;
+  transition: ease 0.3s;
+}
+
+.backButton:hover {
+  background-color: var(--color-quadiary-700);
+}
+
+/* Media Query for Phones */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.9rem;
+  }
+
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .backButton {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "payment_organization": [
+    {
+      "id": 1,
+      "section": 1,
+      "properties": {
+        "offering_type": "One time",
+        "price_per_unit": 15,
+        "minimum_units": 2,
+        "maximum_units": 6,
+        "minutes_per_unit": 15
+      },
+      "billing": {
+        "options": ["Card payment"],
+        "stripe_id": 1,
+        "cycle": ["One time"]
+      },
+      "payment_policy": "payment_policy.pdf",
+      "active": true
+    },
+    {
+      "id": 2,
+      "section": 1,
+      "properties": {
+        "offering_type": "package",
+        "amount": 5,
+        "price_per_unit": 15,
+        "minimum_units": 2,
+        "maximum_units": 6,
+        "minutes_per_unit": 15
+      },
+      "billing": {
+        "options": ["Card payment"],
+        "stripe_id": 1,
+        "cycle": ["One time"]
+      },
+      "payment_policy": "payment_policy.pdf",
+      "active": true
+    },
+    {
+      "id": 3,
+      "section": 1,
+      "properties": {
+        "offering_type": "subscription",
+        "price_per_unit": 15,
+        "minimum_units": 2,
+        "maximum_units": 6,
+        "minutes_per_unit": 15
+      },
+      "options": {
+        "frequency": ["Weekly", "Bi-Weekly", "Monthly"],
+        "continuous": true
+      },
+      "billing": {
+        "options": ["Card payment"],
+        "stripe_id": 1,
+        "cycle": ["Monthly", "Quarterly", "Tri-annually"]
+      },
+      "payment_policy": "payment_policy.pdf",
+      "active": true
+    }
+  ]
+}

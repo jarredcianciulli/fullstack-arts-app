@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="158mm"
+   height="97mm"
+   version="1.1"
+   viewBox="0 0 158 97"
+   xmlnsSvg="http://www.w3.org/2000/svg"
+   id="svg7917"
+   sodipodi:docname="chooseyou-hamburger-menu.svg"
+   inkscape:export-filename="chooseyou-hamburger-menu.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs7921" />
+  <sodipodi:namedview
+     id="namedview7919"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.42890431"
+     inkscape:cx="41.967403"
+     inkscape:cy="256.46747"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
+     inkscape:window-x="21"
+     inkscape:window-y="29"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg7917" />
+  <path
+     style="color:#000000;fill:#a48344;fill-opacity:1;stroke:#a48344;stroke-width:6.1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;-inkscape-stroke:none"
+     d="m 7.2064845,5.7088727 c -1.636735,-4.32e-4 -2.963676,1.3657011 -2.963256,3.0507792 6.28e-4,1.6843151 1.327262,3.0492591 2.963256,3.0488271 l 26.2806605,0.529167 h 32.144472 l 36.084623,-1.058334 49.60834,1.058334 c 1.63525,-6.45e-4 2.96073,-1.365274 2.96136,-3.0488274 4.2e-4,-1.6843161 -1.85453,-4.1084666 -3.49053,-4.1091126 L 117.15543,6.2380384 H 84.481793 L 54.132576,5.179706 24.520281,6.2380384 Z"
+     id="path7927"
+     sodipodi:nodetypes="cccccccccccccc"
+     inkscape:export-filename="chooseyou-hamburger-menu.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <path
+     style="color:#000000;fill:#a48344;stroke:#a48344;stroke-width:6.1;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none;stroke-opacity:1;fill-opacity:1"
+     d="m 7.2064851,86.773774 c -1.636735,-4.31e-4 -2.963676,1.365703 -2.963256,3.050782 6.28e-4,1.684316 1.327262,3.049259 2.963256,3.048828 l 8.2233809,-1.622703 15.990499,-0.03909 31.304978,0.278147 55.518857,0.733018 33.08038,1.179797 c 1.63525,-6.46e-4 2.96073,-1.365274 2.96136,-3.048828 4.2e-4,-1.684317 -1.32536,-3.050136 -2.96136,-3.050782 l -21.06898,-1.5875 -11.53013,0.860508 -25.298088,0.197825 -15.47189,1.182564 -50.431243,-0.653397 z"
+     id="path7927-3"
+     sodipodi:nodetypes="cccccccccccccccc"
+     inkscape:export-filename="chooseyou-hamburger-menu.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <path
+     style="color:#000000;fill:#a48344;fill-opacity:1;stroke:#a48344;stroke-width:6.1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;-inkscape-stroke:none"
+     d="m 6.9419032,46.241324 c -1.6367348,-4.31e-4 -2.4345089,0.836537 -2.4340896,2.521616 6.286e-4,1.684316 0.7980955,3.578425 2.4340896,3.577994 l 35.4367158,-1.058333 34.114563,2.116666 52.334848,-1.587499 21.7028,-0.529167 c 1.63525,-6.46e-4 2.96073,-1.365274 2.96136,-3.048828 4.2e-4,-1.684317 -1.32536,-3.050136 -2.96136,-3.050782 l -13.58999,0.341757 -24.78243,-0.870924 H 86.96015 l -42.643203,1.058334 -20.158605,0.529166 z"
+     id="path7927-0"
+     sodipodi:nodetypes="ccccccccccccccc" />
+</svg>

@@ -1,0 +1,12 @@
+/* .content {
+  text-align: center;
+} */
+
+.contentBody {
+  width: 80%;
+  margin: 10% auto;
+}
+
+.contentHeader {
+  color: var(--color-primary-900);
+}

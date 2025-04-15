@@ -1,0 +1,16 @@
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  width: 100%;
+}
+
+.logo {
+  width: 200px;
+}
+
+@media (min-width: 800px) {
+  .logoContainer {
+    padding-top: 3rem;
+  }
+}

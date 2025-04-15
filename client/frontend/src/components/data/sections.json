@@ -1,0 +1,17 @@
+{
+  "sections": [
+    {
+      "id": 1,
+      "format": 1,
+      "title": "Health Consultation Packages",
+      "specification": "Monthly plan",
+      "service_type": "one-on-one lessons",
+      "instruments": ["Violin", "Viola"],
+      "headline": "Unlock Your Musical Potential with Personalized Violin and Viola Lessons",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      "summary": "Discover personalized violin and viola lessons for all ages and skill levels. Master's degreed instruction provide fun, supportive sessions for young beginners and tailored coaching for advanced players. Enjoy simplified scheduling and focused, one-on-one attention to reach your full musical potential.",
+      "hashtags": "#unleashyourstringplayer #learningisfun #beanartist",
+      "active": true
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+// Services.scss
+// Set custom primary color
+$primary: rgb(98, 135, 127); // Custom color for primary button
+$primary-text-color: white;
+
+// Import Bootstrap's SCSS
+@import "node_modules/bootstrap/scss/bootstrap";
+
+// Customize .btn-primary button
+.btn-primary {
+  background-color: $primary; // Set custom background color
+  border-color: $primary; // Set border color to match
+  color: $primary-text-color; // Set custom text color (white)
+}
+
+.btn-primary:hover {
+  background-color: darken($primary, 10%); // Darken background on hover
+  border-color: darken($primary, 10%);
+  color: $primary-text-color; // Ensure text color stays the same on hover
+}
+
+.btn-primary:active {
+  background-color: darken($primary, 20%); // Further darken on active
+  border-color: darken($primary, 20%);
+  color: $primary-text-color;
+}
+
+.card-img-top {
+  width: 100%; /* Make image fill the container width */
+  height: 200px; /* Set a fixed height for uniformity (you can adjust this) */
+  object-fit: cover; /* Ensure images cover the area without distortion */
+  object-position: center; /* Center the image if it's cropped */
+}
+
+.card-body {
+  padding: 1.5rem; /* Default padding for larger screens */
+
+  /* For screens smaller than 576px (extra small screens) */
+  @media (max-width: 575px) {
+    padding: 0.5rem; /* Reduced padding for small screens */
+  }
+}

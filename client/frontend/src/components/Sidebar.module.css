@@ -1,0 +1,239 @@
+.navbar {
+  background-color: var(--color-sextiary-700);
+  background-image: linear-gradient(
+    135deg,
+    var(--color-sextiary-500),
+    var(--color-sextiary-300),
+    var(--color-sextiary-100),
+    var(--color-sextiary-200),
+    var(--color-sextiary-100)
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.textWhite {
+  border: 1px solid transparent;
+}
+
+.active {
+  border: 1px solid var(--color-background-color-1000);
+}
+
+.btn {
+  font-weight: 500;
+  border: 1px solid var(--color-background-color-1000);
+  background-color: var(--color-background-color-900);
+  color: var(--color-sextiary-1000);
+}
+
+.btn:hover,
+.btn:active {
+  border: 1px solid var(--color-background-color-1000);
+  background-color: var(--color-sextiary-1000);
+}
+
+.navMenu {
+  z-index: 10;
+}
+
+.icon svg {
+  color: var(--color-primary-1000);
+  fill: var(--color-primary-1000);
+}
+
+.menuBars {
+  display: flex;
+  /* width: 5rem; */
+  margin-left: 1rem;
+  font-size: 2rem;
+  /* background: none; */
+}
+
+.navMenu {
+  background-color: var(--color-sextiary-800);
+  background-image: linear-gradient(
+    135deg,
+    var(--color-sextiary-1000),
+    var(--color-sextiary-800),
+    var(--color-sextiary-800),
+    var(--color-sextiary-700)
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 250px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  transition: 850ms;
+}
+
+.navMenu.active {
+  left: 0;
+  transition: 350ms;
+  z-index: 1;
+}
+
+.navText {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 8px 0px 8px 16px;
+  list-style: none;
+  height: 60px;
+  transition: ease 0.1s;
+}
+.menuBars {
+  cursor: pointer;
+}
+
+.navBars {
+  cursor: pointer;
+}
+.logo {
+  display: flex;
+  cursor: pointer;
+  width: 11rem;
+  /* background-color: aqua; */
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  justify-content: center;
+  justify-items: center;
+  justify-self: center;
+  margin-left: 3rem;
+}
+
+.navIconContainer {
+  display: flex;
+}
+
+.navText a {
+  text-decoration: none;
+  color: var(--color-sextiary-1000);
+  font-size: 18px;
+  width: 95%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 4px;
+  transition: ease 0.1s;
+}
+
+.navText a:hover {
+  border: 1px solid var(--color-background-color-1000);
+  background-color: var(--color-sextiary-100);
+}
+
+.navMenuItems {
+  width: 100%;
+  height: 100vh; /* Ensure it covers full height */
+  background-color: var(--color-sextiary-300);
+  background-image: linear-gradient(
+    135deg,
+    var(--color-sextiary-1000),
+    var(--color-sextiary-300),
+    var(--color-sextiary-100),
+    var(--color-sextiary-100)
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.navbaroggle {
+  background-color: var(--color-secondary-1000);
+
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+span {
+  margin-left: 16px;
+}
+
+@media (max-width: 800px) {
+  .menuBars svg {
+    width: 1.7rem;
+  }
+  .logo {
+    width: 8rem;
+    margin-left: 2rem;
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.navIconContainer {
+  display: flex;
+  align-items: center;
+}
+
+.avatarContainer {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  position: absolute;
+  right: 10px; /* Adjust position as needed */
+}
+
+.avatarIcon {
+  font-size: 2rem; /* Icon size */
+  color: white;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: var(--color-sextiary-900);
+  background-image: linear-gradient(
+    135deg,
+    var(--color-sextiary-800),
+    var(--color-sextiary-800),
+    var(--color-sextiary-900),
+    var(--color-sextiary-900),
+    var(--color-sextiary-600)
+  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  min-width: 150px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownMenu span {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.dropdownMenu .dropdown-item {
+  text-decoration: none;
+  color: white;
+  padding: 5px 0;
+  transition: background-color 0.3s;
+}
+
+.dropdownMenu .dropdown-item:hover {
+  background-color: #555;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Our Platform</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .logo {
+        max-width: 150px;
+        margin-bottom: 20px;
+      }
+      .button {
+        display: inline-block;
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        background-color: #e29a3c;
+        text-decoration: none;
+        color: #ffffff;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+      .footer {
+        margin-top: 30px;
+        font-size: 12px;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        src="https://optimavitadev.s3.us-east-2.amazonaws.com/public/logo_company_adjacent.png"
+        alt="Company Logo"
+        class="logo"
+      />
+      <h2>Welcome, {{first_name}}!</h2>
+      <p>
+        You've been invited to join our platform. Click the button below to
+        claim your account.
+      </p>
+      <a
+        href="https://optimavitaconsulting.com/invite/{{invite_token}}"
+        class="button"
+      >
+        Claim Your Account
+      </a>
+      <p class="footer">
+        If you did not request this invitation, please ignore this email.
+      </p>
+    </div>
+  </body>
+</html>

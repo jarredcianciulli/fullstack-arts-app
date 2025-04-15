@@ -1,0 +1,170 @@
+.header_1 {
+  /* overflow: hidden; */
+  height: 80px;
+  width: 100vw;
+  /* background-color: #eb0f8897; */
+  background-color: #eb0f8877;
+}
+
+.navContainer {
+  display: flex;
+  height: 100%;
+}
+
+.listContainer {
+  /* visibility: hidden; */
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin-right: auto;
+}
+
+.listContainerActive {
+  visibility: visible;
+  display: flex;
+}
+
+.listOuter {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  height: 100%;
+  width: 60%;
+  z-index: 10;
+  background-color: rgba(250, 242, 237, 0.9);
+  /* background-color: grey; */
+  /* opacity: 1; */
+  filter: blur(100px);
+  transition: ease-in-out 0.3;
+}
+
+.listLineBreak {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  height: 100%;
+  margin-left: 61%;
+  width: 2px;
+  background-color: var(--color-secondary-1000);
+}
+
+.navLogoContainer {
+  width: 100%;
+}
+
+.navLogo {
+  display: flex;
+  justify-content: center;
+  width: 50px;
+  margin: 0 auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: 10% 2%;
+  background-color: white;
+  margin-left: auto;
+  text-align: right;
+  border-left: 2px solid var(--color-secondary-1000);
+
+  width: 40%;
+  height: 100%;
+  margin-left: 60%;
+  position: fixed;
+  z-index: 10;
+  /* display: none; */
+}
+
+.listElement {
+  text-align: right;
+  width: 100%;
+}
+.listElement a {
+  width: fit-content;
+  margin: 2rem auto 0 auto;
+  transition: ease 0.3s;
+}
+.list a {
+  display: flex;
+  text-decoration: none;
+  color: var(--color-secondary-200);
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 1.2px;
+  text-shadow: 0.5px 0.5px 0.5px var(--color-secondary-text-shadow);
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  text-align: right;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.list a:hover,
+.list a.active {
+  text-shadow: 10px 10px 25px var(--color-secondary-text-shadow),
+    -10px 10px 25px #469d701f, -10px -10px 25px #367e5918,
+    10px -10px 25px #469d701a;
+}
+.list a:focus {
+  outline: none !important;
+}
+
+.list a.active {
+  text-shadow: none;
+  color: var(--color-secondary-600);
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-left: 5%;
+}
+
+.logo {
+  display: flex;
+  width: 200px;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.menuContainer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-right: 5%;
+}
+
+.menu {
+  display: flex;
+  height: 20px;
+  width: fit-content;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.menu:focus {
+  outline: none !important;
+}
+
+.calendly {
+  /* min-width: 320px;
+  height: 700px;
+  display: flex;
+  position: absolute; */
+}

@@ -1,0 +1,158 @@
+.aboutBody {
+  width: 80%;
+  margin: 5% auto;
+}
+
+.aboutHeader {
+  font-size: 2rem;
+  margin-left: 5%;
+  color: var(--color-primary-500);
+}
+
+.aboutPic {
+  width: 15rem;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container without distorting it */
+  border-radius: 10px;
+  border: 2px solid var(--color-primary-200);
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* .aboutPic2 {
+  width: 20%;
+  margin-left: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 3px;
+} */
+
+.aboutInnerPicture {
+  display: flex;
+}
+.aboutInnerPicture2 {
+  display: flex;
+}
+
+.aboutPic2Container {
+  position: relative;
+  width: max-content;
+  /* margin-left: 2rem;
+  margin-bottom: 2rem; */
+  height: max-content; /* Adjust to fit the content */
+}
+.aboutPic2 {
+  width: 15rem;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container without distorting it */
+  border-radius: 10px;
+  border: 2px solid var(--color-primary-500);
+}
+
+.aboutPic2b {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(100% - 7px);
+  width: 100%;
+  opacity: 0.3;
+  border: 2px solid var(--color-primary-200);
+
+  background-image: linear-gradient(
+    rgba(174, 123, 22, 0.392),
+    rgba(206, 150, 37, 0.1)
+  ); /* Gradient overlay */
+  background-position: center;
+  text-align: center;
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; /* Ensure it sits on top of the image */
+}
+.aboutInnerPictureText {
+}
+.aboutInnerPictureText2 {
+}
+.aboutInnerPicture2 p {
+  margin-right: 2rem;
+}
+
+.aboutPic3OuterContainer {
+  display: flex;
+}
+
+.aboutPic3Container {
+  margin-right: 2rem;
+}
+
+.aboutPic3 {
+  width: 15rem;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the container without distorting it */
+  border-radius: 10px;
+  border: 2px solid var(--color-primary-500);
+}
+
+.aboutPic3Container {
+  position: relative;
+  width: max-content;
+  /* margin-left: 2rem;
+  margin-bottom: 2rem; */
+  height: max-content; /* Adjust to fit the content */
+}
+
+.aboutPic3b {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(100% - 7px);
+  width: 100%;
+  opacity: 0.3;
+  border: 2px solid var(--color-primary-200);
+
+  background-image: linear-gradient(
+    rgba(174, 123, 22, 0.392),
+    rgba(206, 150, 37, 0.1)
+  ); /* Gradient overlay */
+  background-position: center;
+  text-align: center;
+  display: flex;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; /* Ensure it sits on top of the image */
+}
+
+@media (max-width: 800px) {
+  .aboutPic2 {
+    width: 8rem;
+  }
+  .aboutPic3 {
+    width: 8rem;
+  }
+  .aboutPic {
+    width: 8rem;
+  }
+  .aboutInnerPicture2 p {
+    margin-right: 1rem;
+  }
+  .aboutInnerPicture3 p {
+    margin-right: 1rem;
+  }
+
+  .aboutBody {
+    width: 90%;
+  }
+  .aboutBody p {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .aboutInnerPicture2 {
+    align-items: center;
+  }
+  .aboutInnerPicture3 {
+    align-items: center;
+  }
+}

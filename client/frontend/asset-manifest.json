@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c70459f5.css",
+    "main.js": "/static/js/main.767c2f6f.js",
+    "static/media/fatih-kgqu_qs3B78-unsplash.jpg": "/static/media/fatih-kgqu_qs3B78-unsplash.2473a8d2c8d359ffd218.jpg",
+    "static/media/painted hand.jpg": "/static/media/painted hand.0e07d738a1e25479a98a.jpg",
+    "static/media/jene-stephaniuk--MCrF6hnojU-unsplash.jpg": "/static/media/jene-stephaniuk--MCrF6hnojU-unsplash.362fa703915e3d9f4139.jpg",
+    "static/media/katrina-wright-yMg_SMqfoRU-unsplash.jpg": "/static/media/katrina-wright-yMg_SMqfoRU-unsplash.5069a8dac43d116d1a98.jpg",
+    "static/media/khadeeja-yasser-FHT0KEOwtyg-unsplash.jpg": "/static/media/khadeeja-yasser-FHT0KEOwtyg-unsplash.3ea89e44ff238d5ecaa4.jpg",
+    "static/media/pregnant_belly.jpg": "/static/media/pregnant_belly.13d107339364550332a0.jpg",
+    "static/media/happy balloons.jpg": "/static/media/happy balloons.5bc589474e3b875a01b6.jpg",
+    "static/media/full_icon_adjacent_phone.svg": "/static/media/full_icon_adjacent_phone.fb27c59e66cade4afcc38fdbac38df53.svg",
+    "static/media/full_icon_adjacent.svg": "/static/media/full_icon_adjacent.f3ddd1f5fe2cb8baeb2460aef54d4ff3.svg",
+    "static/media/chooseyou_img_2.png": "/static/media/chooseyou_img_2.9b1563a4bc9ee93c3bd9.png",
+    "static/media/doing_my_best.jpg": "/static/media/doing_my_best.58a302da57d4a903ab9e.jpg",
+    "static/media/IMG_0101.JPG": "/static/media/IMG_0101.2ecd363479efa3b75fcc.JPG",
+    "static/media/graphic_action.png": "/static/media/graphic_action.a0e748cd6c68925d92c3.png",
+    "static/media/logo_icon.png": "/static/media/logo_icon.165b9e03878fae48f9eb.png",
+    "static/media/logo_company_adjacent.png": "/static/media/logo_company_adjacent.c2b3689aa20aede84b90.png",
+    "static/media/exercise.svg": "/static/media/exercise.93700197d268d6c2168dff00cce7499e.svg",
+    "static/media/healthy.svg": "/static/media/healthy.9f70da967ff59f87364a51f8ed67f9fd.svg",
+    "static/media/bed.svg": "/static/media/bed.cc3299cf54be79481b3e323b589a7b12.svg",
+    "static/media/chooseyou-hamburger-menu.png": "/static/media/chooseyou-hamburger-menu.fa7ecf68365d92ddc656.png",
+    "static/media/chooseyou-mission-img.svg": "/static/media/chooseyou-mission-img.c8e36a24555650e02bd1e1918b42776d.svg",
+    "static/media/meditations.svg": "/static/media/meditations.0b9379e25c15e5b963cc84a834ac3658.svg",
+    "static/media/bracketRight.svg": "/static/media/bracketRight.8674040074cdc4b5385ad8d5a6c4b0e6.svg",
+    "static/media/bracket.svg": "/static/media/bracket.68deebcea2006d4539e9abde88335c3d.svg",
+    "index.html": "/index.html",
+    "main.c70459f5.css.map": "/static/css/main.c70459f5.css.map",
+    "main.767c2f6f.js.map": "/static/js/main.767c2f6f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c70459f5.css",
+    "static/js/main.767c2f6f.js"
+  ]
+}

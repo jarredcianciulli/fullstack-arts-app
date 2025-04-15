@@ -1,0 +1,43 @@
+.homeBody {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.homeHeader {
+  color: var(--color-primary-500);
+}
+
+.logoContainer {
+  justify-content: center;
+  display: flex;
+  margin-bottom: 7%;
+}
+
+:root {
+  z-index: -1;
+  background-color: rgb(244, 240, 232);
+}
+
+@media (min-width: 1000px) {
+  .logo {
+    height: 8rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .homeBody {
+    margin: 0% auto;
+  }
+  .logoContainer {
+    margin-bottom: 12%;
+  }
+  .logo {
+    height: 4rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .homeBody {
+    width: 100%;
+  }
+}

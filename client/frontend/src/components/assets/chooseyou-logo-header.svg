@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1200mm"
+   height="300mm"
+   viewBox="0 0 1200 300"
+   version="1.1"
+   id="svg28870"
+   inkscapeExport-filename="bitmap.png"
+   inkscapeExport-xdpi="96"
+   inkscapeExport-ydpi="96"
+   xmlnsInkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlnsSodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlnsSvg="http://www.w3.org/2000/svg">
+  <sodipodiNamedview
+     id="namedview28872"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscapeShowpageshadow="2"
+     inkscapePageopacity="0"
+     inkscapePagecheckerboard="0"
+     inkscapeDeskcolor="#d1d1d1"
+     inkscapeDocument-units="mm"
+     showgrid="false" />
+  <defs
+     id="defs28867" />
+  <g
+     inkscapeLabel="Layer 1"
+     inkscapeGroupmode="layer"
+     id="layer1">
+    <text
+       xmlSpace="preserve"
+       style="font-size:103.895px;opacity:0.41;fill:#9e9e00;fill-opacity:1;stroke:#e4e400;stroke-width:0;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:0.407843"
+       x="71.134171"
+       y="194.18138"
+       id="text25319"
+       transform="scale(1.0091105,0.99097175)"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:103.895px;font-family:Avenir;-inkscape-font-specification:Avenir;fill:#ffff3c;fill-opacity:1;stroke:#999900;stroke-width:0;stroke-dasharray:none;stroke-opacity:1"
+         x="71.134171"
+         y="194.18138"
+         sodipodiRole="line"
+         id="tspan28793">ChooseY   U Coaching</tspan></text>
+    <g
+       id="g5289-7"
+       transform="matrix(-0.55993128,0,0,-0.50753457,630.2424,235.54007)"
+       style="fill:#ffffff;fill-opacity:1;stroke-width:6.56552;stroke-dasharray:none">
+      <path
+         style="color:#000000;opacity:0.41;fill:#ffffff;fill-opacity:1;stroke-width:6.56552;stroke-linejoin:round;stroke-dasharray:none"
+         d="m 176.01172,66.785156 c -47.30392,0 -85.757814,38.455854 -85.757814,85.759764 0,47.30392 38.453894,85.75781 85.757814,85.75781 47.30392,0 85.75976,-38.45389 85.75976,-85.75781 0,-47.30391 -38.45584,-85.759764 -85.75976,-85.759764 z m 0,10 c 41.89952,0 75.75976,33.860244 75.75976,75.759764 0,41.89952 -33.86024,75.75781 -75.75976,75.75781 -41.89952,0 -75.75781,-33.85829 -75.75781,-75.75781 0,-41.89952 33.85829,-75.759764 75.75781,-75.759764 z"
+         id="path874-0" />
+      <path
+         style="color:#000000;opacity:0.41;fill:#ffffff;fill-opacity:1;stroke-width:6.56552;stroke-linejoin:round;stroke-dasharray:none"
+         d="m 176.01172,135.98828 c -9.08379,0 -16.55469,7.47285 -16.55469,16.55664 0,9.08379 7.4709,16.55469 16.55469,16.55469 9.08379,0 16.55469,-7.4709 16.55469,-16.55469 0,-9.08379 -7.4709,-16.55664 -16.55469,-16.55664 z m 0,10 c 3.6794,0 6.55469,2.87724 6.55469,6.55664 0,3.6794 -2.87529,6.55469 -6.55469,6.55469 -3.6794,0 -6.55469,-2.87529 -6.55469,-6.55469 0,-3.6794 2.87529,-6.55664 6.55469,-6.55664 z"
+         id="path874-9-4" />
+    </g>
+  </g>
+</svg>

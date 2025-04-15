@@ -1,0 +1,123 @@
+.headerSection {
+  margin: 1rem 4rem;
+  /* background-color: #f4f4f4; */
+  padding: 3rem 4rem;
+  border: 2px solid var(--color-primary-500);
+
+  box-shadow: 5px 5px 0 #f1c680ac, 10px 10px 0 #dbbd8cc9, 15px 15px 0 #c6b7a07a,
+    20px 20px 0 #7454207d;
+  border-radius: 2rem;
+}
+
+.headerSection h1 {
+  font-family: var(--font-primary);
+  font-size: 2rem;
+  letter-spacing: 1.25px;
+  line-height: 3rem;
+  /* width: 80%; */
+  margin: 2rem auto 1rem auto;
+  display: flex;
+  justify-content: center;
+}
+
+.headerQuote {
+  width: 3rem;
+  padding-right: 0.75rem;
+}
+.headerQuoteRight {
+  width: 3rem;
+  padding-left: 0.75rem;
+}
+
+.headerTaglineSection {
+  display: flex;
+  margin: auto;
+  width: 80%;
+}
+
+.headerTagline {
+  letter-spacing: 1.5px;
+  line-height: 2rem;
+  font-size: 1.1rem;
+  width: 80%;
+  text-align: center;
+  margin: auto;
+}
+
+.headerSectionCTAP {
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  font-weight: 500;
+  font-size: 1.1rem;
+  margin: 3rem auto 1.2rem auto;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  width: 16rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 1280px) {
+  .headerSection h1 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  .headerQuote {
+    width: 2rem;
+  }
+  .headerQuoteRight {
+    width: 2rem;
+  }
+
+  .headerTagline {
+    font-size: 0.9rem;
+  }
+  .logo {
+    width: 10rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .headerSection h1 {
+    line-height: 1.8rem;
+    font-size: 1.1rem;
+  }
+
+  .headerSection {
+    border: 2px solid var(--color-primary-500);
+    box-shadow: 3px 3px 0 #f1c680ac, 6px 6px 0 #dbbd8cc9, 9px 9px 0 #c6b7a07a,
+      12px 12px 0 #7454207d;
+    border-radius: 2rem;
+  }
+  .headerSection {
+    width: 86%;
+    margin: 7% 7%;
+    padding: 1rem 2rem;
+  }
+  .headerTagline {
+    line-height: 1.6rem;
+    width: max-content;
+  }
+  .headerQuote {
+    width: 2rem;
+    padding-right: 0.25rem;
+  }
+  .headerQuoteRight {
+    width: 2rem;
+    padding-left: 0.25rem;
+  }
+  .headerTaglineSection {
+    width: 100%;
+  }
+  .headerTagline {
+    width: 100%;
+  }
+  .headerSectionCTAP {
+    font-size: 0.9rem;
+
+    margin: 1.5rem auto 0.4rem auto;
+  }
+}
