@@ -1,3 +1,5 @@
+import { availableMemory } from "process";
+
 export const formFieldConditionals = [
   {
     id: 3,
@@ -10,6 +12,10 @@ export const formFieldConditionals = [
       min_char: 3,
       max_char: 120,
     },
+    field_key: "child_name",
+    target_field_id: 3,
+    source_field_key: "student_relationship",
+    show_when_values: ["child"],
   },
   {
     id: 4,
@@ -22,6 +28,10 @@ export const formFieldConditionals = [
       min_char: 1,
       max_char: 3,
     },
+    field_key: "child_age",
+    target_field_id: 4,
+    source_field_key: "student_relationship",
+    show_when_values: ["child"],
   },
   {
     id: 5,
@@ -34,6 +44,10 @@ export const formFieldConditionals = [
       min_char: 3,
       max_char: 120,
     },
+    field_key: "grandchild_name",
+    target_field_id: 5,
+    source_field_key: "student_relationship",
+    show_when_values: ["grandchild"],
   },
   {
     id: 6,
@@ -46,6 +60,10 @@ export const formFieldConditionals = [
       min_char: 1,
       max_char: 3,
     },
+    field_key: "grandchild_age",
+    target_field_id: 6,
+    source_field_key: "student_relationship",
+    show_when_values: ["grandchild"],
   },
   {
     id: 7,
@@ -58,6 +76,10 @@ export const formFieldConditionals = [
       min_char: 3,
       max_char: 120,
     },
+    field_key: "student_relationship_other",
+    target_field_id: 7,
+    source_field_key: "student_relationship",
+    show_when_values: ["other"],
   },
   {
     id: 8,
@@ -70,6 +92,10 @@ export const formFieldConditionals = [
       min_char: 3,
       max_char: 120,
     },
+    field_key: "student_name_other",
+    target_field_id: 8,
+    source_field_key: "student_relationship",
+    show_when_values: ["other"],
   },
   {
     id: 9,
@@ -82,5 +108,31 @@ export const formFieldConditionals = [
       min_char: 1,
       max_char: 3,
     },
+    field_key: "student_age_other",
+    target_field_id: 9,
+    source_field_key: "student_relationship",
+    show_when_values: ["other"],
+  },
+  {
+    id: 10,
+    type: "schedule",
+    input_scope: "selector",
+    availableOrganizations: 1,
+    required: true,
+    field_key: "schedule_time",
+    target_field_id: 10,
+    source_field_key: "preferred_cadence",
+    show_when_values: ["Weekly", "Bi-weekly"],
+  },
+  {
+    id: 11,
+    type: "schedule",
+    input_scope: "picker",
+    availableOrganizations: 1,
+    required: true,
+    default_option: "",
+    visibility: "always",
+    section: "schedule",
+    field_key: "preferred_cadence",
   },
 ];

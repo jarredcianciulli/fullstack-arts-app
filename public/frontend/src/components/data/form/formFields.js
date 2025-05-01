@@ -1,8 +1,8 @@
 export const formFields = [
   {
     id: 1,
-    type: "input", // input, select, checkbox, etc.
-    input_type: "text", // text, email, location, distance, etc.
+    type: "input",
+    input_type: "text",
     label: "What's your name?",
     placeholder: "Your name",
     required: true,
@@ -10,7 +10,7 @@ export const formFields = [
       min_char: 3,
       max_char: 120,
     },
-    visibility: "always", // "always", "conditional", "hidden"
+    visibility: "always",
     section: "general",
     field_key: "student_name",
   },
@@ -21,7 +21,7 @@ export const formFields = [
     label: "Who are these lessons for?",
     required: true,
     default_option: "",
-    options: [1, 2, 3, 4, 5], // references FormFieldOption IDs
+    options: [1, 2, 3, 4, 5],
     section: "general",
     field_key: "student_relationship",
   },
@@ -30,20 +30,44 @@ export const formFields = [
     type: "input",
     input_type: "location",
     label: "What is your location?",
+    placeholder: "Enter your address",
     required: true,
+    visibility: "always",
+    location_limit: {
+      max_radius_miles: 20,
+      coordinates: [32.917397, -80.004868],
+    },
     location_pricing: [
       {
         radius_miles: 5,
-        coordinates: [40.241493, -75.283783],
+        coordinates: [32.917397, -80.004868],
         additional_price: 15,
       },
       {
         radius_miles: 10,
-        coordinates: [40.241493, -75.283783],
+        coordinates: [32.917397, -80.004868],
         additional_price: 22,
+      },
+      {
+        radius_miles: 20,
+        coordinates: [32.917397, -80.004868],
+        additional_price: 30,
       },
     ],
     section: "location",
-    field_key: "location_radius",
+    field_key: "location",
+  },
+  {
+    id: 4,
+    type: "select",
+    input_type: "text",
+    label: "What is your preferred cadence?",
+    placeholder: "What is your preferred cadence?",
+    required: true,
+    default_option: "",
+    options: [6, 7, 8],
+    visibility: "always",
+    section: "schedule",
+    field_key: "preferred_cadence",
   },
 ];
