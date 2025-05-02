@@ -2,11 +2,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import AvailabilityDay from "./AvailabilityDay";
 import AvailabilityMonth from "./AvailabilityMonth";
 import React, { useState, useRef } from "react";
+import ReactDOM from "react-dom";
 import ReactCalendar from "react-calendar";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
 import classes from "./Calendar.module.css";
 import "./Calendar.css";
+import availability_organizationJSON from "../../../data/schedule/availability_organization.json";
 
 const Calendar = ({
   isOpen,
@@ -14,12 +16,54 @@ const Calendar = ({
   section_id,
   service_id,
   availability_organization,
+  onSelect,
+  initialDay,
 }) => {
   let CalendarPopup;
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(() => {
+    if (initialDay) {
+      // Convert day name to date
+      const today = new Date();
+      const days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      const currentDayIndex = today.getDay();
+      const targetDayIndex = days.indexOf(initialDay);
+      const daysToAdd = (targetDayIndex - currentDayIndex + 7) % 7;
+      const targetDate = new Date(today);
+      targetDate.setDate(today.getDate() + daysToAdd);
+      return targetDate;
+    }
+    return new Date();
+  });
   const [visibleDates, setVisibleDates] = useState([]);
   const calendarRef = useRef(null);
+  const tileDisabled = ({ date, view }) => {
+    if (view !== 'month') return false;
+
+    // Block past dates
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (date < today) return true;
+
+    // Get organization by ID (same as in AvailabilityDay)
+    const org = availability_organizationJSON.availability_organization.find(
+      (obj) => obj.id === availability_organization
+    );
+    if (!org?.availability) return true;
+
+    // Check if this day has any time slots
+    const dayName = moment(date).format('dddd');
+    return !org.availability.some(slot => slot.day === dayName);
+  };
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -97,6 +141,7 @@ const Calendar = ({
                 value={selectedDate}
                 ref={calendarRef}
                 tileClassName={tileClassName}
+                tileDisabled={tileDisabled}
                 onActiveStartDateChange={handleActiveStartDateChange}
               />
 
@@ -118,6 +163,11 @@ const Calendar = ({
                   service_id={service_id}
                   section_id={section_id}
                   availability_organization={availability_organization}
+                  onSelect={(time) => {
+                    const day = moment(selectedDate).format("dddd");
+                    onSelect({ day, time });
+                    handleClose();
+                  }}
                 />
                 <AvailabilityMonth visibleDates={visibleDates} />
               </div>
@@ -128,7 +178,10 @@ const Calendar = ({
     }
   }
 
-  return <> {CalendarPopup} </>;
+  return ReactDOM.createPortal(
+    CalendarPopup,
+    document.getElementById('calendar-portal')
+  );
 };
 
 export default Calendar;
