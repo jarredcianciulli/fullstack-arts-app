@@ -226,6 +226,42 @@
   outline: none;
 }
 
+.location_field_container {
+  position: relative;
+  width: 100%;
+}
+
+.predictions_container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.prediction_item {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prediction_item:hover,
+.prediction_item.selected {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-900);
+}
+
+.prediction_item:hover {
+  background-color: #f5f5f5;
+}
+
 .checkbox_wrapper {
   display: flex;
   align-items: center;

@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { NavLink, Form, useRouteLoaderData } from "react-router-dom";
-import Avatar1 from "./assets/intono-logo-icon.png";
-import Avatar2 from "../pages/assets/nav_icon.svg";
-import Avatar3 from "./assets/intono-logo-v1.png";
+import logoIcon from "./assets/intono-logo-icon.png";
+import logo from "./assets/intono-logo-v1.png";
+import navIcon from "../pages/assets/nav_icon.svg";
 
 import { NavContext } from "./NavContext.jsx";
 import {
@@ -70,7 +70,7 @@ function Navigation() {
                 <motion.div className={classes.listLineBreak}></motion.div>
                 <motion.ul className={classes.list}>
                   <motion.li className={classes.navLogoContainer}>
-                    <motion.img className={classes.navLogo} src={Avatar1} />
+                    <motion.img className={classes.navLogo} src={logoIcon} />
                   </motion.li>
                   <motion.li className={classes.listElement}>
                     <NavLink
@@ -126,7 +126,7 @@ function Navigation() {
       <motion.header className={classes.header_1}>
         <motion.nav className={classes.navContainer}>
           <motion.div className={classes.logoContainer}>
-            <motion.img className={classes.logo} src={Avatar3} />
+            <motion.img className={classes.logo} src={logo} />
           </motion.div>
           {matches && (
             <NavContext.Provider value={{ showNav, setShowNav, navMenu }}>
@@ -197,7 +197,7 @@ function Navigation() {
           )}
           {!matches && (
             <motion.div className={classes.menuContainer} onClick={navMenu}>
-              <motion.img className={classes.menu} src={Avatar2} />
+              <motion.img className={classes.menu} src={navIcon} />
             </motion.div>
           )}
         </motion.nav>

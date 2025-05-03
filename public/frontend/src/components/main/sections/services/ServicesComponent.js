@@ -47,6 +47,8 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
   }
 
   function handleRegistrationClick(service) {
+    setSelectedService(service);
+    setIsFormOpen(true);
     if (onServiceClick) {
       onServiceClick(service);
     }

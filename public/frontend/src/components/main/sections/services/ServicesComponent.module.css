@@ -1,0 +1,104 @@
+.subscriptionsPricingCard {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subscriptionsPricingCardFront,
+.subscriptionsPricingCardBack {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.subscriptionsPricingCardBack {
+  transform: rotateY(180deg);
+}
+
+.subscriptionsPricingCardBack_media {
+  transform: rotateX(180deg);
+}
+
+.subscriptionsPricingCardHeader {
+  margin-bottom: 1.5rem;
+}
+
+.subscriptionsPricingCardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-primary-900);
+  margin-bottom: 0.5rem;
+}
+
+.subscriptionsPricingCardSubtitle {
+  font-size: 1rem;
+  color: var(--color-primary-600);
+}
+
+.subscriptionsPricingCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.subscriptionsPricingCardBodyFeature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.subscriptionsPricingCardBodyFeatureIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary-500);
+}
+
+.subscriptionsPricingCardBodyFeatureText {
+  color: var(--color-primary-700);
+}
+
+.subscriptionsPricingCardFooter {
+  margin-top: 2rem;
+}
+
+.subscriptionsPricingCardFooterButton {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  background-color: var(--color-primary-500);
+  color: white;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.subscriptionsPricingCardFooterButton:hover {
+  background-color: var(--color-primary-600);
+}
+
+.subscriptionsPricingCardFooterButtonDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.registrationForm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 90%;
+  max-width: 600px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
