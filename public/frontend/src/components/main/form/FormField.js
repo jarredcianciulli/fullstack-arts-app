@@ -6,6 +6,8 @@ import { formFieldConditionals } from "../../data/form/formFieldConditionals";
 import { formFields } from "../../data/form/formFields";
 import LocationField from "./LocationField";
 import ScheduleField from "./ScheduleField";
+import CardField from "./CardField";
+import clsx from "clsx";
 
 const FormField = ({
   field,
@@ -39,7 +41,9 @@ const FormField = ({
 
     if (isConditionalField) {
       // Find the conditional field definition
-      const conditionalField = formFieldConditionals.find((field) => field.id === id);
+      const conditionalField = formFieldConditionals.find(
+        (field) => field.id === id
+      );
       if (!conditionalField) return false;
 
       // Get the value from the source field
@@ -100,10 +104,12 @@ const FormField = ({
 
   return (
     <div className={fieldClassName}>
-      <label htmlFor={id} className={styles.form_label}>
-        {label}
-        {required && <span className={styles.required_mark}>*</span>}
-      </label>
+      {type !== "schedule" && (
+        <label htmlFor={id} className={styles.form_label}>
+          {label}
+          {required && <span className={styles.required_mark}>*</span>}
+        </label>
+      )}
 
       {type === "input" &&
         (input_type === "location" ? (
@@ -135,29 +141,42 @@ const FormField = ({
         />
       )}
 
-      {type === "select" && (
-        <select
-          id={id}
-          name={field_key}
+      {type === "select" && input_type === "card" ? (
+        <CardField
+          options={options.map((optionId) =>
+            formFieldOptions.find((opt) => opt.id === optionId)
+          )}
           value={formData[field_key] || ""}
           onChange={handleSelectChange}
+          field_key={field_key}
           required={required}
-          className={styles.form_select}
-        >
-          <option key="default" value="">
-            Select an option
-          </option>
-          {options?.map((optionId) => {
+        />
+      ) : type === "select" ? (
+        <div className={styles.schedule_options_grid}>
+          {options.map((optionId) => {
             const option = formFieldOptions.find((opt) => opt.id === optionId);
-            if (!option) return null;
             return (
-              <option key={option.id} value={option.value}>
-                {option.label}
-              </option>
+              <div
+                key={option.id}
+                className={clsx(styles.schedule_option_card, {
+                  [styles.selected]: formData[field_key] === option.value,
+                })}
+                onClick={() =>
+                  handleSelectChange({
+                    target: { name: field_key, value: option.value },
+                  })
+                }
+              >
+                <div className={styles.schedule_option_content}>
+                  <span className={styles.schedule_option_text}>
+                    {option.label}
+                  </span>
+                </div>
+              </div>
             );
           })}
-        </select>
-      )}
+        </div>
+      ) : null}
 
       {type === "textarea" && (
         <textarea

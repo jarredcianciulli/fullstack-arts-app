@@ -7,12 +7,17 @@ export const formFieldConditionals = [
     input_type: "text",
     label: "What's your child's name?",
     placeholder: "Your child's name",
+    visibility: "always",
+
     required: true,
+
     validation: {
       min_char: 3,
       max_char: 120,
     },
     field_key: "child_name",
+    visibility: "always",
+
     target_field_id: 3,
     source_field_key: "student_relationship",
     show_when_values: ["child"],
@@ -24,6 +29,8 @@ export const formFieldConditionals = [
     label: "What's your child's age?",
     placeholder: "Your child's age",
     required: true,
+    visibility: "always",
+
     validation: {
       min_char: 1,
       max_char: 3,
@@ -39,6 +46,8 @@ export const formFieldConditionals = [
     input_type: "text",
     label: "What's your grandchild's name?",
     placeholder: "Your grandchild's name",
+    visibility: "always",
+
     required: true,
     validation: {
       min_char: 3,
@@ -55,6 +64,8 @@ export const formFieldConditionals = [
     input_type: "age",
     label: "What's your grandchild's age?",
     placeholder: "Your grandchild's age",
+    visibility: "always",
+
     required: true,
     validation: {
       min_char: 1,
@@ -72,6 +83,8 @@ export const formFieldConditionals = [
     label: "What is your relationship to the student?",
     placeholder: "Relationship to student",
     required: true,
+    visibility: "always",
+
     validation: {
       min_char: 3,
       max_char: 120,
@@ -87,6 +100,8 @@ export const formFieldConditionals = [
     input_type: "text",
     label: "What is the student's name?",
     placeholder: "Student's name",
+    visibility: "always",
+
     required: true,
     validation: {
       min_char: 3,
@@ -103,6 +118,8 @@ export const formFieldConditionals = [
     input_type: "age",
     label: "What's your student's age?",
     placeholder: "Student's age",
+    visibility: "always",
+
     required: true,
     validation: {
       min_char: 1,
@@ -113,26 +130,27 @@ export const formFieldConditionals = [
     source_field_key: "student_relationship",
     show_when_values: ["other"],
   },
+
   {
     id: 10,
     type: "schedule",
     input_scope: "selector",
-    availableOrganizations: 1,
-    required: true,
-    field_key: "schedule_time",
-    target_field_id: 10,
-    source_field_key: "preferred_cadence",
-    show_when_values: ["Weekly", "Bi-weekly"],
-  },
-  {
-    id: 11,
-    type: "schedule",
-    input_scope: "picker",
-    availableOrganizations: 1,
+    availableOrganizations: 2,
     required: true,
     default_option: "",
     visibility: "always",
     section: "schedule",
     field_key: "preferred_cadence",
+  },
+  {
+    id: 11,
+    type: "schedule",
+    input_scope: "picker",
+    availableOrganizations: 2,
+    required: true,
+    default_option: "",
+    visibility: "always",
+    section: "schedule",
+    field_key: "schedule_selection",
   },
 ];

@@ -13,6 +13,7 @@ const AvailabilityDay = ({
   service_id,
   section_id,
   availability_organization,
+  onSelect,
 }) => {
   const [AvailabilityUI, setAvailabilityUI] = useState(<>HEJKLKJEl</>);
   const getAvailabilityById = (array, id) => {
@@ -55,7 +56,12 @@ const AvailabilityDay = ({
             <>
               {/* <motion.div>{e.day}</motion.div> */}
 
-              <motion.div className={classes.availability__time} key={ind}>
+              <motion.div
+                className={classes.availability__time}
+                key={ind}
+                onClick={() => onSelect(startTime)}
+                style={{ cursor: "pointer" }}
+              >
                 <motion.div>{startTime}</motion.div>
                 <motion.div>&nbsp;-&nbsp;</motion.div>
                 <motion.div>{endTime}</motion.div>

@@ -104,7 +104,7 @@
 
 .subscriptionsPricingCardFront {
   position: absolute;
-  background-color: var(--color-quarciary-100);
+  /* background-color: var(--color-quarciary-100); */
 }
 
 .subscriptionsPricingCardBack {
@@ -121,6 +121,17 @@
   border-radius: 3px;
   box-shadow: 2px 3px var(--color-secondary-100);
   backface-visibility: hidden;
+
+  /* Gradient clip text */
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-light-100),
+    var(--color-primary-light-100),
+    var(--color-primary-light-200),
+    var(--color-primary-light-200),
+    var(--color-primary-light-100),
+    var(--color-primary-light-100)
+  );
 }
 .subscriptionsPricingCardBody {
   height: min-content;
@@ -178,8 +189,10 @@
   .subscriptionsPricingCardHeaderTitle {
     display: flex;
     justify-content: left;
-    background-color: var(--color-sextiary-400);
-    color: var(--color-tertiary-500);
+    /* background-color: var(--color-sextiary-400); */
+    border: 1px solid var(--color-sextiary-400);
+    border-radius: 4px;
+    color: var(--color-tertiary-700);
     font-weight: 400;
     text-align: center;
     align-items: center;
@@ -190,7 +203,6 @@
     padding-bottom: 0.3rem;
     margin: 1.25rem 0 0 2rem;
     letter-spacing: 2px;
-    border-radius: 2px;
     font-family: var(--font-family-primary);
     font-size: 0.78rem;
     text-align: center;
@@ -210,7 +222,7 @@
     align-items: end;
     width: 8rem;
     line-height: 1.8rem;
-    color: var(--color-primary-dark-2);
+    color: var(--color-tertiary-700);
   }
 
   .subscriptionsPricingCardHeaderLocationPropertyBackgroundContainer {
@@ -355,17 +367,26 @@
   .subscriptionsPricingCardFront {
     display: grid;
     position: absolute;
-    width: min-content;
+    width: 95vw;
     grid-template-columns: repeat(3, 1fr);
     row-gap: 0.5rem;
     column-gap: 1rem;
-    width: 95vw;
     border: 1px solid var(--color-secondary-1000);
     box-shadow: 2px 3px var(--color-secondary-100);
     border-radius: 3px;
     height: min-content;
     padding: 1rem 1rem;
-    color: var(--color-white);
+
+    /* Gradient clip text */
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-light-100),
+      var(--color-primary-light-200)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
 
   .subscriptionsPricingCardHeader {

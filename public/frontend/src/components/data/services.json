@@ -2,6 +2,7 @@
   "services": [
     {
       "id": 1,
+      "slug": "in-home-private-lessons",
       "section": 1,
       "service_type": "Private lessons",
       "service_location_property": "In your home",
@@ -52,7 +53,7 @@
     },
     {
       "id": 2,
-
+      "slug": "studio-private-lessons",
       "section": 1,
       "service_type": "Private lessons",
       "service_location_property": "At my home",
@@ -101,7 +102,7 @@
     },
     {
       "id": 3,
-
+      "slug": "online-private-lessons",
       "section": 1,
       "frequency": {
         "type": "absolute",
@@ -141,7 +142,7 @@
     },
     {
       "id": 4,
-
+      "slug": "piano-tuning-service",
       "section": 2,
       "service_type": "Piano tuning",
       "service_location_property": "Your location",
@@ -194,7 +195,7 @@
     },
     {
       "id": 5,
-
+      "slug": "group-music-fundamentals",
       "section": 3,
       "service_type": "Group music class",
       "service_location_property": "Virtual",

@@ -8,14 +8,25 @@
 }
 
 .title {
-  font-family: var(--font-family-secondary);
+  font-family: var(--font-family-tertiary);
   width: max-content;
   white-space: nowrap;
-  color: var(--color-primary-dark);
+  font-weight: 200;
   margin-left: 4rem;
-  font-weight: 500;
   font-size: 2rem;
+
+  /* Gradient clip styles */
+  background: linear-gradient(
+    90deg,
+    var(--color-primary-500),
+    var(--color-secondary-500)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
+
 /* 
 .titleLineContainer {
   display: flex;
@@ -26,7 +37,7 @@
 
 .titleLine {
   height: 1px;
-  background-color: var(--color-sextiary-500);
+  background-color: var(--color-grey-light-2);
   width: inherit;
   margin: 4px 2rem 0 2rem;
 }

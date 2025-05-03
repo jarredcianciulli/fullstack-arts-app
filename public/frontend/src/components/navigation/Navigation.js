@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { NavLink, Form, useRouteLoaderData } from "react-router-dom";
-import Avatar1 from "../pages/assets/logo-icon.svg";
+import Avatar1 from "./assets/intono-logo-icon.png";
 import Avatar2 from "../pages/assets/nav_icon.svg";
-import Avatar3 from "./assets/logo-private-lessons.svg";
+import Avatar3 from "./assets/intono-logo-v1.png";
 
 import { NavContext } from "./NavContext.jsx";
 import {
@@ -32,9 +32,9 @@ function Navigation() {
     setShowNav(!showNav);
   };
   const transition_text = {
-    duration: 0,
-    ease: "easeInOut",
-    zIndex: 100,
+    duration: 0.3,
+    ease: "easeOut",
+    zIndex: 1000,
     position: "fixed",
   };
 
@@ -48,13 +48,18 @@ function Navigation() {
                 key="nav_text"
                 initial={{
                   opacity: 0,
-                  x: 150,
+                  x: "100%",
                   zIndex: 1000,
                   position: "fixed",
                 }}
                 animate={{ opacity: 1, x: 0, zIndex: 1000, position: "fixed" }}
                 transition={transition_text}
-                exit={{ opacity: 0, x: 150, zIndex: 1000, position: "fixed" }}
+                exit={{
+                  opacity: 0,
+                  x: "100%",
+                  zIndex: 1000,
+                  position: "fixed",
+                }}
                 className={classes.listContainer}
                 id="navBody"
               >
@@ -80,6 +85,17 @@ function Navigation() {
                   </motion.li>
                   <motion.li className={classes.listElement}>
                     <NavLink
+                      to="/services"
+                      className={({ isActive }) =>
+                        isActive ? classes.active : undefined
+                      }
+                      onClick={navMenu}
+                    >
+                      Services
+                    </NavLink>
+                  </motion.li>
+                  <motion.li className={classes.listElement}>
+                    <NavLink
                       to="/about"
                       className={({ isActive }) =>
                         isActive ? classes.active : undefined
@@ -89,28 +105,6 @@ function Navigation() {
                       About
                     </NavLink>
                   </motion.li>
-                  {/* <li className={classes.listElement}>
-            <NavLink
-              to="/yoga"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              onClick={navMenu}
-            >
-              Yoga
-            </NavLink>
-          </li> */}
-                  {/* <motion.li className={classes.listElement}>
-                  <NavLink
-                    to="/about"
-                    className={({ isActive }) =>
-                      isActive ? classes.active : undefined
-                    }
-                    onClick={navMenu}
-                  >
-                    About
-                  </NavLink>
-                </motion.li> */}
                   <motion.li className={classes.listElement}>
                     <NavLink
                       to="/resources"
@@ -141,7 +135,6 @@ function Navigation() {
                   key="nav_text"
                   initial={{ opacity: 1, zIndex: 10 }}
                   animate={{ opacity: 1 }}
-                  // transition={transition_text}
                   exit={{ opacity: 0 }}
                   className={classes.listContainer}
                   id="navBody"
@@ -165,6 +158,17 @@ function Navigation() {
                     </motion.li>
                     <motion.li className={classes.listElement}>
                       <NavLink
+                        to="/services"
+                        className={({ isActive }) =>
+                          isActive ? classes.active : undefined
+                        }
+                        onClick={navMenu}
+                      >
+                        Services
+                      </NavLink>
+                    </motion.li>
+                    <motion.li className={classes.listElement}>
+                      <NavLink
                         to="/about"
                         className={({ isActive }) =>
                           isActive ? classes.active : undefined
@@ -174,28 +178,6 @@ function Navigation() {
                         About
                       </NavLink>
                     </motion.li>
-                    {/* <li className={classes.listElement}>
-            <NavLink
-              to="/yoga"
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              onClick={navMenu}
-            >
-              Yoga
-            </NavLink>
-          </li> */}
-                    {/* <motion.li className={classes.listElement}>
-                  <NavLink
-                    to="/about"
-                    className={({ isActive }) =>
-                      isActive ? classes.active : undefined
-                    }
-                    onClick={navMenu}
-                  >
-                    About
-                  </NavLink>
-                </motion.li> */}
                     <motion.li className={classes.listElement}>
                       <NavLink
                         to="/resources"

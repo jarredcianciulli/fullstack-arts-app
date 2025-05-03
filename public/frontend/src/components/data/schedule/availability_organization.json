@@ -5,7 +5,7 @@
       "availability": [
         {
           "day": "Monday",
-          "start_hour": 9,
+          "start_hour": 10,
           "start_minutes": 30,
           "end_hour": 24,
           "end_minutes": 30
@@ -50,7 +50,7 @@
           "day": "Monday",
           "start_hour": 18,
           "start_minutes": 30,
-          "end_hour": 24,
+          "end_hour": 20,
           "end_minutes": 30
         },
         {
@@ -62,21 +62,21 @@
         },
         {
           "day": "Wednesday",
-          "start_hour": 18,
+          "start_hour": 19,
           "start_minutes": 30,
           "end_hour": 20,
           "end_minutes": 30
         },
         {
           "day": "Thursday",
-          "start_hour": 18,
+          "start_hour": 17,
           "start_minutes": 30,
           "end_hour": 20,
           "end_minutes": 30
         }
       ],
       "minimum_notice_hours": 4,
-      "start_time_increments_minutes": 15,
+      "start_time_increments_minutes": 30,
       "temporary_availability": false,
       "active": true
     }

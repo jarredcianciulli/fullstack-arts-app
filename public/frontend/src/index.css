@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Zen+Tokyo+Zoo&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Quicksand:wght@300..700&family=Reem+Kufi+Fun:wght@400..700&family=Tilt+Neon&display=swap");
 
 * {
   box-sizing: border-box;
@@ -26,6 +27,8 @@ body {
   --font-primary: "Zen Maru Gothic";
   --font-family-secondary: "Zen Tokyo Zoo";
   --font-family-tertiary: "Josefin Sans";
+  --font-family-quadiary: "Instrument Sans";
+  --font-family-instrument: "Instrument Sans";
   --font-inherit: inherit;
 
   /* font sizes */
@@ -46,6 +49,7 @@ body {
   --color-pending: rgba(217, 217, 82, 0.783);
   --color-grey: rgb(96, 96, 63);
   --color-grey-light: rgba(96, 96, 63, 0.54);
+  --color-grey-light-2: rgba(96, 96, 63, 0.2);
 
   --color-primary-opaque-3: #c19400;
 
@@ -61,6 +65,8 @@ body {
   --color-primary-800: rgb(255, 252, 241);
   --color-primary-900: rgb(107, 82, 0); */
   --color-primary-light: rgba(245, 206, 78, 0.539);
+  --color-primary-light-100: rgb(255, 255, 255);
+  --color-primary-light-200: rgb(250, 253, 255);
   --color-primary-light-1s: rgba(114, 96, 36, 0.437);
   --color-primary-light-2: rgba(245, 214, 112, 0.073);
   --color-primary-light-3: rgb(204, 153, 0);
@@ -78,26 +84,27 @@ body {
   /* Border radiuses */
   --br-11xs: 2px;
 
-  --color-primary-100: rgba(173, 247, 182, 0.1);
-  --color-primary-200: rgba(173, 247, 182, 0.2);
-  --color-primary-300: rgba(173, 247, 182, 0.3);
-  --color-primary-400: rgba(173, 247, 182, 0.4);
-  --color-primary-500: rgba(173, 247, 182, 0.5);
-  --color-primary-600: rgba(173, 247, 182, 0.6);
-  --color-primary-700: rgba(173, 247, 182, 0.7);
-  --color-primary-800: rgba(173, 247, 182, 0.8);
-  --color-primary-900: rgba(173, 247, 182, 0.9);
-  --color-primary-1000: rgba(173, 247, 182);
+  --color-primary-100: rgba(13, 113, 167, 0.1);
+  --color-primary-200: rgba(13, 113, 167, 0.2);
+  --color-primary-300: rgba(13, 113, 167, 0.3);
+  --color-primary-400: rgba(13, 113, 167, 0.4);
+  --color-primary-500: rgba(13, 113, 167, 0.5);
+  --color-primary-600: rgba(13, 113, 167, 0.6);
+  --color-primary-700: rgba(13, 113, 167, 0.7);
+  --color-primary-800: rgba(13, 113, 167, 0.8);
+  --color-primary-900: rgba(13, 113, 167, 0.9);
+  --color-primary-1000: rgb(37, 135, 188);
+  --color-primary-light-1000: rgb(102, 183, 224);
   --color-secondary-light-1: rgb(228, 222, 222);
-  --color-secondary-100: rgba(28, 55, 56, 0.1);
-  --color-secondary-200: rgba(28, 55, 56, 0.2);
-  --color-secondary-300: rgba(28, 55, 56, 0.3);
-  --color-secondary-400: rgba(28, 55, 56, 0.4);
-  --color-secondary-500: rgba(28, 55, 56, 0.5);
-  --color-secondary-600: rgba(28, 55, 56, 0.6);
-  --color-secondary-700: rgba(28, 55, 56, 0.7);
-  --color-secondary-800: rgba(28, 55, 56, 0.8);
-  --color-secondary-900: rgba(28, 55, 56, 0.9);
+  --color-secondary-100: rgba(98, 110, 128, 0.1);
+  --color-secondary-200: rgba(98, 110, 128, 0.2);
+  --color-secondary-300: rgba(98, 110, 128, 0.3);
+  --color-secondary-400: rgba(98, 110, 128, 0.4);
+  --color-secondary-500: rgba(98, 110, 128, 0.5);
+  --color-secondary-600: rgba(98, 110, 128, 0.6);
+  --color-secondary-700: rgba(98, 110, 128, 0.7);
+  --color-secondary-800: rgba(98, 110, 128, 0.8);
+  --color-secondary-900: rgba(98, 110, 128, 0.9);
   --color-secondary-1000: rgba(28, 55, 56);
   --color-tertiary-light-1: rgb(255, 245, 242);
   --color-tertiary-50: rgba(77, 72, 71, 0.05);
@@ -106,22 +113,33 @@ body {
   --color-tertiary-300: rgba(77, 72, 71, 0.3);
   --color-tertiary-400: rgba(77, 72, 71, 0.4);
   --color-tertiary-500: rgba(77, 72, 71, 0.5);
-  --color-tertiary-600: rgba(77, 72, 71, 0.5);
-  --color-tertiary-700: rgba(77, 72, 71, 0.5);
+  --color-tertiary-600: rgba(77, 72, 71, 0.6);
+  --color-tertiary-700: rgba(77, 72, 71, 0.7);
   --color-tertiary-800: rgba(77, 72, 71, 0.8);
   --color-tertiary-900: rgba(77, 72, 71, 0.9);
   --color-tertiary-1000: rgba(77, 72, 71);
   --color-quarciary-100: rgba(224, 216, 222, 0.1);
   --color-quarciary-1000: rgba(224, 216, 222);
-  --color-quadiary-100: rgba(33, 250, 144, 0.1);
-  --color-quadiary-1000: rgba(33, 250, 144);
+  --color-quadiary-100: rgb(253, 253, 253);
+  --color-quadiary-200: rgb(245, 255, 250);
+  --color-quadiary-400: rgb(165, 207, 187);
+  --color-quadiary-700: rgb(86, 140, 114);
+  --color-quadiary-1000: rgb(6, 103, 56);
   --color-sextiary-100: rgba(249, 190, 5, 0.1);
   --color-sextiary-200: rgba(249, 190, 5, 0.2);
   --color-sextiary-300: rgba(249, 190, 5, 0.3);
   --color-sextiary-400: rgba(249, 190, 5, 0.4);
-  --color-sextiary-500: rgba(249, 190, 5, 0.5);
-  --color-sextiary-600: rgba(249, 190, 5, 0.6);
-  --color-sextiary-700: rgba(249, 190, 5, 0.7);
-  --color-sextiary-800: rgba(249, 190, 5, 0.8);
+  --color-sextiary-500: rgb(253, 238, 194);
+  --color-sextiary-600: rgb(239, 221, 167);
+  --color-sextiary-700: rgb(239, 205, 102);
+  --color-sextiary-800: rgb(244, 200, 67);
+  --color-sextiary-800: rgb(255, 200, 37);
   --color-sextiary-1000: rgba(249, 190, 5, 1);
+
+  --color-sextiary-light-100: rgba(250, 238, 209, 0.1);
+  --color-sextiary-light-200: rgba(244, 222, 146, 0.076);
+
+  --color-septiary-100: rgb(217, 227, 235);
+  /* --color-septiary-1000: rgb(163, 214, 255); */
+  --color-septiary-500--dark: rgb(182, 193, 203);
 }

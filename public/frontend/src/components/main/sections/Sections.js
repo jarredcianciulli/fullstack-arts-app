@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import classes from "./Sections.module.css";
 
-function Sections() {
+function Sections({ onServiceClick }) {
   //   let SectionsData;
   console.log(sectionsJSON.sections);
   const SectionsData = sectionsJSON.sections.map((e, ind) => {
@@ -30,6 +30,7 @@ function Sections() {
           specification={e.specification}
           instruments={e.instruments}
           format={e.format}
+          onServiceClick={onServiceClick}
         />
       </AnimatePresence>
     );

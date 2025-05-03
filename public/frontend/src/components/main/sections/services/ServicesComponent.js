@@ -22,10 +22,11 @@ import PopupIcon from "../../../pages/assets/popup_icon.svg";
 import useMediaQuery from "../../../utils/UI/UseMediaQuery";
 import Calendar from "../calendar/Calendar";
 import FormStore from "../../registration/FormStore";
+import MultiStepForm from "../../form/MultiStepForm";
 //JSON
 import ServicesJSON from "../../../data/services.json";
 
-function ServicesComponent({ id, e, prop, ind }) {
+function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
   const [isAPopupOpen, setIsAPopupOpen] = useState(false);
   const matches = useMediaQuery("(min-width: 800px)"); // Use the custom hook
 
@@ -45,8 +46,10 @@ function ServicesComponent({ id, e, prop, ind }) {
     };
   }
 
-  function handleRegistrationClick() {
-    setIsFormOpen(!isFormOpen);
+  function handleRegistrationClick(service) {
+    if (onServiceClick) {
+      onServiceClick(service);
+    }
   }
 
   function notMatchMedia(e) {
@@ -90,6 +93,7 @@ function ServicesComponent({ id, e, prop, ind }) {
 
   //   const homeCardOptions = ServicesJSON.services.map((e, ind) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   const transition_text = {
@@ -137,7 +141,7 @@ function ServicesComponent({ id, e, prop, ind }) {
     }
 
     return (
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         <Calendar
           isOpen={isPopupOpen}
           ref={popupRef}
@@ -146,16 +150,16 @@ function ServicesComponent({ id, e, prop, ind }) {
           section_id={prop.id}
           availability_organization={e.availability_organization}
         />
-        <FormStore
-          isFormOpen={isFormOpen}
-          setIsFormOpen={setIsFormOpen}
-          sectionId={prop.id}
-          serviceData={e}
-          sectionData={prop}
-        />
-        <motion.card
+        {selectedService && (
+          <MultiStepForm
+            service={selectedService}
+            isFormOpen={isFormOpen}
+            setIsFormOpen={setIsFormOpen}
+          />
+        )}
+        <motion.div
+          key={`service-${e.id}`}
           className={classes.subscriptionsPricingCardContainer}
-          key={ind}
           ref={(el) => (ref.current[ind] = el)}
           initial={{
             opacity: 0,
@@ -624,7 +628,7 @@ function ServicesComponent({ id, e, prop, ind }) {
                       cardFlipState[ind].flipCard &&
                       classes.subscriptionsPricingCardFooterButtonDisabled
                     }`}
-                    onClick={handleRegistrationClick}
+                    onClick={() => handleRegistrationClick(e)}
                   >
                     {e.cta_button_name}
                   </div>
@@ -716,7 +720,7 @@ function ServicesComponent({ id, e, prop, ind }) {
               </motion.div>
             </motion.div>
           </motion.div>
-        </motion.card>
+        </motion.div>
       </AnimatePresence>
     );
   }

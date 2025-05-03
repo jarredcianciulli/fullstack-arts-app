@@ -9,6 +9,14 @@
   .body {
     height: calc(100vh - 48px);
     overflow-x: hidden;
-    background-color: var();
+    /* background-color: var(--color-sextiary-100); */
+    background: linear-gradient(
+      90deg,
+      var(--color-sextiary-light-100),
+      var(--color-sextiary-light-100),
+      var(--color-sextiary-light-200),
+      var(--color-sextiary-light-200),
+      var(--color-sextiary-light-100)
+    );
   }
 }

@@ -32,9 +32,17 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/main",
-        index: true,
-        element: <MainPage />,
+        path: "services",
+        children: [
+          {
+            index: true,
+            element: <MainPage />,
+          },
+          {
+            path: ":serviceSlug/register",
+            element: <MainPage showForm={true} />,
+          },
+        ],
       },
       {
         path: "/about",

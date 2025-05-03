@@ -36,6 +36,7 @@ function Services(props) {
             e={e}
             prop={props}
             ind={ind}
+            onServiceClick={props.onServiceClick}
           />
         </AnimatePresence>
       );
