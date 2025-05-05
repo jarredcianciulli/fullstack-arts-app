@@ -6,7 +6,8 @@ const path = require('path');
 const fs = require('fs');
 
 // Load environment variables
-dotenv.config({ path: path.join(__dirname, '../config.env') });
+// Load environment variables
+dotenv.config({ path: path.join(__dirname, '..') });
 
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -32,7 +33,7 @@ const server = http.createServer(async (req, res) => {
     
     if (queryObject.code) {
       const { tokens } = await oauth2Client.getToken(queryObject.code);
-      console.log('\nAdd these tokens to your config.env file:\n');
+      console.log('\nAdd these tokens to your environment configuration:\n');
       console.log(`GOOGLE_ACCESS_TOKEN=${tokens.access_token}`);
       console.log(`GOOGLE_REFRESH_TOKEN=${tokens.refresh_token}\n`);
       
