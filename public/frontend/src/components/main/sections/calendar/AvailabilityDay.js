@@ -54,8 +54,6 @@ const AvailabilityDay = ({
 
           return (
             <>
-              {/* <motion.div>{e.day}</motion.div> */}
-
               <motion.div
                 className={classes.availability__time}
                 key={ind}
@@ -78,7 +76,6 @@ const AvailabilityDay = ({
   return (
     <>
       <AnimatePresence>
-        <motion.div>{}</motion.div>
         <motion.div className={classes.availability}>
           {AvailabilityUI}
         </motion.div>

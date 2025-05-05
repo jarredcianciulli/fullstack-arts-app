@@ -35,22 +35,22 @@ export const formFields = [
     visibility: "always",
     location_limit: {
       max_radius_miles: 20,
-      coordinates: [32.917397, -80.004868],
+      coordinates: [32.92722, -80.00487], // 1055 Old Cypress Run, Hanahan, SC
     },
     location_pricing: [
       {
         radius_miles: 5,
-        coordinates: [32.917397, -80.004868],
+        coordinates: [32.92722, -80.00487], // 1055 Old Cypress Run, Hanahan, SC
         additional_price: 15,
       },
       {
         radius_miles: 10,
-        coordinates: [32.917397, -80.004868],
+        coordinates: [32.92722, -80.00487], // 1055 Old Cypress Run, Hanahan, SC
         additional_price: 22,
       },
       {
         radius_miles: 20,
-        coordinates: [32.917397, -80.004868],
+        coordinates: [32.92722, -80.00487], // 1055 Old Cypress Run, Hanahan, SC
         additional_price: 30,
       },
     ],
@@ -66,6 +66,7 @@ export const formFields = [
     required: true,
     default_option: "",
     options: [6, 7, 8],
+    // availability_organization: 2,
     visibility: "always",
     section: "schedule",
     field_key: "preferred_cadence",

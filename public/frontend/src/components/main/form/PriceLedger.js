@@ -1,61 +1,69 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { formFieldOptions } from "../../data/form/formFieldOptions";
-import { formFields } from "../../data/form/formFields";
 import styles from "./Form.module.css";
+import { formFieldOptions } from "../../data/form/formFieldOptions";
+
+const formatPrice = (price, includeSymbol = true) => {
+  const formatted = parseFloat(price).toFixed(2);
+  return includeSymbol ? `$${formatted}` : formatted;
+};
 
 const PriceLedger = ({ formData }) => {
-  // Get selected package details
+  // Find the selected package
   const selectedPackage = formFieldOptions.find(
     (opt) => opt.value === formData.lesson_package
   );
 
-  // Get location field config
-  const locationField = formFields.find((field) => field.field_key === "location");
+  if (!selectedPackage) return null;
 
-  // Calculate additional location fee if applicable
-  let locationFee = 0;
-  if (formData.location?.distance && locationField?.location_pricing) {
-    // Find the applicable pricing tier based on distance
-    const pricingTier = locationField.location_pricing.find(
-      (tier) => formData.location.distance <= tier.radius_miles
-    );
-    if (pricingTier) {
-      locationFee = pricingTier.additional_price;
-    }
-  }
+  // Get base price and sessions
+  const { price, sessions } = selectedPackage;
 
-  // Calculate totals
-  const subtotal = selectedPackage.price;
-  const tax = selectedPackage.price_with_tax - selectedPackage.price;
-  const total = selectedPackage.price_with_tax + locationFee;
+  // Calculate location fee if applicable
+  const calculateTravelCost = () => {
+    if (!formData.location?.travel_price) return 0;
+    return formData.location.travel_price * sessions;
+  };
+
+  const locationFee = calculateTravelCost();
+
+  // Calculate subtotal and tax
+  const subtotal = price + locationFee;
+  const taxRate = 0.07; // 7% tax rate
+  const tax = subtotal * taxRate;
+  const total = subtotal + tax;
 
   return (
     <div className={styles.price_ledger}>
-      <h4 className={styles.price_ledger_title}>Price Summary</h4>
-      <div className={styles.price_ledger_content}>
-        <div className={styles.price_ledger_row}>
-          <span>{selectedPackage.description}</span>
-          <span>${subtotal.toFixed(2)}</span>
+      <h4 className={styles.ledger_title}>Price Breakdown</h4>
+      <div className={styles.ledger_item}>
+        <span>
+          Base Price ({sessions} {sessions === 1 ? "Session" : "Sessions"})
+        </span>
+        <span>{formatPrice(price)}</span>
+      </div>
+      {locationFee > 0 && (
+        <div className={styles.ledger_item}>
+          <span>
+            Travel Fee{" "}
+            {formData.location?.travel_price
+              ? `($${formatPrice(formData.location.travel_price, false)} per session)`
+              : ""}
+          </span>
+          <span>{formatPrice(locationFee)}</span>
         </div>
-        {locationFee > 0 && (
-          <div className={styles.price_ledger_row}>
-            <span>Travel Fee</span>
-            <span>${locationFee.toFixed(2)}</span>
-          </div>
-        )}
-        <div className={styles.price_ledger_row}>
-          <span>Tax</span>
-          <span>${tax.toFixed(2)}</span>
-        </div>
-        <div className={`${styles.price_ledger_row} ${styles.price_ledger_total}`}>
-          <span>Total</span>
-          <span>${total.toFixed(2)}</span>
-        </div>
-        <div className={styles.price_ledger_info}>
-          <p>Package expires in {selectedPackage.expiration}</p>
-          <p>{selectedPackage.sessions} sessions included</p>
-        </div>
+      )}
+      <div className={`${styles.ledger_item} ${styles.subtotal}`}>
+        <span>Subtotal</span>
+        <span>{formatPrice(subtotal)}</span>
+      </div>
+      <div className={styles.ledger_item}>
+        <span>Tax (7%)</span>
+        <span>{formatPrice(tax)}</span>
+      </div>
+      <div className={`${styles.ledger_item} ${styles.total}`}>
+        <span>Total</span>
+        <span>{formatPrice(total)}</span>
       </div>
     </div>
   );
@@ -63,10 +71,7 @@ const PriceLedger = ({ formData }) => {
 
 PriceLedger.propTypes = {
   formData: PropTypes.shape({
-    lesson_package: PropTypes.string.isRequired,
-    location: PropTypes.shape({
-      distance: PropTypes.number,
-    }),
+    lesson_package: PropTypes.string,
   }).isRequired,
 };
 

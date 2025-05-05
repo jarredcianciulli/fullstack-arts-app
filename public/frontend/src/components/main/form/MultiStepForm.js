@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { motion, AnimatePresence } from "framer-motion";
-import FormField from "./FormField";
-import PriceLedger from "./PriceLedger";
-
-import { formFields } from "../../data/form/formFields";
-import { formSteps } from "../../data/form/formSteps";
-import { serviceMetadata } from "../../data/form/serviceMetadata";
-import { formFieldOptions } from "../../data/form/formFieldOptions";
-import { formFieldConditionals } from "../../data/form/formFieldConditionals";
-import Close from "../../../assets/x.svg";
-import styles from "./Form.module.css";
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { motion, AnimatePresence } from 'framer-motion';
+import FormField from './FormField';
+import PriceLedger from './PriceLedger';
+import ConfirmationPage from './ConfirmationPage';
+import { formFields } from '../../data/form/formFields';
+import { formSteps } from '../../data/form/formSteps';
+import { serviceMetadata } from '../../data/form/serviceMetadata';
+import { formFieldOptions } from '../../data/form/formFieldOptions';
+import { formFieldConditionals } from '../../data/form/formFieldConditionals';
+import Close from '../../../assets/x.svg';
+import styles from './Form.module.css';
 
 const MultiStepForm = ({
   service,
@@ -41,16 +41,13 @@ const MultiStepForm = ({
 
   const getCurrentStepFields = () => {
     const currentStep = currentStepIndex + 1;
-    console.log("Current step:", currentStep);
     const currentStepData = formSteps.find((s) => s.step === currentStep);
-    console.log("Current step data:", currentStepData);
     if (!currentStepData) return [];
 
     // Get base fields for this step
     const stepFields = formFields.filter((field) =>
       currentStepData.fieldIds.includes(field.id)
     );
-    console.log("Step fields:", stepFields);
 
     // Get conditional fields if needed
     let conditionalFields = [];
@@ -71,20 +68,14 @@ const MultiStepForm = ({
 
     // Handle schedule conditionals
     if (formData.preferred_cadence && currentStep === 4) {
-      console.log(
-        "Checking schedule conditionals for:",
-        formData.preferred_cadence
-      );
       const selectedOption = formFieldOptions.find(
         (opt) => opt.value === formData.preferred_cadence
       );
-      console.log("Selected option:", selectedOption);
 
       if (selectedOption?.if_selected?.length > 0) {
         const fields = formFieldConditionals.filter((field) =>
           selectedOption.if_selected.includes(field.id)
         );
-        console.log("Conditional fields:", fields);
         conditionalFields.push(...fields);
       }
     }
@@ -335,6 +326,14 @@ const MultiStepForm = ({
 
           {/* Show price ledger after package selection */}
           {formData.lesson_package && <PriceLedger formData={formData} />}
+
+          {/* Show confirmation page on last step */}
+          {isLastStep && (
+            <ConfirmationPage
+              formData={formData}
+              onEditStep={(step) => setCurrentStepIndex(step - 1)}
+            />
+          )}
         </div>
       </div>
     </div>

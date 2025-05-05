@@ -83,6 +83,7 @@ const FormField = ({
       return isInOptions && valueMatches;
     });
 
+    // Update the selected value
     handleInputChange({
       target: {
         name,
@@ -90,13 +91,22 @@ const FormField = ({
         type: "select",
       },
     });
+
+    // If the option has sessions, update schedule_sessions
+    if (option?.sessions) {
+      handleInputChange({
+        target: {
+          name: "schedule_sessions",
+          value: option.sessions,
+          type: "number",
+        },
+      });
+    }
   };
 
   if (!isVisible()) {
-    console.log("Field not visible:", field);
     return null;
   }
-  console.log("Rendering field:", field);
 
   const fieldClassName = `${styles.form_field} ${className} ${
     validationErrors[field_key] ? styles.has_error : ""
@@ -163,7 +173,11 @@ const FormField = ({
                 })}
                 onClick={() =>
                   handleSelectChange({
-                    target: { name: field_key, value: option.value },
+                    target: {
+                      name: field_key,
+                      value: option.value,
+                      schedule_sessions: option.sessions,
+                    },
                   })
                 }
               >

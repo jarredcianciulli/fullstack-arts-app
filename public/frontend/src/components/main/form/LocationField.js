@@ -1,50 +1,112 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "./Form.module.css";
+import { calculateDistance } from "../../../utils/locationUtils";
+import axios from "axios";
 
-const LocationField = ({ field, formData, handleInputChange, validationErrors }) => {
-  const containerRef = useRef(null);
-  const [predictions, setPredictions] = useState([]);
-  const [showPredictions, setShowPredictions] = useState(false);
+const LocationField = ({
+  field,
+  formData,
+  handleInputChange,
+  validationErrors,
+}) => {
+  const { id, field_key, placeholder, required, location_limit } = field;
+  const [searchValue, setSearchValue] = useState(
+    formData[field_key]?.address || ""
+  );
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const { field_key, placeholder, required } = field;
+  const [selectedLocation, setSelectedLocation] = useState(
+    formData[field_key] || null
+  );
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setShowPredictions(false);
-        setSelectedIndex(-1);
-      }
-    };
+    if (searchValue.length > 2) {
+      const timeoutId = setTimeout(() => {
+        searchLocations(searchValue);
+      }, 500);
+      return () => clearTimeout(timeoutId);
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchValue]);
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  const searchLocations = async (query) => {
+    setLoading(true);
+    setError(null);
+    try {
+      // Get place predictions from our backend
+      const response = await axios.get(
+        "http://localhost:8081/api/location/autocomplete",
+        {
+          params: { query },
+        }
+      );
+
+      // For each prediction, get its details to get coordinates
+      const detailsPromises = response.data.map((prediction) =>
+        axios.get(
+          `http://localhost:8081/api/location/details/${prediction.place_id}`
+        )
+      );
+
+      console.log("detailsPromises", detailsPromises);
+      const detailsResponses = await Promise.all(detailsPromises);
+
+      const validSuggestions = detailsResponses.map(
+        (detailsResponse, index) => {
+          const prediction = response.data[index];
+          const details = detailsResponse.data;
+          const lat = details.geometry.location.lat;
+          const lng = details.geometry.location.lng;
+
+          return {
+            place_id: prediction.place_id,
+            place_name: details.formatted_address,
+            coordinates: [lng, lat],
+            distance: calculateDistance(
+              lat,
+              lng,
+              location_limit.coordinates[0],
+              location_limit.coordinates[1]
+            ),
+          };
+        }
+      );
+
+      setSuggestions(validSuggestions);
+    } catch (err) {
+      setError("Failed to fetch location suggestions");
+      console.error("Location search error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleKeyDown = (e) => {
-    if (!showPredictions) return;
+    if (!suggestions.length) return;
 
     switch (e.key) {
-      case 'ArrowDown':
+      case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex(prev => 
-          prev < predictions.length - 1 ? prev + 1 : prev
+        setSelectedIndex((prev) =>
+          prev < suggestions.length - 1 ? prev + 1 : prev
         );
         break;
-      case 'ArrowUp':
+      case "ArrowUp":
         e.preventDefault();
-        setSelectedIndex(prev => prev > 0 ? prev - 1 : 0);
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : 0));
         break;
-      case 'Enter':
+      case "Enter":
         e.preventDefault();
-        if (selectedIndex >= 0 && selectedIndex < predictions.length) {
-          handlePredictionSelect(predictions[selectedIndex]);
+        if (selectedIndex >= 0) {
+          handleLocationSelect(suggestions[selectedIndex]);
         }
         break;
-      case 'Escape':
-        setShowPredictions(false);
+      case "Escape":
+        setSuggestions([]);
         setSelectedIndex(-1);
         break;
       default:
@@ -52,121 +114,89 @@ const LocationField = ({ field, formData, handleInputChange, validationErrors })
     }
   };
 
-  const handleAddressChange = async (e) => {
-    const query = e.target.value;
+  const handleLocationSelect = (suggestion) => {
+    console.log("Selected location distance:", suggestion.distance);
+
+    let travel_price = 0;
+    if (suggestion.distance <= 5) {
+      travel_price = 15;
+    } else if (suggestion.distance <= 10) {
+      travel_price = 22;
+    } else if (suggestion.distance <= 20) {
+      travel_price = 30;
+    }
+    console.log("Calculated travel price:", travel_price);
+
+    const locationData = {
+      address: suggestion.place_name,
+      coordinates: suggestion.coordinates,
+      distance: suggestion.distance,
+      travel_price: travel_price,
+    };
+
+    console.log("Location data:", locationData);
+
+    setSearchValue(suggestion.place_name);
+    setSelectedLocation(locationData);
+    setSuggestions([]);
 
     handleInputChange({
       target: {
         name: field_key,
-        value: query,
-        type: "text",
+        value: locationData,
+        type: "location",
       },
     });
-
-    setSelectedIndex(-1);
-
-    if (query.length > 2) {
-      try {
-        const response = await fetch(
-          `http://localhost:8081/api/location/suggestions?query=${encodeURIComponent(
-            query
-          )}`,
-          {
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`API Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setPredictions(data.predictions || []);
-        setShowPredictions(true);
-      } catch (error) {
-        console.error("Error getting predictions:", error);
-        setPredictions([]);
-      }
-    } else {
-      setPredictions([]);
-      setShowPredictions(false);
-    }
-  };
-
-  const handlePredictionSelect = async (prediction) => {
-    try {
-      const response = await fetch("http://localhost:8081/api/location/geocode", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ placeId: prediction.place_id }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Geocoding failed");
-      }
-
-      const data = await response.json();
-      handleInputChange({
-        target: {
-          name: field_key,
-          value: prediction.description,
-          type: "location",
-          coordinates: data.coordinates,
-          distance: data.distance,
-        },
-      });
-
-      setPredictions([]);
-      setShowPredictions(false);
-      setSelectedIndex(-1);
-    } catch (error) {
-      console.error("Error geocoding address:", error);
-    }
   };
 
   return (
-    <div ref={containerRef} className={styles.location_field_container}>
-      <input
-        type="text"
-        name={field_key}
-        placeholder={placeholder}
-        value={formData[field_key] || ""}
-        onChange={handleAddressChange}
-        onKeyDown={handleKeyDown}
-        onFocus={() => {
-          if (predictions.length > 0) {
-            setShowPredictions(true);
-          }
-        }}
-        required={required}
-        className={styles.form_input}
-        autoComplete="off"
-      />
-      {showPredictions && predictions.length > 0 && (
-        <div className={styles.predictions_container}>
-          {predictions.map((prediction, index) => (
-            <div
-              key={prediction.place_id}
-              className={`${styles.prediction_item} ${index === selectedIndex ? styles.selected : ''}`}
-              onClick={() => handlePredictionSelect(prediction)}
-              onMouseEnter={() => setSelectedIndex(index)}
-            >
-              {prediction.description}
-            </div>
-          ))}
+    <div className={styles.location_field_wrapper}>
+      <div className={styles.location_field_container}>
+        <input
+          id={id}
+          type="text"
+          name={field_key}
+          placeholder={placeholder || "Enter your address"}
+          value={searchValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            setSelectedIndex(-1);
+          }}
+          onKeyDown={handleKeyDown}
+          required={required}
+          className={styles.form_input}
+          autoComplete="off"
+        />
+        {loading && (
+          <div className={styles.loading_indicator}>Searching...</div>
+        )}
+        {error && <div className={styles.error_message}>{error}</div>}
+        {suggestions.length > 0 && (
+          <ul className={styles.suggestions_list}>
+            {suggestions.map((suggestion, index) => (
+              <li
+                key={index}
+                onClick={() => handleLocationSelect(suggestion)}
+                className={`${styles.suggestion_item} ${
+                  index === selectedIndex ? styles.selected : ""
+                }`}
+              >
+                <span className={styles.suggestion_text}>
+                  {suggestion.place_name}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      {selectedLocation && (
+        <div className={styles.travel_price_container}>
+          <div className={styles.travel_price}>
+            {selectedLocation.travel_price > 0
+              ? `Travel Fee: $${selectedLocation.travel_price}`
+              : "No Travel Fee"}
+          </div>
         </div>
-      )}
-      {validationErrors[field_key] && (
-        <span className={styles.error_message}>
-          {validationErrors[field_key]}
-        </span>
       )}
     </div>
   );
@@ -174,6 +204,7 @@ const LocationField = ({ field, formData, handleInputChange, validationErrors })
 
 LocationField.propTypes = {
   field: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     field_key: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     required: PropTypes.bool,

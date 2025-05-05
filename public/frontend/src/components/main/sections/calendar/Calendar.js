@@ -1,8 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import AvailabilityDay from "./AvailabilityDay";
 import AvailabilityMonth from "./AvailabilityMonth";
-import React, { useState, useRef } from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useRef, useEffect } from "react";
 import ReactCalendar from "react-calendar";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
@@ -46,7 +45,7 @@ const Calendar = ({
   const [visibleDates, setVisibleDates] = useState([]);
   const calendarRef = useRef(null);
   const tileDisabled = ({ date, view }) => {
-    if (view !== 'month') return false;
+    if (view !== "month") return false;
 
     // Block past dates
     const today = new Date();
@@ -60,8 +59,8 @@ const Calendar = ({
     if (!org?.availability) return true;
 
     // Check if this day has any time slots
-    const dayName = moment(date).format('dddd');
-    return !org.availability.some(slot => slot.day === dayName);
+    const dayName = moment(date).format("dddd");
+    return !org.availability.some((slot) => slot.day === dayName);
   };
 
   const handleDateChange = (date) => {
@@ -117,6 +116,37 @@ const Calendar = ({
     duration: 0.3,
     ease: "easeInOut",
   };
+
+  useEffect(() => {
+    const scrollPosition = window.pageYOffset;
+    if (isOpen) {
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPosition}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.bottom = '0';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.bottom = '';
+      document.body.style.width = '';
+      window.scrollTo(0, scrollPosition);
+    }
+    return () => {
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.bottom = '';
+      document.body.style.width = '';
+      if (isOpen) {
+        window.scrollTo(0, scrollPosition);
+      }
+    };
+  }, [isOpen]);
   if (!isOpen) return null;
   if (isOpen) {
     {
@@ -165,7 +195,8 @@ const Calendar = ({
                   availability_organization={availability_organization}
                   onSelect={(time) => {
                     const day = moment(selectedDate).format("dddd");
-                    onSelect({ day, time });
+                    const date = moment(selectedDate).format("YYYY-MM-DD");
+                    onSelect({ day, time, date });
                     handleClose();
                   }}
                 />
@@ -178,10 +209,7 @@ const Calendar = ({
     }
   }
 
-  return ReactDOM.createPortal(
-    CalendarPopup,
-    document.getElementById('calendar-portal')
-  );
+  return <> {CalendarPopup} </>;
 };
 
 export default Calendar;
