@@ -44,6 +44,40 @@ const Calendar = ({
   });
   const [visibleDates, setVisibleDates] = useState([]);
   const calendarRef = useRef(null);
+
+  const [disabledDates, setDisabledDates] = useState(new Set());
+
+  useEffect(() => {
+    // Check availability for visible dates
+    const checkAvailability = async (dates) => {
+      try {
+        const promises = dates.map(async (date) => {
+          const formattedDate = moment(date).format('YYYY-MM-DD');
+          const response = await fetch(`http://localhost:8081/api/availability/check-date/${formattedDate}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const { busySlots } = await response.json();
+          return { date: formattedDate, isBusy: busySlots.length === 24 }; // If all slots are busy
+        });
+
+        const results = await Promise.all(promises);
+        const newDisabledDates = new Set(
+          results
+            .filter(result => result.isBusy)
+            .map(result => result.date)
+        );
+        setDisabledDates(newDisabledDates);
+      } catch (error) {
+        console.error('Error checking availability:', error);
+      }
+    };
+
+    if (visibleDates.length > 0) {
+      checkAvailability(visibleDates);
+    }
+  }, [visibleDates]);
+
   const tileDisabled = ({ date, view }) => {
     if (view !== "month") return false;
 
@@ -52,15 +86,20 @@ const Calendar = ({
     today.setHours(0, 0, 0, 0);
     if (date < today) return true;
 
-    // Get organization by ID (same as in AvailabilityDay)
-    const org = availability_organizationJSON.availability_organization.find(
-      (obj) => obj.id === availability_organization
-    );
-    if (!org?.availability) return true;
+    // Check if date is in disabled dates
+    const formattedDate = moment(date).format('YYYY-MM-DD');
+    if (disabledDates.has(formattedDate)) return true;
 
-    // Check if this day has any time slots
-    const dayName = moment(date).format("dddd");
-    return !org.availability.some((slot) => slot.day === dayName);
+    // Check if day has any availability in organization data
+    const dayName = moment(date).format('dddd');
+    const org = availability_organizationJSON.availability_organization.find(
+      (org) => org.id === availability_organization
+    );
+    
+    if (!org) return true;
+    
+    const dayAvailability = org.availability.find((slot) => slot.day === dayName);
+    return !dayAvailability; // disable if no availability found for this day
   };
 
   const handleDateChange = (date) => {
@@ -120,28 +159,28 @@ const Calendar = ({
   useEffect(() => {
     const scrollPosition = window.pageYOffset;
     if (isOpen) {
-      document.body.style.position = 'fixed';
+      document.body.style.position = "fixed";
       document.body.style.top = `-${scrollPosition}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.style.bottom = '0';
-      document.body.style.width = '100%';
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.bottom = "0";
+      document.body.style.width = "100%";
     } else {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.bottom = '';
-      document.body.style.width = '';
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.bottom = "";
+      document.body.style.width = "";
       window.scrollTo(0, scrollPosition);
     }
     return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      document.body.style.bottom = '';
-      document.body.style.width = '';
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.bottom = "";
+      document.body.style.width = "";
       if (isOpen) {
         window.scrollTo(0, scrollPosition);
       }

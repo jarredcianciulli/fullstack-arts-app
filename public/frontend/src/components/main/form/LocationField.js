@@ -171,28 +171,49 @@ const LocationField = ({
           <div className={styles.loading_indicator}>Searching...</div>
         )}
         {error && <div className={styles.error_message}>{error}</div>}
-        {suggestions.length > 0 && (
-          <ul className={styles.suggestions_list}>
-            {suggestions.map((suggestion, index) => (
-              <li
-                key={index}
-                onClick={() => handleLocationSelect(suggestion)}
-                className={`${styles.suggestion_item} ${
-                  index === selectedIndex ? styles.selected : ""
-                }`}
-              >
-                <span className={styles.suggestion_text}>
-                  {suggestion.place_name}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className={styles.suggestions_container}>
+          {suggestions.length > 0 &&
+            !(
+              suggestions.length === 1 &&
+              suggestions[0].place_name === searchValue
+            ) && (
+              <ul className={styles.suggestions_list}>
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleLocationSelect(suggestion)}
+                    className={`${styles.suggestion_item} ${
+                      index === selectedIndex ? styles.selected : ""
+                    }`}
+                  >
+                    <span className={styles.suggestion_text}>
+                      {suggestion.place_name}
+                    </span>
+                    <div className={styles.suggestion_distance}>
+                      {suggestion.distance > 20
+                        ? "Out of Range (>20 miles)"
+                        : `${
+                            suggestion.distance <= 5
+                              ? "$15"
+                              : suggestion.distance <= 10
+                              ? "$22"
+                              : suggestion.distance <= 20
+                              ? "$30"
+                              : "$0"
+                          } travel fee per session`}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+        </div>
       </div>
       {selectedLocation && (
         <div className={styles.travel_price_container}>
           <div className={styles.travel_price}>
-            {selectedLocation.travel_price > 0
+            {selectedLocation.distance > 20
+              ? "Location Out of Range (>20 miles)"
+              : selectedLocation.travel_price > 0
               ? `Travel Fee: $${selectedLocation.travel_price}`
               : "No Travel Fee"}
           </div>

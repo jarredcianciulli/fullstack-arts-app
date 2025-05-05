@@ -182,6 +182,16 @@
   position: relative;
 }
 
+.form_field label {
+  color: var(--color-tertiary-700);
+  letter-spacing: 1.3px;
+}
+
+.form_field input {
+  color: var(--color-tertiary-800);
+  letter-spacing: 1.3px;
+}
+
 .form_field.hidden {
   display: none;
 }
@@ -972,14 +982,16 @@
 }
 
 .schedule_option_card {
-  background: white;
-  border: 2px solid var(--border-color);
+  background: none;
+  color: var(--color-tertiary-900);
+  border: 2px solid var(--color-grey-light-2);
   border-radius: 8px;
   padding: 1rem;
   margin: 0.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
+  letter-spacing: 1.3px;
 }
 
 .schedule_option_card:hover {
@@ -988,27 +1000,7 @@
 }
 
 .schedule_option_card.selected {
-  border-color: var(--color-primary-900);
-  background-color: var(--color-primary-100);
-}
-.schedule_option_card {
-  background: white;
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1rem;
-  margin: 0.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.schedule_option_card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.schedule_option_card.selected {
-  border-color: var(--color-primary-900);
+  border-color: var(--color-primary-200);
   background-color: var(--color-primary-100);
 }
 
@@ -1023,13 +1015,6 @@
   font-size: 1rem;
   color: var(--text-primary);
   text-align: center;
-}
-
-.schedule_option_card.selected {
-  border-color: var(--color-primary-900);
-  background-color: var(--color-primary-100);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Select styles inspired by https://codepen.io/udyux/pen/KzJQea */
