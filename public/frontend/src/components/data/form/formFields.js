@@ -84,4 +84,19 @@ export const formFields = [
     section: "package",
     field_key: "lesson_package",
   },
+  {
+    id: 6,
+    type: "input",
+    input_type: "email",
+    label: "What's your email?",
+    placeholder: "Your email",
+    required: true,
+    validation: {
+      min_char: 3,
+      max_char: 120,
+    },
+    visibility: "always",
+    section: "general",
+    field_key: "email",
+  },
 ];

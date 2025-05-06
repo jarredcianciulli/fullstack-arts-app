@@ -28,27 +28,32 @@ const AvailabilityDay = ({
 
   useEffect(() => {
     const fetchAvailability = async () => {
-      const date = moment(selectedDate).format('YYYY-MM-DD');
-      console.log('Fetching availability for date:', date);
+      const date = moment(selectedDate).format("YYYY-MM-DD");
+      console.log("Fetching availability for date:", date);
       try {
-        console.log('Checking availability for date:', date);
-        const response = await fetch(`http://localhost:8081/api/availability/check-date/${date}`);
+        console.log("Checking availability for date:", date);
+        const response = await fetch(
+          `http://localhost:8081/api/availability/check-date/${date}`
+        );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Raw response data:', data);
-        
+        console.log("Raw response data:", data);
+
         // The backend already sends us formatted HH:mm times
         const { busySlots } = data;
-        console.log('Busy slots from backend:', busySlots);
-        
+        console.log("Busy slots from backend:", busySlots);
+
         if (!Array.isArray(busySlots)) {
-          console.error('Expected busySlots to be an array, got:', typeof busySlots);
+          console.error(
+            "Expected busySlots to be an array, got:",
+            typeof busySlots
+          );
           setBusyTimes([]);
           return;
         }
-        
+
         setBusyTimes(busySlots);
 
         // Get organization's availability for this day
@@ -56,19 +61,19 @@ const AvailabilityDay = ({
           availability_organizationJSON.availability_organization,
           availability_organization
         );
-        
+
         if (!org) {
-          console.error('Organization not found');
+          console.error("Organization not found");
           return;
         }
 
         const dayAvailability = getAvailabilityByDay(
           org,
-          moment(selectedDate).format('dddd')
+          moment(selectedDate).format("dddd")
         );
 
         // Generate time slots for each availability window
-        const allTimeSlots = dayAvailability.flatMap(window => {
+        const allTimeSlots = dayAvailability.flatMap((window) => {
           const increment = 45; // 45 minute sessions
           const step = 15; // 15 minute intervals
           return generateTimeSlots(window, increment, step);
@@ -76,7 +81,7 @@ const AvailabilityDay = ({
 
         setAvailableTimeSlots(allTimeSlots);
       } catch (error) {
-        console.error('Error fetching availability:', error);
+        console.error("Error fetching availability:", error);
         setAvailableTimeSlots([]);
       }
     };
@@ -88,34 +93,49 @@ const AvailabilityDay = ({
     return availableTimeSlots.map((slot) => {
       const startTime = timeFormatter(slot.start_hour, slot.start_minutes);
       const endTime = timeFormatter(slot.end_hour, slot.end_minutes);
-      const timeSlotId = `${moment(selectedDate).format('YYYY-MM-DD')}-${startTime}`;
+      const timeSlotId = `${moment(selectedDate).format(
+        "YYYY-MM-DD"
+      )}-${startTime}`;
       // Check if this time slot overlaps with any busy period
-      const isBooked = busyTimes.some(busySlot => {
-        console.log('Checking slot:', startTime, 'against busy slot:', busySlot);
-        
+      const isBooked = busyTimes.some((busySlot) => {
+        console.log(
+          "Checking slot:",
+          startTime,
+          "against busy slot:",
+          busySlot
+        );
+
         // Convert time strings to 24-hour format for comparison
-        const slotTime = moment(startTime, ['h:mma', 'H:mm']).format('HH:mm');
-        const [slotHours, slotMinutes] = slotTime.split(':').map(Number);
+        const slotTime = moment(startTime, ["h:mma", "H:mm"]).format("HH:mm");
+        const [slotHours, slotMinutes] = slotTime.split(":").map(Number);
         const slotMinutesTotal = slotHours * 60 + slotMinutes;
-        
+
         // Parse busy slot times (already in 24-hour format)
-        const [busyStartHours, busyStartMinutes] = busySlot.start.split(':').map(Number);
-        const [busyEndHours, busyEndMinutes] = busySlot.end.split(':').map(Number);
+        const [busyStartHours, busyStartMinutes] = busySlot.start
+          .split(":")
+          .map(Number);
+        const [busyEndHours, busyEndMinutes] = busySlot.end
+          .split(":")
+          .map(Number);
         const busyStartMinutesTotal = busyStartHours * 60 + busyStartMinutes;
         const busyEndMinutesTotal = busyEndHours * 60 + busyEndMinutes;
-        
-        console.log('Comparing times (in minutes):', {
+
+        console.log("Comparing times (in minutes):", {
           slotTime: slotTime,
           slotMinutes: slotMinutesTotal,
           busyStart: busyStartMinutesTotal,
-          busyEnd: busyEndMinutesTotal
+          busyEnd: busyEndMinutesTotal,
         });
 
         // Check if slot start time falls within busy period
-        const isWithinBusyPeriod = slotMinutesTotal >= busyStartMinutesTotal && slotMinutesTotal < busyEndMinutesTotal;
+        const isWithinBusyPeriod =
+          slotMinutesTotal >= busyStartMinutesTotal &&
+          slotMinutesTotal < busyEndMinutesTotal;
 
         if (isWithinBusyPeriod) {
-          console.log(`BUSY: ${startTime} falls within busy period ${busySlot.start}-${busySlot.end}`);
+          console.log(
+            `BUSY: ${startTime} falls within busy period ${busySlot.start}-${busySlot.end}`
+          );
         }
 
         return isWithinBusyPeriod;
@@ -124,9 +144,11 @@ const AvailabilityDay = ({
       return (
         <motion.div
           key={timeSlotId}
-          className={`${classes.availability__time} ${isBooked ? classes.booked : ''}`}
+          className={`${classes.availability__time} ${
+            isBooked ? classes.booked : ""
+          }`}
           onClick={() => !isBooked && onSelect(startTime)}
-          style={{ cursor: isBooked ? 'not-allowed' : 'pointer' }}
+          style={{ cursor: isBooked ? "not-allowed" : "pointer" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}

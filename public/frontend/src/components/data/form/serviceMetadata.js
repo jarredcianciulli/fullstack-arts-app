@@ -1,7 +1,7 @@
 export const serviceMetadata = [
   {
     serviceId: 1, // Private lessons - In your home
-    formSteps: [1, 2, 3, 4, 5], // General Info -> Location -> Schedule -> Confirmation
+    formSteps: [1, 2, 3, 4, 5, 6], // General Info -> Location -> Schedule -> Confirmation
   },
   {
     serviceId: 2, // Private lessons - At my home

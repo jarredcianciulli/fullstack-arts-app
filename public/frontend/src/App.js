@@ -10,6 +10,7 @@ import sRhodesSystemPage from "./components/pages/resources/rhodesSystem/sRhodes
 import ArpeggiosPage from "./components/pages/resources/arpeggios/Arpeggios";
 import DoubleStopsPage from "./components/pages/resources/DoubleStops";
 import ModesPage from "./components/pages/resources/Modes";
+import PaymentStatus from "./components/main/form/PaymentStatus";
 
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
         path: "/contact",
         index: true,
         element: <ContactPage />,
+      },
+      {
+        path: "/payment/complete",
+        element: <PaymentStatus />,
       },
     ],
   },

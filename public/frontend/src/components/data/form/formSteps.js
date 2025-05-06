@@ -2,7 +2,7 @@ export const formSteps = [
   {
     step: 1,
     title: "General Info",
-    fieldIds: [1, 2], // Include child name and age fields in step 1
+    fieldIds: [1, 6, 2], // Include child name and age fields in step 1
   },
   {
     step: 2,
@@ -23,5 +23,11 @@ export const formSteps = [
     step: 5,
     title: "Confirmation",
     fieldIds: [],
+  },
+  {
+    step: 6,
+    title: "Payment",
+    affirm: true,
+    fieldIds: [], // Add empty fieldIds for consistency
   },
 ];

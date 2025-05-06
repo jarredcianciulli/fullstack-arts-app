@@ -20,13 +20,20 @@ const ConfirmationPage = ({ formData, onEditStep }) => {
 
     switch (field.input_type || field.type) {
       case "card":
-        const option = formFieldOptions.find(opt => opt.id === parseInt(value));
+        const option = formFieldOptions.find(
+          (opt) => opt.id === parseInt(value)
+        );
         return option ? `${option.title} - $${option.price}` : String(value);
       case "location":
-        if (typeof value === 'object' && value.address) {
-          const fee = value.distance <= 5 ? 15 : 
-                     value.distance <= 10 ? 22 : 
-                     value.distance <= 20 ? 30 : 0;
+        if (typeof value === "object" && value.address) {
+          const fee =
+            value.distance <= 5
+              ? 15
+              : value.distance <= 10
+              ? 22
+              : value.distance <= 20
+              ? 30
+              : 0;
           return `${value.address} ($${fee} travel fee per session)`;
         }
         return String(value);
@@ -35,20 +42,22 @@ const ConfirmationPage = ({ formData, onEditStep }) => {
           return String(value);
         }
         if (Array.isArray(value)) {
-          return value.map(session => 
-            `${session.day} at ${session.time}`
-          ).join(", ");
+          return value
+            .map((session) => `${session.day} at ${session.time}`)
+            .join(", ");
         }
         try {
           const sessions = JSON.parse(value);
-          return sessions.map(session => 
-            `${session.day} at ${session.time}`
-          ).join(", ");
+          return sessions
+            .map((session) => `${session.day} at ${session.time}`)
+            .join(", ");
         } catch {
           return String(value);
         }
       default:
-        return typeof value === 'object' ? JSON.stringify(value) : String(value);
+        return typeof value === "object"
+          ? JSON.stringify(value)
+          : String(value);
     }
   };
 
@@ -72,7 +81,9 @@ const ConfirmationPage = ({ formData, onEditStep }) => {
       {Object.entries(fieldsBySection).map(([section, fields]) => (
         <div key={section} className={styles.confirmation_section}>
           <div className={styles.section_header}>
-            <h3>{section.charAt(0).toUpperCase() + section.slice(1)} Details</h3>
+            <h3>
+              {section.charAt(0).toUpperCase() + section.slice(1)} Details
+            </h3>
             <button
               className={styles.edit_button}
               onClick={() => onEditStep(getSectionStep(section))}
@@ -83,7 +94,10 @@ const ConfirmationPage = ({ formData, onEditStep }) => {
           <div className={styles.section_content}>
             {fields.map((field) => {
               // Skip fields that should be hidden based on conditions
-              if (field.visibility === "conditional" && !formData[field.field_key]) {
+              if (
+                field.visibility === "conditional" &&
+                !formData[field.field_key]
+              ) {
                 return null;
               }
 

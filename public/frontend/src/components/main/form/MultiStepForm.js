@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { motion, AnimatePresence } from 'framer-motion';
-import FormField from './FormField';
-import PriceLedger from './PriceLedger';
-import ConfirmationPage from './ConfirmationPage';
-import { formFields } from '../../data/form/formFields';
-import { formSteps } from '../../data/form/formSteps';
-import { serviceMetadata } from '../../data/form/serviceMetadata';
-import { formFieldOptions } from '../../data/form/formFieldOptions';
-import { formFieldConditionals } from '../../data/form/formFieldConditionals';
-import Close from '../../../assets/x.svg';
-import styles from './Form.module.css';
+import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import { motion, AnimatePresence } from "framer-motion";
+import FormField from "./FormField";
+import PriceLedger from "./PriceLedger";
+import ConfirmationPage from "./ConfirmationPage";
+import PaymentForm from "./PaymentForm";
+import { formFields } from "../../data/form/formFields";
+import { formSteps } from "../../data/form/formSteps";
+import { serviceMetadata } from "../../data/form/serviceMetadata";
+import { formFieldOptions } from "../../data/form/formFieldOptions";
+import { formFieldConditionals } from "../../data/form/formFieldConditionals";
+import Close from "../../../assets/x.svg";
+import styles from "./Form.module.css";
 
 const MultiStepForm = ({
   service,
@@ -21,6 +22,8 @@ const MultiStepForm = ({
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState({});
   const [validationErrors, setValidationErrors] = useState({});
+  const [finalTotal, setFinalTotal] = useState(null); // State for final total from PriceLedger
+  const formContainerRef = useRef(null);
 
   // Get form steps for this service
   const serviceConfig = serviceMetadata.find(
@@ -39,15 +42,25 @@ const MultiStepForm = ({
     }
   }, [isFormOpen]);
 
+  useEffect(() => {
+    // Scroll the form container itself to the top
+    if (formContainerRef.current) {
+      // Use scrollTop for direct element scrolling
+      setTimeout(() => {
+        formContainerRef.current.scrollTop = 0;
+      }, 0);
+    }
+  }, [currentStepIndex]); // Scroll to top whenever the step changes
+
   const getCurrentStepFields = () => {
     const currentStep = currentStepIndex + 1;
     const currentStepData = formSteps.find((s) => s.step === currentStep);
     if (!currentStepData) return [];
 
-    // Get base fields for this step
-    const stepFields = formFields.filter((field) =>
-      currentStepData.fieldIds.includes(field.id)
-    );
+    // Get base fields for this step *in the order specified by fieldIds*
+    const stepFields = currentStepData.fieldIds
+      .map((id) => formFields.find((field) => field.id === id))
+      .filter((field) => field !== undefined); // Filter out any undefined results if an ID doesn't match
 
     // Get conditional fields if needed
     let conditionalFields = [];
@@ -177,21 +190,66 @@ const MultiStepForm = ({
     }
   };
 
+  const handleTotalUpdate = (newTotal) => {
+    setFinalTotal(newTotal);
+  };
+
   const handleNext = () => {
-    if (validateStep()) {
-      if (currentStepIndex < availableSteps.length - 1) {
-        setCurrentStepIndex((prev) => prev + 1);
+    const isValid = validateStep();
+    if (isValid) {
+      const currentStepData = availableSteps[currentStepIndex]; // Get current step data
+
+      // --- Calculate and set totalAmount if navigating from Confirmation step ---
+      if (currentStepData?.title === "Confirmation") {
+        let updatedFormData = { ...formData }; // Create a copy to potentially modify
+
+        // Use the total from PriceLedger state
+        if (finalTotal !== null) {
+          updatedFormData = {
+            ...updatedFormData,
+            totalAmount: finalTotal, // Use the state value reported by PriceLedger
+          };
+          console.log("Using Final Total from PriceLedger state:", finalTotal);
+        } else {
+          console.error("Final total from PriceLedger state is null when proceeding to payment!");
+          // Handle error - perhaps prevent moving forward or show a message
+          // For now, we'll proceed but log the error.
+          // Consider setting a default or fallback if finalTotal is crucial and missing.
+          updatedFormData = {
+            ...updatedFormData,
+            totalAmount: 0, // Fallback or error indicator? Decide based on requirements.
+          };
+        }
+
+        setFormData(updatedFormData); // Update state with potentially modified data
+
+        // Proceed to the next step (assuming Payment step follows Confirmation)
+        if (currentStepIndex + 1 < availableSteps.length) {
+          setCurrentStepIndex(currentStepIndex + 1);
+        } else {
+          console.warn("Reached end of steps after Confirmation.");
+          // If Payment step is implicitly the next step even if not in availableSteps,
+          // you might still increment here, but ensure PaymentForm renders correctly.
+          setCurrentStepIndex(currentStepIndex + 1); // Attempt to move to next step index anyway
+        }
       } else {
-        // Handle form submission
-        console.log("Form submitted:", formData);
-        setIsFormOpen(false);
+        // --- Default behavior: Move to the next step if available ---
+        if (currentStepIndex + 1 < availableSteps.length) {
+          setCurrentStepIndex(currentStepIndex + 1);
+        } else {
+          console.log("Reached end of defined steps (not Confirmation).");
+          // Handle final submission logic if the form doesn't end with Payment
+        }
       }
+      // --- End of Calculation/Navigation Logic ---
+    } else {
+      console.log("Validation failed on current step.");
     }
   };
 
   const handleBack = () => {
     if (currentStepIndex > 0) {
-      setCurrentStepIndex((prev) => prev - 1);
+      setCurrentStepIndex(currentStepIndex - 1);
     }
   };
 
@@ -205,10 +263,12 @@ const MultiStepForm = ({
 
   const currentStepFields = getCurrentStepFields();
   const isLastStep = currentStepIndex === availableSteps.length - 1;
-  const currentStepData = availableSteps[currentStepIndex];
+  const currentStepData = availableSteps[currentStepIndex] || {};
+  const isConfirmationStep = currentStepData.title === "Confirmation";
+  const isPaymentStep = currentStepData.title === "Payment";
 
   return (
-    <div className={`${styles.formContainer} ${isFormOpen ? styles.open : ""}`}>
+    <div ref={formContainerRef} className={`${styles.formContainer} ${isFormOpen ? styles.open : ""}`}>
       <div className={`${styles.multi_step_form} ${className || ""}`}>
         <div className={styles.close_container}>
           <img
@@ -295,16 +355,42 @@ const MultiStepForm = ({
         </h3>
 
         <div className={styles.form_content}>
-          {currentStepFields.map((field) => (
-            <FormField
-              key={field.id}
-              field={field}
-              formData={formData}
-              handleInputChange={handleInputChange}
-              validationErrors={validationErrors}
-            />
-          ))}
+          {/* Render fields for all steps except confirmation and payment */}
+          {!isConfirmationStep &&
+            !isPaymentStep &&
+            currentStepFields.map((field) => (
+              <FormField
+                key={field.id}
+                field={field}
+                formData={formData}
+                handleInputChange={handleInputChange}
+                validationErrors={validationErrors}
+              />
+            ))}
 
+          {/* --- Special Step Rendering --- */}
+
+          {/* Render Confirmation Page Content FIRST */}
+          {isConfirmationStep && (
+            <ConfirmationPage
+              formData={formData}
+              onEditStep={(step) => setCurrentStepIndex(step - 1)}
+            />
+          )}
+
+          {/* Render Payment Form FIRST */}
+          {isPaymentStep && <PaymentForm formData={formData} />}
+
+          {/* Render Price Ledger on Confirmation AND Payment steps, AFTER the main content */}
+          {(isConfirmationStep || isPaymentStep) && formData.lesson_package && (
+            <PriceLedger
+              formData={formData}
+              onTotalCalculated={isConfirmationStep ? handleTotalUpdate : null}
+            />
+          )}
+
+          {/* --- Action Buttons --- */}
+          {/* Render Action buttons AFTER Confirmation/Payment content */}
           <div className={styles.form_actions}>
             {currentStepIndex > 0 && (
               <button
@@ -315,25 +401,20 @@ const MultiStepForm = ({
                 Back
               </button>
             )}
-            <button
-              type="button"
-              onClick={handleNext}
-              className={styles.btn_primary}
-            >
-              {isLastStep ? "Submit" : "Next"}
-            </button>
+            {!isPaymentStep && ( // Hide "Next" on Payment step, as payment is the final action
+              <button
+                type="button"
+                onClick={handleNext}
+                className={styles.btn_primary}
+              >
+                {isConfirmationStep
+                  ? "Continue to Payment"
+                  : isLastStep
+                  ? "Submit" // Or perhaps hide if confirmation is the last *real* step before payment
+                  : "Next"}
+              </button>
+            )}
           </div>
-
-          {/* Show price ledger after package selection */}
-          {formData.lesson_package && <PriceLedger formData={formData} />}
-
-          {/* Show confirmation page on last step */}
-          {isLastStep && (
-            <ConfirmationPage
-              formData={formData}
-              onEditStep={(step) => setCurrentStepIndex(step - 1)}
-            />
-          )}
         </div>
       </div>
     </div>

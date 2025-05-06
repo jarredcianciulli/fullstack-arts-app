@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "./Form.module.css";
 import { formFieldOptions } from "../../data/form/formFieldOptions";
@@ -8,7 +8,7 @@ const formatPrice = (price, includeSymbol = true) => {
   return includeSymbol ? `$${formatted}` : formatted;
 };
 
-const PriceLedger = ({ formData }) => {
+export const calculatePrice = (formData) => {
   // Find the selected package
   const selectedPackage = formFieldOptions.find(
     (opt) => opt.value === formData.lesson_package
@@ -16,7 +16,6 @@ const PriceLedger = ({ formData }) => {
 
   if (!selectedPackage) return null;
 
-  // Get base price and sessions
   const { price, sessions } = selectedPackage;
 
   // Calculate location fee if applicable
@@ -26,12 +25,27 @@ const PriceLedger = ({ formData }) => {
   };
 
   const locationFee = calculateTravelCost();
-
-  // Calculate subtotal and tax
   const subtotal = price + locationFee;
-  const taxRate = 0.07; // 7% tax rate
+  const taxRate = 0.07;
   const tax = subtotal * taxRate;
   const total = subtotal + tax;
+
+  return { price, sessions, locationFee, subtotal, taxRate, tax, total };
+};
+
+const PriceLedger = ({ formData, onTotalCalculated }) => {
+  const breakdown = calculatePrice(formData);
+  const total = breakdown ? breakdown.total : null;
+
+  useEffect(() => {
+    if (total !== null && typeof total === 'number' && onTotalCalculated) {
+      onTotalCalculated(total); // Pass the numeric total
+    }
+    // Dependency array includes total and the callback itself
+  }, [total, onTotalCalculated]);
+
+  if (!breakdown) return null; // Still render nothing if calculation fails
+  const { price, sessions, locationFee, subtotal, tax } = breakdown; // Destructure remaining needed values
 
   return (
     <div className={styles.price_ledger}>
@@ -72,7 +86,9 @@ const PriceLedger = ({ formData }) => {
 PriceLedger.propTypes = {
   formData: PropTypes.shape({
     lesson_package: PropTypes.string,
+    location: PropTypes.object
   }).isRequired,
+  onTotalCalculated: PropTypes.func,
 };
 
 export default PriceLedger;
