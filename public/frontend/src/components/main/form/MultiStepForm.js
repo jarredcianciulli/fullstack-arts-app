@@ -264,8 +264,9 @@ const MultiStepForm = ({
   const currentStepFields = getCurrentStepFields();
   const isLastStep = currentStepIndex === availableSteps.length - 1;
   const currentStepData = availableSteps[currentStepIndex] || {};
-  const isConfirmationStep = currentStepData.title === "Confirmation";
-  const isPaymentStep = currentStepData.title === "Payment";
+  const isPackageStep = currentStepData?.title === "Package";
+  const isConfirmationStep = currentStepData?.title === "Confirmation";
+  const isPaymentStep = currentStepData?.title === "Payment";
 
   return (
     <div ref={formContainerRef} className={`${styles.formContainer} ${isFormOpen ? styles.open : ""}`}>
@@ -382,7 +383,7 @@ const MultiStepForm = ({
           {isPaymentStep && <PaymentForm formData={formData} />}
 
           {/* Render Price Ledger on Confirmation AND Payment steps, AFTER the main content */}
-          {(isConfirmationStep || isPaymentStep) && formData.lesson_package && (
+          {(isPackageStep || isConfirmationStep || isPaymentStep) && formData.lesson_package && (
             <PriceLedger
               formData={formData}
               onTotalCalculated={isConfirmationStep ? handleTotalUpdate : null}

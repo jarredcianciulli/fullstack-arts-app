@@ -20,12 +20,25 @@ import DownloadPDF from "../../../pages/assets/download_pdf.svg";
 import PopupIcon from "../../../pages/assets/popup_icon.svg";
 import ServicesComponent from "./ServicesComponent";
 import Calendar from "../calendar/Calendar";
+import MultiStepForm from "../../form/MultiStepForm";
 
 //JSON
 import ServicesJSON from "../../../data/services.json";
 
 function Services(props) {
-  //   useEffect(() => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+
+  const handleOpenForm = (service) => {
+    setSelectedService(service);
+    setIsFormOpen(true);
+  };
+
+  const handleCloseForm = () => {
+    setIsFormOpen(false);
+    setSelectedService(null);
+  };
+
   const homeCardOptions = ServicesJSON.services.map((e, ind) => {
     if (props.id == e.section) {
       return (
@@ -36,7 +49,7 @@ function Services(props) {
             e={e}
             prop={props}
             ind={ind}
-            onServiceClick={props.onServiceClick}
+            onServiceClick={handleOpenForm}
           />
         </AnimatePresence>
       );
@@ -50,6 +63,12 @@ function Services(props) {
           {homeCardOptions}
         </div>
       </div>
+      {isFormOpen && selectedService && (
+        <MultiStepForm
+          service={selectedService}
+          onClose={handleCloseForm}
+        />
+      )}
     </div>
   );
 }

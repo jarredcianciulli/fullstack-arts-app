@@ -590,22 +590,19 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                       : "$" + e.price + "/session"}
                   </motion.div>
                   <motion.div onClick={(d) => falseClick(d)}>
-                    <PopupButton
+                    <div
                       className={`${
                         classes.subscriptionsPricingCardFooterButton
                       } ${
                         cardFlipState[ind].flipCard &&
                         classes.subscriptionsPricingCardFooterButtonDisabled
                       }`}
-                      url={e.calendly_url}
-                      /*
-                       * react-calendly uses React's Portal feature (https://reactjs.org/docs/portals.html) to render the popup modal. As a result, you'll need to
-                       * specify the rootElement property to ensure that the modal is inserted into the correct domNode.
-                       */
-                      rootElement={document.getElementById("root")}
-                      text={e.cta_button_name}
-                    />
+                      onClick={() => handleRegistrationClick(e)}
+                    >
+                      {e.cta_button_name}
+                    </div>
                   </motion.div>
+
                   {/* <motion.button
                     className={`${
                       classes.subscriptionsPricingCardFooterButton
