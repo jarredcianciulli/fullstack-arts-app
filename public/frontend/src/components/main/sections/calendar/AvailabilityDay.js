@@ -7,6 +7,7 @@ import {
   generateTimeSlots,
   timeFormatter,
 } from "../../../utils/handlerFactory";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const AvailabilityDay = ({
   selectedDate,
@@ -33,7 +34,7 @@ const AvailabilityDay = ({
       try {
         console.log("Checking availability for date:", date);
         const response = await fetch(
-          `http://localhost:8081/api/availability/check-date/${date}`
+          `${API_BASE_URL}/api/availability/check-date/${date}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -8,6 +8,7 @@ import "react-calendar/dist/Calendar.css";
 import classes from "./Calendar.module.css";
 import "./Calendar.css";
 import availability_organizationJSON from "../../../data/schedule/availability_organization.json";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Calendar = ({
   isOpen,
@@ -52,8 +53,10 @@ const Calendar = ({
     const checkAvailability = async (dates) => {
       try {
         const promises = dates.map(async (date) => {
-          const formattedDate = moment(date).format('YYYY-MM-DD');
-          const response = await fetch(`http://localhost:8081/api/availability/check-date/${formattedDate}`);
+          const formattedDate = moment(date).format("YYYY-MM-DD");
+          const response = await fetch(
+            `${API_BASE_URL}/api/availability/check-date/${formattedDate}`
+          );
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
@@ -63,13 +66,11 @@ const Calendar = ({
 
         const results = await Promise.all(promises);
         const newDisabledDates = new Set(
-          results
-            .filter(result => result.isBusy)
-            .map(result => result.date)
+          results.filter((result) => result.isBusy).map((result) => result.date)
         );
         setDisabledDates(newDisabledDates);
       } catch (error) {
-        console.error('Error checking availability:', error);
+        console.error("Error checking availability:", error);
       }
     };
 
@@ -87,18 +88,20 @@ const Calendar = ({
     if (date < today) return true;
 
     // Check if date is in disabled dates
-    const formattedDate = moment(date).format('YYYY-MM-DD');
+    const formattedDate = moment(date).format("YYYY-MM-DD");
     if (disabledDates.has(formattedDate)) return true;
 
     // Check if day has any availability in organization data
-    const dayName = moment(date).format('dddd');
+    const dayName = moment(date).format("dddd");
     const org = availability_organizationJSON.availability_organization.find(
       (org) => org.id === availability_organization
     );
-    
+
     if (!org) return true;
-    
-    const dayAvailability = org.availability.find((slot) => slot.day === dayName);
+
+    const dayAvailability = org.availability.find(
+      (slot) => slot.day === dayName
+    );
     return !dayAvailability; // disable if no availability found for this day
   };
 
