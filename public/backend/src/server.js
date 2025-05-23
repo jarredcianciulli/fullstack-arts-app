@@ -41,13 +41,18 @@ app.use("/api/location", locationRoutes);
 app.use("/api/availability", availabilityRoutes);
 app.use("/api/config", configRoutes); // Use config routes
 
+const DB = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
+
 // MongoDB connection
 mongoose
-  .connect(process.env.DATABASE_URL || "mongodb://localhost:27017/soundworks", {
+  .connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("Connected to MongoDB Atlas"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Error handling middleware
