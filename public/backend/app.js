@@ -8,6 +8,7 @@ const app = express();
 
 const allowedOrigins = [
   "https://www.intonobyjarred.com",
+  "http://www.intonobyjarred.com.s3-website-us-east-1.amazonaws.com",
   "http://localhost:3000",
 ];
 

@@ -9,7 +9,10 @@ const app = express();
 // Dynamic CORS configuration
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["https://www.intonobyjarred.com"] // Replace with your production frontend domain
+    ? [
+        "https://www.intonobyjarred.com",
+        "http://www.intonobyjarred.com.s3-website-us-east-1.amazonaws.com",
+      ] // Replace with your production frontend domain
     : ["http://localhost:3000", "http://localhost:3001"]; // Development origins
 
 app.use(
