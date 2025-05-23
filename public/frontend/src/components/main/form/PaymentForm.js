@@ -13,9 +13,10 @@ const PaymentForm = ({ formData }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch Stripe public key on component mount
   useEffect(() => {
     setLoading(true);
-    fetch("/api/config/stripe")
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/api/payment/stripe-key`)
       .then(async (res) => {
         if (!res.ok) {
           const text = await res
@@ -41,7 +42,7 @@ const PaymentForm = ({ formData }) => {
       });
   }, []);
 
-  // --- Calculate price and payment methods (outside effects) ---
+  // Calculate price and prepare payment methods
   const calculatedPrice = calculatePrice(formData);
   const amountInCents =
     calculatedPrice?.total != null
@@ -50,43 +51,34 @@ const PaymentForm = ({ formData }) => {
 
   const paymentStepConfig = formSteps.find((step) => step.title === "Payment");
   const currentPaymentMethodTypes = ["card"];
-  //   if (paymentStepConfig?.affirm) {
-  //     currentPaymentMethodTypes.push("affirm");
-  //   }
 
   useEffect(() => {
-    // Guard: Only run if Stripe is loaded
     if (!stripePromise || amountInCents <= 0) {
-      // If stripe isn't ready or amount is invalid, clear secret and stop loading/error states
       setClientSecret("");
       setError(amountInCents <= 0 ? "Invalid amount for payment." : null);
       setLoading(false);
       return;
     }
 
-    // --> Explicitly clear the secret to force unmount before fetching new one
     setClientSecret("");
-    // Reset states for this fetch operation
     setLoading(true);
     setError(null);
 
-    // Prepare the data payload for the backend
-    // The backend now expects an object like { formData: { ...details... } }
     const dataToSend = { formData };
 
-    // --> ADDED: Log the data being sent for debugging
     console.log(
       "Sending data to /api/payment/create-checkout-session:",
       JSON.stringify(dataToSend, null, 2)
     );
 
-    // Fetch the checkout session
-    fetch("/api/payment/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      // --> MODIFIED: Send the correctly structured data
-      body: JSON.stringify(dataToSend),
-    })
+    fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/api/payment/create-checkout-session`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataToSend),
+      }
+    )
       .then(async (res) => {
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
@@ -99,9 +91,7 @@ const PaymentForm = ({ formData }) => {
         return res.json();
       })
       .then((data) => {
-        // --- ADDED DEBUG LOG --- >
         console.log("Received data from /create-checkout-session:", data);
-        // <--- END DEBUG LOG ---
         if (data.clientSecret) {
           setClientSecret(data.clientSecret);
         } else {
