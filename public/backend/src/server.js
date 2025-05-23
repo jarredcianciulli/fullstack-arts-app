@@ -6,10 +6,20 @@ const cors = require("cors");
 
 const app = express();
 
-// CORS configuration
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://www.intonobyjarred.com"] // Replace with your production domain
+    : ["http://localhost:3000", "http://localhost:3001"]; // Development origins
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
@@ -22,14 +32,14 @@ const registrationRoutes = require("./routes/registration");
 const paymentRoutes = require("./routes/payment");
 const locationRoutes = require("./routes/location");
 const availabilityRoutes = require("./routes/availability");
-const configRoutes = require('./routes/config'); // Import config routes
+const configRoutes = require("./routes/config"); // Import config routes
 
 // Use routes
 app.use("/api/registration", registrationRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/location", locationRoutes);
 app.use("/api/availability", availabilityRoutes);
-app.use('/api/config', configRoutes); // Use config routes
+app.use("/api/config", configRoutes); // Use config routes
 
 // MongoDB connection
 mongoose
