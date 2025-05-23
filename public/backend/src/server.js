@@ -6,9 +6,10 @@ const cors = require("cors");
 
 const app = express();
 
+// Dynamic CORS configuration
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["https://www.intonobyjarred.com"] // Replace with your production domain
+    ? ["https://www.intonobyjarred.com"] // Replace with your production frontend domain
     : ["http://localhost:3000", "http://localhost:3001"]; // Development origins
 
 app.use(
@@ -41,12 +42,12 @@ app.use("/api/location", locationRoutes);
 app.use("/api/availability", availabilityRoutes);
 app.use("/api/config", configRoutes); // Use config routes
 
+// MongoDB connection
 const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
 
-// MongoDB connection
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -58,9 +59,15 @@ mongoose
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: "Something went wrong!" });
+  res.status(500).json({
+    message:
+      process.env.NODE_ENV === "production"
+        ? "Internal Server Error"
+        : err.message,
+  });
 });
 
+// Start the server
 const PORT = process.env.PORT || 8081;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
