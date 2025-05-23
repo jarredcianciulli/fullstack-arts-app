@@ -34,6 +34,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/api/cors-test", (req, res) => {
+  res.json({ message: "CORS is working!" });
+});
+
 // Webhook route (handles raw body parsing internally)
 app.use("/api/webhook", require("./src/routes/webhook"));
 app.use(express.json());
