@@ -29,13 +29,7 @@ export const formSteps = [
     title: "Confirmation",
     fieldIds: [],
   },
-  {
-    id: 6,
-    step: 6,
-    title: "Payment",
-    affirm: true,
-    fieldIds: [], // Add empty fieldIds for consistency
-  },
+
   {
     id: 7,
     step: 3,

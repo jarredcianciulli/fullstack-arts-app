@@ -20,8 +20,19 @@ const ScheduleField = ({
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedSessions, setSelectedSessions] = useState(() => {
     try {
-      return formData[field_key] ? JSON.parse(formData[field_key]) : [];
+      // Handle the case when schedule_selection is already an array (from URL params)
+      if (Array.isArray(formData[field_key])) {
+        console.log('[ScheduleField] Using array data directly:', formData[field_key]);
+        return formData[field_key];
+      }
+      // Handle case when it's a JSON string
+      else if (formData[field_key]) {
+        console.log('[ScheduleField] Parsing JSON string:', formData[field_key]);
+        return JSON.parse(formData[field_key]);
+      }
+      return [];
     } catch (e) {
+      console.error('[ScheduleField] Error parsing schedule data:', e);
       return [];
     }
   });

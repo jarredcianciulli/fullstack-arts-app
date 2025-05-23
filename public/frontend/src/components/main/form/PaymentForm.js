@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-  EmbeddedCheckoutProvider,
-  EmbeddedCheckout,
-} from "@stripe/react-stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 import { calculatePrice } from "./PriceLedger";
 import { formSteps } from "../../data/form/formSteps";
 
 const PaymentForm = ({ formData }) => {
-  const [stripePromise, setStripePromise] = useState(null); // Initialize stripePromise
-  const [clientSecret, setClientSecret] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isReadyForEmbeddedCheckout, setIsReadyForEmbeddedCheckout] = useState(false);
+  const [stripePromise, setStripePromise] = useState(null);
+  const [bookingId, setBookingId] = useState(null); 
+  const [paymentError, setPaymentError] = useState(null); 
+  const [isLoading, setIsLoading] = useState(true); // Set to true initially
 
   // Fetch Stripe public key on component mount
   useEffect(() => {
-    setLoading(true);
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_API_BASE_URL}/api/payment/stripe-key`)
       .then(async (res) => {
         if (!res.ok) {
@@ -33,20 +28,27 @@ const PaymentForm = ({ formData }) => {
         console.log("[PaymentForm] Received from /api/payment/stripe-key:", data);
         if (data.publishableKey) {
           console.log("[PaymentForm] Using publishableKey for loadStripe:", data.publishableKey);
-          const loadedStripePromise = loadStripe(data.publishableKey);
-          console.log("[PaymentForm] loadStripe called. Promise object:", loadedStripePromise);
-          loadedStripePromise.then(stripeInstance => {
-            console.log("[PaymentForm] Stripe.js instance loaded:", stripeInstance);
+          const stripeInstance = loadStripe(data.publishableKey);
+          console.log("[PaymentForm] loadStripe called. Promise object:", stripeInstance);
+          stripeInstance.then(stripeObj => {
+            console.log("[PaymentForm] Stripe.js instance loaded:", stripeObj);
+            setIsLoading(false); // Stripe loaded, ready for form submission
+          }).catch(error => {
+            console.error("[PaymentForm] Error loading Stripe.js:", error);
+            setPaymentError('Failed to load payment library. Please try again.');
+            setIsLoading(false);
           });
-          setStripePromise(loadedStripePromise);
+          setStripePromise(stripeInstance);
         } else {
-          throw new Error("Stripe publishableKey not received");
+          console.error("[PaymentForm] Publishable key not found in response:", data);
+          setPaymentError('Failed to initialize payment system. Configuration error.');
+          setIsLoading(false);
         }
       })
       .catch((err) => {
         console.error("Stripe config error:", err);
-        setError(`Payment setup failed (config): ${err.message}`);
-        setLoading(false);
+        setPaymentError(`Payment setup failed (config): ${err.message}`);
+        setIsLoading(false);
       });
   }, []);
 
@@ -60,148 +62,118 @@ const PaymentForm = ({ formData }) => {
   const paymentStepConfig = formSteps.find((step) => step.title === "Payment");
   const currentPaymentMethodTypes = ["card"];
 
-  // Effect to fetch client secret for Embedded Checkout
-  useEffect(() => {
-    if (!stripePromise || amountInCents <= 0) {
-      if (amountInCents <= 0 && calculatedPrice?.total !== null) { // Only set error if amount is truly invalid, not just initially 0
-        setError("Invalid amount for payment. Amount must be greater than 0.");
-      }
-      setLoading(false);
+  // Function to handle payment submission
+  const handlePaymentSubmit = async () => {
+    if (!stripePromise || !formData || !calculatedPrice?.total || isLoading) {
+      console.log('[PaymentForm] Payment submission skipped due to missing dependencies or loading state.');
+      setPaymentError('Please ensure all form details are complete and try again.');
+      return;
+    }
+    if (Object.keys(formData).length === 0) {
+      console.log('[PaymentForm] Skipping payment: formData is empty.');
+      setPaymentError('Form data is incomplete.');
       return;
     }
 
-    setLoading(true);
-    setError(null); // Clear previous errors
-    setClientSecret(''); // Clear previous client secret
+    setIsLoading(true);
+    setPaymentError(null);
+    console.log('[PaymentForm] Initiating payment process. Sending data to /api/payment/create-checkout-session:', { formData });
 
-    // Prepare data to send to backend. Ensure all required fields are present.
-    // The backend /create-payment-intent expects 'formData' which includes 'totalAmount'
-    // and other booking details.
-    const dataToSend = {
-      formData: {
-        ...formData,
-        totalAmount: calculatedPrice?.total, // Ensure totalAmount is what's calculated
-        currency: "usd", // Or get from formData if available
-      },
-    };
-
-    console.log(
-      "[PaymentForm] Sending data to /api/payment/create-payment-intent:",
-      JSON.stringify(dataToSend, null, 2)
-    );
-
-    console.log("[PaymentForm] Initiating fetch for client secret.");
-    fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/api/payment/create-payment-intent`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSend),
-      }
-    )
-      .then(async (res) => {
-        console.log("[PaymentForm] Response status from /create-payment-intent:", res.status);
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({})); // Attempt to parse error JSON
-          console.error("[PaymentForm] Error response body from backend:", errData);
-          throw new Error(
-            errData?.error || // Use error message from backend if available
-              errData?.message ||
-              `Failed to create Payment Intent: ${res.status} ${res.statusText}`
-          );
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("[PaymentForm] Received data object from /create-payment-intent:", data); // CRITICAL LOG
-        if (data && data.clientSecret && typeof data.clientSecret === 'string' && data.clientSecret.trim() !== '') {
-          console.log("[PaymentForm] Valid clientSecret received:", data.clientSecret);
-          setClientSecret(data.clientSecret);
-          // Optionally, store bookingId if needed for UI updates post-payment on client-side
-          // e.g., setBookingId(data.bookingId);
-
-          // --- DEBUG: Attempt to retrieve PaymentIntent directly ---
-          if (stripePromise && data.clientSecret) {
-            stripePromise.then(stripe => {
-              if (stripe) { // Ensure stripe instance is available
-                console.log('[PaymentForm] Attempting to retrieve PI with clientSecret:', data.clientSecret);
-                stripe.retrievePaymentIntent(data.clientSecret).then(result => {
-                  if (result.error) {
-                    console.error('[PaymentForm] Error retrieving PI with clientSecret:', result.error.message);
-                    setError(`Debug - Failed to validate client secret with Stripe: ${result.error.message}`);
-                  } else {
-                    console.log('[PaymentForm] Successfully retrieved PI with clientSecret (debug):', result.paymentIntent);
-                    // If this works, the clientSecret is valid for basic operations.
-                    setIsReadyForEmbeddedCheckout(true); // Enable rendering for EmbeddedCheckoutProvider
-                  }
-                });
-              } else {
-                console.error('[PaymentForm] Stripe instance not available for retrievePaymentIntent (debug)');
-              }
-            }).catch(err => {
-              console.error('[PaymentForm] Error in stripePromise chain for retrievePaymentIntent (debug):', err);
-            });
-          }
-          // --- END DEBUG ---
-        } else {
-          console.error(
-            "[PaymentForm] Invalid or missing clientSecret in response from backend. Data received:",
-            data
-          );
-          setError(
-            "Payment setup failed: Client secret not received or invalid from server."
-          );
-          // Explicitly set clientSecret to empty string if it's bad to prevent Stripe.js error with invalid secret
-          setClientSecret(''); 
-        }
-      })
-      .catch((err) => {
-        console.error("[PaymentForm] Error during fetch or processing of client secret:", err);
-        setError(`Payment setup failed: ${err.message}`);
-        setClientSecret(''); // Ensure clientSecret is cleared on error
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      const response = await fetch('/api/payment/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ formData }),
       });
-  }, [stripePromise, amountInCents, formData, calculatedPrice?.total]);
+
+      console.log('[PaymentForm] Response status from /create-checkout-session:', response.status);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('[PaymentForm] Error creating checkout session:', errorData);
+        setPaymentError(errorData.error || `Server error: ${response.status}`);
+        setIsLoading(false);
+        return;
+      }
+
+      const sessionData = await response.json();
+      console.log('[PaymentForm] Received session data from /create-checkout-session:', sessionData);
+
+      if (sessionData.sessionId && sessionData.bookingId) {
+        setBookingId(sessionData.bookingId); // Store bookingId if needed later, though success page will also get it
+        const stripe = await stripePromise;
+        if (stripe) {
+          const { error } = await stripe.redirectToCheckout({ sessionId: sessionData.sessionId });
+          if (error) {
+            console.error('[PaymentForm] Error redirecting to Stripe Checkout:', error);
+            setPaymentError(error.message || 'Failed to redirect to payment page.');
+            setIsLoading(false);
+          }
+          // If redirectToCheckout is successful, the user is redirected, so no further action here.
+        } else {
+          console.error('[PaymentForm] Stripe.js not loaded, cannot redirect.');
+          setPaymentError('Payment system not ready. Please refresh and try again.');
+          setIsLoading(false);
+        }
+      } else {
+        console.error('[PaymentForm] Invalid session data received (missing sessionId or bookingId):', sessionData);
+        setPaymentError('Failed to get payment session details from server.');
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error('[PaymentForm] Network or other error during payment process:', error);
+      setPaymentError('Network error or server unavailable. Please try again.');
+      setIsLoading(false);
+    }
+    // No need to setIsLoading(false) here if redirect is successful, as the component will unmount.
+  };
 
   useEffect(() => {
-    console.log("[PaymentForm] clientSecret state updated:", clientSecret);
-  }, [clientSecret]);
+    console.log('[PaymentForm] bookingId state updated:', bookingId);
+  }, [bookingId]);
 
-  // Show loading state if actively fetching/initializing or if stripePromise isn't loaded yet
-  if (!stripePromise || (loading && !clientSecret && !error)) {
-    return <div>Loading Payment Options...</div>;
+  if (!stripePromise || isLoading) {
+    let statusMessage = 'Loading payment configuration...';
+    if (stripePromise && isLoading && !paymentError) statusMessage = 'Preparing payment options...';
+    if (paymentError) statusMessage = ''; // Error message will be shown by paymentError display
+    return (
+      <div>
+        {statusMessage && <p>{statusMessage}</p>}
+        {paymentError && <p style={{ color: 'red' }}>Error: {paymentError}</p>}
+      </div>
+    );
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // Ensure clientSecret is a non-empty string AND we are ready for embedded checkout
-  if (!isReadyForEmbeddedCheckout || !stripePromise || typeof clientSecret !== 'string' || clientSecret.trim() === '') {
-    console.log("[PaymentForm] Rendering 'Initializing Payment Interface...' because: stripePromise exists=", !!stripePromise, "clientSecret value=", clientSecret);
-
-    return <div>Initializing Payment Interface...</div>;
-  }
-
-  // Options should only be defined if clientSecret is valid and present
-  // Options should only be defined if clientSecret is valid and present (already ensured by isReadyForEmbeddedCheckout)
-  const options = { clientSecret };
-
-  console.log("[PaymentForm] Rendering EmbeddedCheckoutProvider with clientSecret:", clientSecret, "and options:", options);
   return (
-    <div id="checkout">
-      {isReadyForEmbeddedCheckout && stripePromise && options ? (
-        <EmbeddedCheckoutProvider
-          key={clientSecret} // Forces re-mount on clientSecret change
-          stripe={stripePromise}
-          options={options} // options now strictly conditional
-        >
-          <EmbeddedCheckout />
-        </EmbeddedCheckoutProvider>
-      ) : (
-        <div>Preparing payment provider... Stripe: {stripePromise ? 'Loaded' : 'Not Loaded'}, Options: {options ? 'Set' : 'Not Set'}</div>
+    <div id="payment-form-container">
+      <h3>Complete Your Booking</h3>
+      {paymentError && <p style={{ color: 'red' }}>Error: {paymentError}</p>}
+      {isLoading && <p>Processing your request...</p>}
+      
+      {/* 
+        IMPORTANT: You need a button or some other trigger to call handlePaymentSubmit().
+        For example:
+        <button onClick={handlePaymentSubmit} disabled={isLoading || !stripePromise}>
+          {isLoading ? 'Processing...' : 'Proceed to Payment'}
+        </button>
+      */}
+      
+      {!isLoading && !paymentError && (
+        <p>
+          Please click the button below to proceed to our secure payment page.
+          {/* This is a placeholder. Replace with your actual payment button. */}
+          <button 
+            onClick={handlePaymentSubmit} 
+            disabled={isLoading || !stripePromise || !formData || Object.keys(formData).length === 0 || !calculatedPrice?.total}
+            style={{ marginTop: '20px', padding: '10px 20px', fontSize: '16px' }}
+          >
+            {isLoading ? 'Processing...' : 'Proceed to Secure Payment'}
+          </button>
+        </p>
+      )}
+      {(!formData || Object.keys(formData).length === 0 || !calculatedPrice?.total) && !isLoading && !paymentError && (
+        <p style={{color: 'orange'}}>Please ensure all booking details are finalized before proceeding to payment.</p>
       )}
     </div>
   );

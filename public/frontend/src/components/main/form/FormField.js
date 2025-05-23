@@ -13,6 +13,7 @@ const FormField = ({
   field,
   formData,
   handleInputChange,
+  onBlur,
   validationErrors,
   className = "",
 }) => {
@@ -127,6 +128,7 @@ const FormField = ({
             field={field}
             formData={formData}
             handleInputChange={handleInputChange}
+            onBlur={onBlur}
             validationErrors={validationErrors}
           />
         ) : (
@@ -137,6 +139,7 @@ const FormField = ({
             placeholder={placeholder}
             value={formData[field_key] || ""}
             onChange={handleInputChange}
+            onBlur={onBlur}
             required={required}
             className={styles.form_input}
           />
@@ -147,6 +150,7 @@ const FormField = ({
           field={field}
           formData={formData}
           handleInputChange={handleInputChange}
+          onBlur={onBlur}
           validationErrors={validationErrors}
         />
       )}
@@ -199,6 +203,7 @@ const FormField = ({
           placeholder={placeholder}
           value={formData[field_key] || ""}
           onChange={handleInputChange}
+          onBlur={onBlur}
           required={required}
           className={styles.form_textarea}
         />
@@ -212,6 +217,7 @@ const FormField = ({
             name={field_key}
             checked={formData[field_key] || false}
             onChange={handleInputChange}
+            onBlur={onBlur}
             required={required}
             className={styles.form_checkbox}
           />
@@ -247,6 +253,7 @@ FormField.propTypes = {
   }).isRequired,
   formData: PropTypes.object.isRequired,
   handleInputChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
   validationErrors: PropTypes.object.isRequired,
   className: PropTypes.string,
 };

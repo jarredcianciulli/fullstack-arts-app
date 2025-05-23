@@ -14,7 +14,9 @@ const secretKeyInUse = process.env.NODE_ENV === "production"
 
 console.log(`[PaymentRoute] Initializing Stripe with NODE_ENV: ${process.env.NODE_ENV}. Using secret key: ${secretKeyInUse ? secretKeyInUse.substring(0, 8) + '...' + secretKeyInUse.substring(secretKeyInUse.length - 4) : 'NOT FOUND'}`);
 
-const stripe = require("stripe")(secretKeyInUse);
+const stripe = require("stripe")(secretKeyInUse, {
+  apiVersion: "2024-04-10", // Testing latest stable API version for Embedded Checkout compatibility
+});
 
 // Helper function to parse time string (e.g., "7:00pm") to HH:mm format
 const parseTime = (timeStr) => {
@@ -56,7 +58,8 @@ const calculateEndTime = (startTime) => {
 // POST /api/payment/create-checkout-session
 router.post("/create-checkout-session", async (req, res) => {
   try {
-    const { formData } = req.body;
+    const { formData, cancel_url } = req.body;
+    console.log("Received custom cancel_url:", cancel_url);
     console.log(
       "Received formData on backend:",
       JSON.stringify(formData, null, 2)
@@ -118,68 +121,86 @@ router.post("/create-checkout-session", async (req, res) => {
       });
     }
 
+    // Extract necessary data from formData and define variables
+    const student_name = formData.student_name;
+    const email = formData.email;
+    const packageName = typeof formData.package === 'object' && formData.package.name ? formData.package.name : (typeof formData.package === 'string' ? formData.package : "Unnamed Package");
+    const schedule_sessions = formData.schedule_sessions;
+    const totalAmount = formData.totalAmount; // This should be a number
+    const currency = formData.currency || "usd"; // Default to USD if not provided
+    const totalAmountCents = Math.round(parseFloat(totalAmount) * 100); // Ensure totalAmount is a number and convert to cents
+
+    if (isNaN(totalAmountCents)) {
+        console.error("Validation Failed: totalAmount is not a valid number.", formData.totalAmount);
+        return res.status(400).json({ error: "Invalid totalAmount provided." });
+    }
+
     // --- CREATE PENDING BOOKING ---
     let newBooking;
     try {
       newBooking = new Booking({
         student_relationship: formData.student_relationship,
-        student_name: formData.student_name,
-        email: formData.email,
+        student_name: student_name,
+        email: email,
         customerPhone: formData.customerPhone,
-        location: formData.location || {}, // Handle optional location
-        package: formData.package,
-        schedule_sessions: formData.schedule_sessions,
+        location: formData.location || {},
+        package: packageName, // Use the extracted package name
+        schedule_sessions: schedule_sessions,
         preferred_cadence: formData.preferred_cadence,
-        schedule: mappedSchedule,
+        schedule: mappedSchedule, // Use the parsed and mapped schedule
         additionalNotes: formData.additionalNotes,
         customFields: formData.customFields || [],
-        totalAmount: formData.totalAmount,
-        currency: formData.currency || "usd",
+        totalAmount: totalAmount,
+        currency: currency,
         paymentStatus: "pending",
+        payment_intent_id: null,
+        checkout_session_id: null, // Will be updated after session creation
+        booking_date: new Date(),
+        lessons: [], // Populate if necessary
       });
-
       await newBooking.save();
       console.log(`Pending booking created successfully: ${newBooking._id}`);
     } catch (dbError) {
-      console.error("Error saving booking to database:", dbError);
-      return res.status(500).json({ error: "Failed to save booking data." });
+      console.error("Error saving new booking:", dbError.message, dbError.stack);
+      return res.status(500).json({ error: "Failed to save booking: " + dbError.message });
     }
 
     // --- CREATE STRIPE CHECKOUT SESSION ---
-    try {
-      const totalAmountCents = Math.round(newBooking.totalAmount * 100);
-
-       // Create a Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
+      payment_method_types: ['card'],
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: currency, // Use the defined currency
             product_data: {
-              name: `Booking - ${formData.package}`,
-              description: `Booking for ${formData.student_name}`,
+              name: `Music Lessons: ${packageName}`, // Use the defined packageName
+              description: schedule_sessions ? `Package of ${schedule_sessions} lessons for ${student_name}` : `Music lessons for ${student_name}`,
             },
-            unit_amount: Math.round(formData.totalAmount * 100),
+            unit_amount: totalAmountCents, // Use the calculated amount in cents
           },
           quantity: 1,
         },
       ],
-      mode: "payment",
-      customer_email: formData.email,
-      success_url: `${process.env.FRONTEND_URL}/payment/complete?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
+      mode: 'payment',
+      customer_email: email, // Use the defined email
+      success_url: `${process.env.FRONTEND_URL}/payment-success?session_id={CHECKOUT_SESSION_ID}&booking_id=${newBooking._id.toString()}`,
+      cancel_url: cancel_url || `${process.env.FRONTEND_URL}/payment-cancel?booking_id=${newBooking._id.toString()}`,
+      client_reference_id: newBooking._id.toString(),
+      metadata: {
+        bookingId: newBooking._id.toString(),
+      },
     });
 
-    console.log(`Stripe Checkout Session created: ${session.id}`);
-    res.status(200).json({ clientSecret: session.client_secret, bookingId: newBooking._id });
+    // Update the booking with the checkout session ID
+    newBooking.checkout_session_id = session.id;
+    await newBooking.save(); // Save again to store the session ID
+
+    console.log(`Stripe Checkout Session created: ${session.id} for booking ${newBooking._id}`);
+    res.json({ sessionId: session.id, bookingId: newBooking._id.toString() });
+
   } catch (error) {
-    console.error("Error in /create-checkout-session:", error);
-    res.status(500).json({ error: "Failed to create Checkout Session." });
-  }
-  } catch (error) { // Catch for the outer try block (started on line 56)
-    console.error("Unhandled error in /create-checkout-session route:", error);
-    res.status(500).json({ error: "An unexpected error occurred processing your request." });
+    console.error("[Checkout Session] Error creating session:", error.message, error.stack);
+    res.status(500).json({ error: "Failed to create checkout session: " + error.message });
   }
 });
 
@@ -284,6 +305,7 @@ router.post("/create-payment-intent", async (req, res) => {
         amount: totalAmountCents,
         currency: newBooking.currency,
         receipt_email: formData.email, // For sending email receipts to the customer
+        automatic_payment_methods: { enabled: true },
         metadata: {
           bookingId: newBooking._id.toString(),
         },
@@ -408,6 +430,68 @@ router.post('/webhook', express.raw({type: 'application/json'}), async (req, res
 
   // Return a 200 response to acknowledge receipt of the event
   res.status(200).send();
+});
+
+// GET /api/payment/verify-session
+router.get("/verify-session", async (req, res) => {
+  const { session_id, booking_id } = req.query;
+
+  if (!session_id || !booking_id) {
+    console.log('[VerifySession] Missing session_id or booking_id in query params');
+    return res.status(400).json({ success: false, message: "Missing session_id or booking_id." });
+  }
+
+  try {
+    console.log(`[VerifySession] Verifying session_id: ${session_id} for booking_id: ${booking_id}`);
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+
+    if (!session) {
+      console.log(`[VerifySession] Stripe session not found for id: ${session_id}`);
+      return res.status(404).json({ success: false, message: "Stripe session not found." });
+    }
+
+    // Verify payment status and client reference ID
+    if (session.payment_status === 'paid' && session.client_reference_id === booking_id) {
+      console.log(`[VerifySession] Payment confirmed for session: ${session_id}. Client reference ID matches booking: ${booking_id}.`);
+      // Find and update the booking
+      const booking = await Booking.findById(booking_id);
+      if (!booking) {
+        console.log(`[VerifySession] Booking not found for id: ${booking_id}`);
+        return res.status(404).json({ success: false, message: "Booking not found." });
+      }
+
+      if (booking.paymentStatus === 'paid') {
+        console.log(`[VerifySession] Booking ${booking_id} already marked as paid.`);
+        return res.json({ success: true, message: "Payment already verified and booking updated.", booking });
+      }
+
+      booking.paymentStatus = 'paid'; // Or 'succeeded', 'completed' as per your schema
+      booking.payment_intent_id = session.payment_intent; // Store payment intent ID if available
+      await booking.save();
+      console.log(`[VerifySession] Booking ${booking_id} updated to paid.`);
+
+      // TODO: Consider sending a confirmation email here if not handled by webhooks
+
+      return res.json({ success: true, message: "Payment verified and booking updated successfully.", booking });
+    } else {
+      console.log(`[VerifySession] Payment not confirmed or booking ID mismatch for session: ${session_id}. Payment status: ${session.payment_status}, Client Ref: ${session.client_reference_id}`);
+      return res.status(400).json({
+        success: false,
+        message: "Payment not successful or booking ID mismatch.",
+        details: {
+          payment_status: session.payment_status,
+          client_reference_id_match: session.client_reference_id === booking_id,
+        },
+      });
+    }
+  } catch (error) {
+    console.error("[VerifySession] Error verifying payment session:", error.message, error.stack);
+    // Check for specific Stripe errors if needed, e.g., invalid session ID format
+    if (error.type === 'StripeInvalidRequestError') {
+        return res.status(400).json({ success: false, message: `Stripe API error: ${error.message}` });
+    }
+    return res.status(500).json({ success: false, message: "Internal server error while verifying payment: " + error.message });
+  }
 });
 
 module.exports = router;

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 import FormField from "./FormField";
 import PriceLedger from "./PriceLedger";
 import ConfirmationPage from "./ConfirmationPage";
-import PaymentForm from "./PaymentForm";
 import { formFields } from "../../data/form/formFields";
 import { formSteps } from "../../data/form/formSteps";
 import { serviceMetadata } from "../../data/form/serviceMetadata";
@@ -19,6 +19,8 @@ const MultiStepForm = ({
   setIsFormOpen,
   className = "",
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [formData, setFormData] = useState({});
   const [validationErrors, setValidationErrors] = useState({});
@@ -36,14 +38,129 @@ const MultiStepForm = ({
 
   console.log(availableSteps);
 
+  // Parse query string parameters and convert to appropriate types
+  const parseQueryParams = () => {
+    const searchParams = new URLSearchParams(location.search);
+    const params = {};
+    
+    // Loop through all parameters and process them
+    for (const [key, value] of searchParams.entries()) {
+      try {
+        // Special handling for schedule_selection to properly parse dates
+        if (key === 'schedule_selection') {
+          // First try to parse as JSON
+          if (value.startsWith('[') || value.startsWith('{')) {
+            const parsed = JSON.parse(value);
+            // Process each item to ensure dates are properly parsed
+            if (Array.isArray(parsed)) {
+              params[key] = parsed.map(item => {
+                if (item.date && typeof item.date === 'string') {
+                  // Keep date as string as it will be properly handled by the ScheduleField component
+                  return item;
+                }
+                return item;
+              });
+            } else {
+              params[key] = parsed;
+            }
+          } else {
+            params[key] = value;
+          }
+        }
+        // Check if value is JSON (for objects like location, package, etc)
+        else if (value.startsWith('{') || value.startsWith('[')) {
+          params[key] = JSON.parse(value);
+        } else if (value === 'true') {
+          params[key] = true;
+        } else if (value === 'false') {
+          params[key] = false;
+        } else if (!isNaN(value) && value.trim() !== '') {
+          params[key] = Number(value);
+        } else {
+          params[key] = value;
+        }
+      } catch (error) {
+        // If JSON parsing fails, use the raw value
+        console.warn(`Failed to parse query param ${key}:`, error);
+        params[key] = value;
+      }
+    }
+    
+    // Debug the parsed parameters
+    console.log('[URL Params] Parsed parameters:', params);
+    
+    return params;
+  };
+
+  // Generate query string from form data
+  const generateQueryString = (data, stepIndex = currentStepIndex) => {
+    const searchParams = new URLSearchParams();
+    
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && value !== '') {
+        // For objects and arrays, convert to JSON string
+        if (typeof value === 'object') {
+          searchParams.append(key, JSON.stringify(value));
+        } else {
+          searchParams.append(key, String(value));
+        }
+      }
+    });
+    
+    // Add step parameter
+    if (stepIndex > 0) {
+      searchParams.append('step', stepIndex);
+    }
+    
+    return searchParams.toString();
+  };
+
+  // Update URL with current form data
+  const updateUrlWithFormData = (data = formData, stepIndex = currentStepIndex) => {
+    const queryString = generateQueryString(data, stepIndex);
+    
+    // Update URL without causing a navigation/page reload
+    const newUrl = `${location.pathname}${queryString ? `?${queryString}` : ''}`;
+    navigate(newUrl, { replace: true });
+  };
+
+  // Load form data from URL on mount
+  useEffect(() => {
+    if (isFormOpen && location.search) {
+      const params = parseQueryParams();
+      console.log('Initializing form from query params:', params);
+      
+      // Set form data from params
+      if (Object.keys(params).length > 0) {
+        setFormData(prevData => ({
+          ...prevData,
+          ...params
+        }));
+        
+        // Navigate to specific step if specified
+        if (params.step !== undefined && !isNaN(params.step)) {
+          const stepIndex = parseInt(params.step, 10);
+          if (stepIndex >= 0 && stepIndex < availableSteps.length) {
+            setCurrentStepIndex(stepIndex);
+          }
+        }
+      }
+    }
+  }, [isFormOpen, location.search]);
+
   // Reset form when closed
   useEffect(() => {
     if (!isFormOpen) {
       setCurrentStepIndex(0);
       setFormData({});
       setValidationErrors({});
+      
+      // Clear the URL parameters when form is closed
+      if (location.search) {
+        navigate(location.pathname, { replace: true });
+      }
     }
-  }, [isFormOpen]);
+  }, [isFormOpen, navigate, location]);
 
   useEffect(() => {
     // Scroll the form container itself to the top
@@ -128,29 +245,45 @@ const MultiStepForm = ({
     const errors = {};
     let isValid = true;
 
+    console.log('[Validation] Validating fields:', currentFields);
+    console.log('[Validation] Current form data:', formData);
+
     currentFields.forEach((field) => {
       const value = formData[field.field_key];
+      console.log(`[Validation] Checking field: ${field.field_key}, value:`, value);
 
-      if (field.required && (!value || value.toString().trim() === "")) {
+      if (field.required && (!value || (typeof value === 'string' && value.trim() === ""))) {
+        console.log(`[Validation] Required field ${field.field_key} is empty`);
         errors[field.field_key] = "This field is required";
         isValid = false;
         return;
       }
 
-      if (field.type === "input" && field.input_type === "location" && value) {
-        if (!value.coordinates || !value.distance) {
-          errors[field.field_key] =
-            "Please select a valid address from the suggestions";
-          isValid = false;
-          return;
-        }
+      if (field.type === "input" && field.input_type === "location") {
+        console.log(`[Validation] Validating location field ${field.field_key}:`, value);
+        
+        // If the field is required but empty, we've already handled it above
+        // Only validate if there's a value
+        if (value) {
+          if (!value.coordinates || !value.distance) {
+            console.log(`[Validation] Location field ${field.field_key} missing coordinates or distance`);
+            errors[field.field_key] =
+              "Please select a valid address from the suggestions";
+            isValid = false;
+            return;
+          }
 
-        if (value.distance > field.location_limit.max_radius_miles) {
-          errors[
-            field.field_key
-          ] = `Location must be within ${field.location_limit.max_radius_miles} miles`;
-          isValid = false;
-          return;
+          if (field.location_limit && field.location_limit.max_radius_miles && 
+              value.distance > field.location_limit.max_radius_miles) {
+            console.log(`[Validation] Location field ${field.field_key} distance exceeds limit`);
+            errors[
+              field.field_key
+            ] = `Location must be within ${field.location_limit.max_radius_miles} miles`;
+            isValid = false;
+            return;
+          } else {
+            console.log(`[Validation] Location field ${field.field_key} passed validation`);
+          }
         }
       }
 
@@ -187,6 +320,12 @@ const MultiStepForm = ({
     return isValid;
   };
 
+  // Handle blur event to update URL when user finishes typing in a field
+  const handleInputBlur = () => {
+    // Update URL with current form data when focus leaves an input
+    updateUrlWithFormData();
+  };
+
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === "checkbox" ? checked : value;
@@ -204,6 +343,8 @@ const MultiStepForm = ({
         value: newValue,
         formData: updatedData,
       });
+      
+      // Don't update URL on every keystroke - now handled by onBlurHandler
 
       return updatedData;
     });
@@ -222,13 +363,20 @@ const MultiStepForm = ({
   };
 
   const handleNext = () => {
-    console.log(availableSteps);
+    console.log('[Navigation] Available steps:', availableSteps);
+    console.log('[Navigation] Current step index:', currentStepIndex);
+    console.log('[Navigation] Validating current step...');
     const isValid = validateStep();
+    console.log('[Navigation] Validation result:', isValid);
+    
     if (isValid) {
+      console.log('[Navigation] Validation passed, proceeding to next step');
+      // Update URL with current step before navigation
+      updateUrlWithFormData();
       const currentStepData = availableSteps[currentStepIndex]; // Get current step data
 
       // --- Calculate and set totalAmount if navigating from Confirmation step ---
-      if (currentStepData?.title === "Confirmation") {
+      if (false && currentStepData?.title === "Confirmation") { // This block is now effectively disabled and will be removed by targeting the outer if/else structure
         let updatedFormData = { ...formData }; // Create a copy to potentially modify
 
         // Use the total from PriceLedger state
@@ -265,9 +413,18 @@ const MultiStepForm = ({
       } else {
         // --- Default behavior: Move to the next step if available ---
         if (currentStepIndex + 1 < availableSteps.length) {
-          setCurrentStepIndex(currentStepIndex + 1);
+          console.log(`[Navigation] Moving to next step: ${currentStepIndex + 1}`);
+          const nextStepIndex = currentStepIndex + 1;
+          const nextStep = availableSteps[nextStepIndex];
+          console.log('[Navigation] Next step will be:', nextStep?.title || 'Unknown');
+          
+          // First update the URL with the new step index
+          updateUrlWithFormData(formData, nextStepIndex);
+          
+          // Then set the current step index (this will also trigger a re-render)
+          setCurrentStepIndex(nextStepIndex);
         } else {
-          console.log("Reached end of defined steps (not Confirmation).");
+          console.log("[Navigation] Reached end of defined steps (not Confirmation).");
           // Handle final submission logic if the form doesn't end with Payment
         }
       }
@@ -279,12 +436,23 @@ const MultiStepForm = ({
 
   const handleBack = () => {
     if (currentStepIndex > 0) {
-      setCurrentStepIndex(currentStepIndex - 1);
+      const newIndex = currentStepIndex - 1;
+      console.log(`[Navigation] Moving back to step: ${newIndex}`);
+      
+      // First update URL with the new step index
+      updateUrlWithFormData(formData, newIndex);
+      
+      // Then set the current step index
+      setCurrentStepIndex(newIndex);
     }
   };
 
   const closeModal = () => {
     if (setIsFormOpen) {
+      // Clear URL parameters when closing the form
+      if (location.search) {
+        navigate(location.pathname, { replace: true });
+      }
       setIsFormOpen(false);
     }
   };
@@ -399,36 +567,29 @@ const MultiStepForm = ({
                 field={field}
                 formData={formData}
                 handleInputChange={handleInputChange}
+                onBlur={handleInputBlur}
                 validationErrors={validationErrors}
               />
             ))}
 
-          {/* --- Special Step Rendering --- */}
-
-          {/* Render Confirmation Page Content FIRST */}
+          {/* Render Confirmation Page Content */}
           {isConfirmationStep && (
             <ConfirmationPage
-              formData={formData}
-              onEditStep={(step) => setCurrentStepIndex(step - 1)}
+              formData={{ ...formData, totalAmount: finalTotal !== null ? finalTotal : formData.totalAmount || 0 }}
+              onEditStep={(stepIndex) => setCurrentStepIndex(stepIndex - 1) }
+              service={service}
             />
           )}
 
-          {/* Render Payment Form FIRST */}
-          {isPaymentStep && <PaymentForm formData={formData} />}
-
-          {/* Render Price Ledger on Confirmation AND Payment steps, AFTER the main content */}
-          {(isPackageStep || isConfirmationStep || isPaymentStep) &&
-            formData.package && (
-              <PriceLedger
-                formData={formData}
-                onTotalCalculated={
-                  isConfirmationStep ? handleTotalUpdate : null
-                }
-              />
-            )}
+          {/* Render Price Ledger on Package and Confirmation steps */}
+          {(isPackageStep || isConfirmationStep) && formData.package && (
+            <PriceLedger
+              formData={formData}
+              onTotalCalculated={isConfirmationStep ? handleTotalUpdate : null}
+            />
+          )}
 
           {/* --- Action Buttons --- */}
-          {/* Render Action buttons AFTER Confirmation/Payment content */}
           <div className={styles.form_actions}>
             {currentStepIndex > 0 && (
               <button
@@ -439,16 +600,15 @@ const MultiStepForm = ({
                 Back
               </button>
             )}
-            {!isPaymentStep && ( // Hide "Next" on Payment step, as payment is the final action
+            {/* Hide "Next" button on Confirmation step (and non-existent Payment step) */}
+            {!isConfirmationStep && !isPaymentStep && currentStepIndex < availableSteps.length -1 && (
               <button
                 type="button"
                 onClick={handleNext}
                 className={styles.btn_primary}
               >
-                {isConfirmationStep
-                  ? "Continue to Payment"
-                  : isLastStep
-                  ? "Submit" // Or perhaps hide if confirmation is the last *real* step before payment
+                {isLastStep
+                  ? "Submit" 
                   : "Next"}
               </button>
             )}

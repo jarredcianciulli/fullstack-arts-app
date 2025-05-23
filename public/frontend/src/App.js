@@ -12,6 +12,8 @@ import DoubleStopsPage from "./components/pages/resources/DoubleStops";
 import ModesPage from "./components/pages/resources/Modes";
 import PaymentStatus from "./components/main/form/PaymentStatus";
 import ProfilePage from "./components/pages/Profile";
+import PaymentSuccess from "./components/main/payment/PaymentSuccess";
+import PaymentCancel from "./components/main/payment/PaymentCancel";
 
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -94,6 +96,14 @@ const router = createBrowserRouter([
       {
         path: "/payment/complete",
         element: <PaymentStatus />,
+      },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess />,
+      },
+      {
+        path: "/payment-cancel",
+        element: <PaymentCancel />,
       },
     ],
   },

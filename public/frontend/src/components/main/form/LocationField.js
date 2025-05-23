@@ -9,6 +9,7 @@ const LocationField = ({
   field,
   formData,
   handleInputChange,
+  onBlur,
   validationErrors,
 }) => {
   const { id, field_key, placeholder, required, location_limit } = field;
@@ -146,6 +147,11 @@ const LocationField = ({
         type: "location",
       },
     });
+    
+    // Trigger the onBlur event manually after selection to update URL params
+    if (onBlur) {
+      setTimeout(onBlur, 100);
+    }
   };
 
   return (
@@ -162,6 +168,7 @@ const LocationField = ({
             setSelectedIndex(-1);
           }}
           onKeyDown={handleKeyDown}
+          onBlur={onBlur}
           required={required}
           className={styles.form_input}
           autoComplete="off"
