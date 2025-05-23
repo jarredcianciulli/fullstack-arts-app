@@ -7,24 +7,31 @@ const cors = require("cors");
 const app = express();
 
 // Dynamic CORS configuration
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? [
-        "https://www.intonobyjarred.com",
-        "http://www.intonobyjarred.com.s3-website-us-east-1.amazonaws.com",
-      ] // Replace with your production frontend domain
-    : ["http://localhost:3000", "http://localhost:3001"]; // Development origins
+// const allowedOrigins =
+//   process.env.NODE_ENV === "production"
+//     ? [
+//         "https://www.intonobyjarred.com",
+//         "http://www.intonobyjarred.com.s3-website-us-east-1.amazonaws.com",
+//       ] // Replace with your production frontend domain
+//     : ["http://localhost:3000", "http://localhost:3001"]; // Development origins
+
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//   })
+// );
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: "*", // Allow all origins
+    credentials: true, // Allow cookies or authentication headers
   })
 );
 
