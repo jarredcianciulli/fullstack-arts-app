@@ -1,12 +1,13 @@
 .aboutHeaderContainer {
   display: flex;
-  margin-top: 7rem;
+  margin-top: 3.4rem;
 }
 
 .bioParagraphContainer {
   letter-spacing: 1.1px;
   line-height: 4rem;
-  margin: -15rem 25% 0.5rem 25%;
+
+  /* margin: -15rem 25% 0.5rem 25%; */
 }
 
 .bioParagraphText {
@@ -41,23 +42,16 @@
   justify-content: flex-start;
 }
 
-.aboutHeaderImg {
-  margin-left: 4rem;
-  width: 29px;
+.aboutHeaderHeadshotImg {
+  width: 100%;
+  height: 25rem;
+  border-radius: 3px;
+  border: 2px solid var(--color-primary-100);
 }
 
 /* .aboutVerticleHeaderContainer {
 
 } */
-
-.sectionAboutHeader {
-  font-family: var(--font-primary);
-  color: var(--color-primary-dark);
-  font-size: 100px;
-  margin-top: -5rem;
-  margin-left: 3rem;
-  /* margin-top: 2rem; */
-}
 
 .aboutHeaderIconsContainer {
   margin-left: 1rem;
@@ -74,18 +68,28 @@
   width: 25px;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 700px) {
+  /* .sectionAboutHeader {
+    font-size: 3rem;
+  } */
+  .aboutVerticleHeaderContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
   .bioParagraphContainer {
-    margin: -15rem 25% 0.5rem 25%;
+    /* margin: -15rem 25% 0.5rem 25%; */
+    margin: 0 25% 0.5rem 25%;
 
     font-size: 1rem;
-    line-height: 4rem;
+    line-height: 3rem;
   }
 }
 
 @media (max-width: 700px) {
   .aboutHeaderContainer {
     margin-top: 2rem;
+    margin-left: 10vw;
   }
   .aboutHeaderImg {
     width: 4vw;
@@ -93,11 +97,11 @@
     margin-top: 1.8rem;
     height: min-content;
   }
-  .sectionAboutHeader {
+  /* .sectionAboutHeader {
     font-size: 10vw;
     margin: 0;
     margin-left: 0.75rem;
-  }
+  } */
   .aboutHeaderIconsContainer {
     margin-left: 0.5rem;
   }
@@ -114,7 +118,8 @@
     margin-top: 11vw;
   }
   .bioParagraphContainer {
-    margin: -37vw 18% 0.5rem 18%;
+    margin: 0 18% 0.5rem 18%;
+    /* margin: -37vw 18% 0.5rem 18%; */
     font-size: 1rem;
     line-height: 3rem;
   }
@@ -134,9 +139,10 @@
     margin-top: 1rem;
   }
   .bioParagraphContainer {
+    margin: 0 10% 0.5rem 10%;
   }
   .bioParagraphContainer {
-    margin: -37vw 10% 0.5rem 22%;
+    /* margin: -37vw 10% 0.5rem 22%; */
     line-height: 2rem;
     font-size: 0.8rem;
     text-align: left;
@@ -144,4 +150,199 @@
   .bioParagraphText {
     text-align: left;
   }
+}
+
+.aboutHeaderTopContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1rem;
+  gap: 1.5rem;
+}
+
+.sectionAboutImgContainer {
+  position: relative;
+  margin-right: 2rem;
+  margin-top: 2rem;
+}
+
+.bioParagraphText_1 {
+  text-align: left;
+  margin-left: 2rem;
+}
+
+.aboutHeaderHeadshotImg {
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 20% 30%, 80% 70%, 50% 50%;
+  }
+  50% {
+    background-position: 25% 35%, 75% 65%, 55% 55%;
+  }
+  100% {
+    background-position: 20% 30%, 80% 70%, 50% 50%;
+  }
+}
+/* .sectionAboutHeaderWrapper {
+  position: relative;
+  display: inline-block;
+  padding: 2rem 4rem;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.sectionAboutHeaderWrapper::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle at 20% 30%, #2c2c2c 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, #b4b4b4 0%, transparent 70%),
+    radial-gradient(circle at 50% 50%, #ffffff33 0%, transparent 70%);
+  background-blend-mode: screen;
+  background-size: 800% 800%;
+  animation: moveGradient 20s ease-in-out infinite;
+  filter: blur(60px);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+} */
+
+/* .sectionAboutHeader {
+  position: relative;
+  font-family: var(--font-family-tertiary);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 300;
+  color: white;
+  letter-spacing: 1px;
+  text-align: left;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.15),
+    0 0 16px rgba(255, 255, 255, 0.08);
+  z-index: 2;
+} */
+
+/* Optional: Add subtle fade to edge of wrapper */
+/* .sectionAboutHeaderWrapper {
+  mask-image: radial-gradient(circle at center, black 50%, transparent 100%);
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    black 50%,
+    transparent 100%
+  );
+} */
+@keyframes moveGradient {
+  0% {
+    background-position: 30% 30%, 70% 70%, 50% 50%;
+  }
+  50% {
+    background-position: 40% 40%, 60% 60%, 55% 55%;
+  }
+  100% {
+    background-position: 30% 30%, 70% 70%, 50% 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  /* .sectionAboutHeader {
+    position: static;
+    transform: none;
+    background: none;
+    color: #111;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  } */
+
+  .aboutHeaderTopContainer {
+    flex-direction: column;
+  }
+}
+
+.bioParagraphContainerFirst {
+  display: flex;
+}
+.sectionAboutHeaderWrapper {
+  position: relative;
+  display: inline-block;
+  padding: 3rem 4rem;
+  overflow: hidden;
+  z-index: 2;
+  border-radius: 5px;
+  isolation: isolate; /* ensures pseudo-element sits below text */
+}
+
+.sectionAboutHeader {
+  position: relative;
+  font-family: var(--font-family-tertiary);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 300;
+  color: transparent; /* Set color to transparent for clipping */
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1),
+    0 0 25px rgba(255, 255, 255, 0.5);
+  background: linear-gradient(
+    45deg,
+    #2c2c2c,
+    #b4b4b4,
+    #76767662
+  ); /* Example gradient */
+  background-clip: text; /* Clips the gradient to the text */
+  -webkit-background-clip: text; /* For webkit browsers */
+  z-index: 2;
+}
+
+/* Optional: Add subtle fade to edge of wrapper */
+.sectionAboutHeaderWrapper {
+  mask-image: radial-gradient(circle at center, black 50%, transparent 50%);
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    black 50%,
+    transparent 100%
+  );
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: 20% 30%, 80% 70%, 50% 50%;
+  }
+  50% {
+    background-position: 25% 35%, 75% 65%, 55% 55%;
+  }
+  100% {
+    background-position: 20% 30%, 80% 70%, 50% 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionAboutImgContainer {
+    margin-right: 0;
+  }
+  .aboutHeaderHeadshotImg {
+  }
+
+  .bioParagraphContainer {
+    /* margin: -37vw 10% 0.5rem 22%; */
+    line-height: 1.4rem;
+    font-size: 0.75rem;
+  }
+  .bioParagraphContainerFirst {
+    margin-top: 0;
+  }
+}
+
+.bioParagraphHashtag {
+  font-family: var(--font-family-tertiary);
+  color: var(--color-primary-400);
+  font-weight: 500;
 }

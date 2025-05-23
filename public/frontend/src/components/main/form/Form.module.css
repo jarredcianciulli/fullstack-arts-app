@@ -83,7 +83,7 @@
   top: 20px;
   left: 50px;
   right: 50px;
-  height: 3px;
+  height: 2px;
   background: var(--color-primary-200);
   z-index: 1;
 }
@@ -101,18 +101,19 @@
 .step_number {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  background: var(--color-primary-800);
-  border: 3px solid var(--color-primary-900);
+  font-family: var(--font-family-quadiary);
+  /* border-radius: 50%; */
+  background: var(--color-white);
+  /* border: 3px solid var(--color-primary-900); */
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.75rem;
-  font-weight: 600;
+  font-weight: 200;
   font-size: 1rem;
   position: relative;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 4px var(--color-primary-100);
+  /* box-shadow: 0 2px 4px var(--color-primary-100); */
   line-height: 1;
   color: var(--color-primary-400);
 }
@@ -121,12 +122,12 @@
   content: "";
   position: absolute;
   inset: -3px;
-  border-radius: 50%;
+  /* border-radius: 50%;
   background: conic-gradient(
     from 0deg,
     var(--color-primary-900),
     var(--color-primary-900)
-  );
+  ); */
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -145,8 +146,8 @@
 }
 
 .progress_step.active .step_number {
-  background: var(--color-primary-900);
-  border-color: var(--color-primary-900);
+  /* background: var(--color-primary-900); */
+  /* border-color: var(--color-primary-900); */
   color: var(--color-white);
   transform: scale(1.1);
 }
@@ -156,14 +157,14 @@
 }
 
 .progress_step.active .step_label {
-  color: var(--color-primary-400);
+  color: var(--color-primary-800);
   opacity: 1;
   transform: translateY(2px);
 }
 
 .progress_step.completed .step_number {
-  background: var(--color-quadiary-1000);
-  border-color: var(--color-quadiary-1000);
+  /* background: var(--color-quadiary-1000); */
+  /* border-color: var(--color-quadiary-1000); */
   color: var(--color-white);
 }
 
@@ -295,6 +296,7 @@
 }
 
 .suggestion_item {
+  color: var(--color-tertiary-600);
   padding: 12px 12px 12px 40px;
   cursor: pointer;
   display: flex;
@@ -408,6 +410,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-right: 10px;
+  width: 90%;
 }
 
 .distance_text {
@@ -846,9 +849,9 @@
 .sessions_counter {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-primary-900);
+  color: var(--color-primary-400);
   padding: 0.5rem 1rem;
-  border: 2px solid var(--color-primary-100);
+  /* border: 2px solid var(--color-); */
   border-radius: 4px;
   white-space: nowrap;
 }
@@ -874,12 +877,13 @@
   padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #eee;
+  color: var(--color-tertiary-600);
 }
 
 .sessions_table th {
   background-color: #f8f9fa;
   font-weight: 600;
-  color: #495057;
+  color: var(--color-tertiary-600);
 }
 
 .session_actions {
@@ -983,7 +987,7 @@
 
 .schedule_option_card {
   background: none;
-  color: var(--color-tertiary-900);
+  color: var(--color-tertiary-800);
   border: 2px solid var(--color-grey-light-2);
   border-radius: 8px;
   padding: 1rem;
@@ -1127,4 +1131,169 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+}
+
+@media (min-width: 800px) {
+  .step_number::before {
+    border-radius: 50%;
+    /* background: conic-gradient(
+      from 0deg,
+      var(--color-primary-900),
+      var(--color-primary-900)
+    ); */
+  }
+  .step_number {
+    border-radius: 50%;
+
+    border: 2px solid var(--color-primary-900);
+  }
+  .progress_step.completed .step_number {
+    border-color: var(--color-quadiary-1000);
+  }
+
+  .progress_step.active .step_number {
+    border-color: var(--color-primary-900);
+  }
+  .step_number {
+    border: 2px solid var(--color-primary-900);
+    box-shadow: 0 2px 4px var(--color-primary-100);
+  }
+}
+
+/* --------------------------------------------- */
+/* Mobile View Tweaks (<800px) */
+/* --------------------------------------------- */
+@media (max-width: 799px) {
+  .formContainer {
+    padding: 1rem;
+    margin-top: 48px;
+  }
+
+  .service_title {
+    font-size: 1.5rem;
+  }
+
+  .multi_step_form_title {
+    font-size: 1.25rem;
+  }
+
+  .form_progress {
+    margin: 2rem 0;
+    padding: 0 1rem;
+  }
+
+  .step_number {
+    width: 15px;
+    height: 32px;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .step_label {
+    display: none;
+  }
+
+  .form_input,
+  .form_textarea,
+  .form_select,
+  .calendar_button {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .btn_primary,
+  .btn_secondary {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .progress_step {
+    padding-top: 5px;
+  }
+  .form_progress::before {
+    height: 1px;
+  }
+  .suggestion_distance {
+    width: 25%;
+    font-size: 10px;
+  }
+  .suggestion_item {
+    padding: 6px 1px 6px 10px;
+  }
+  .suggestion_text {
+    font-size: 12px;
+    white-space: wrap;
+  }
+  .form_label {
+    font-size: 12px;
+    letter-spacing: 1.3px;
+  }
+  .form_input {
+    font-size: 12px;
+  }
+  .schedule_option_card {
+    display: flex;
+    padding: 0.3rem;
+    font-size: 12px;
+    margin: 0.2rem;
+    color: var(--color-tertiary-600);
+    align-items: center;
+    border: 1px solid var(--color-grey-light-2);
+  }
+  .schedule_option_text {
+    font-size: 12px;
+  }
+  .card_field_container {
+    justify-content: center;
+  }
+  .pricing_card {
+    padding: 1.5rem;
+    font-size: 12px;
+    margin: 0.5rem;
+    color: var(--color-tertiary-600);
+    align-items: center;
+  }
+  .card_grid {
+    flex-direction: column;
+  }
+  .price_ledger {
+    color: var(--color-tertiary-600);
+  }
+  .price_ledger h4 {
+    color: var(--color-tertiary-700);
+    font-size: 17px;
+  }
+  .ledger_item {
+    font-size: 12px;
+  }
+
+  .calendar_header {
+    display: flex;
+    flex-direction: column;
+  }
+  .calendar_button {
+    font-size: 12px;
+  }
+  .sessions_counter {
+    font-size: 12px;
+  }
+  .sessions_table {
+    font-size: 12px;
+  }
+  .confirmation_container {
+    margin: 0;
+    padding: 0;
+  }
+  .section_header h3 {
+    font-size: 17px;
+  }
+  .edit_button {
+    padding: 0.4rem 0.7rem;
+  }
+  .field_label {
+    font-size: 12px;
+  }
+  .field_value {
+    font-size: 12px;
+  }
 }

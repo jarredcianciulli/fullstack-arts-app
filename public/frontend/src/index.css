@@ -135,10 +135,25 @@ body {
   --color-sextiary-800: rgb(244, 200, 67);
   --color-sextiary-800: rgb(255, 200, 37);
   --color-sextiary-1000: rgba(249, 190, 5, 1);
+  --color-sextiary-light-100: rgb(255, 248, 225);
+  --color-sextiary-light-200: rgb(250, 240, 212);
+  --color-sextiary-dark-200: rgb(189, 170, 115);
+  --color-sextiary-dark-600: rgb(139, 133, 112);
 
   --color-sextiary-light-100: rgba(250, 238, 209, 0.1);
   --color-sextiary-light-200: rgba(244, 222, 146, 0.076);
-
+  --color-octiary-0: rgba(0, 0, 0, 0);
+  --color-octiary-50: rgba(0, 0, 0, 0.05);
+  --color-octiary-100: rgba(0, 0, 0, 0);
+  --color-octiary-200: rgba(0, 0, 0, 0.2);
+  --color-octiary-300: rgba(0, 0, 0, 0.3);
+  --color-octiary-400: rgba(0, 0, 0, 0.4);
+  --color-octiary-500: rgba(0, 0, 0, 0.5);
+  --color-octiary-600: rgba(0, 0, 0, 0.6);
+  --color-octiary-700: rgb(0, 0, 0, 0.7);
+  --color-octiary-800: rgb(0, 0, 0, 0.8);
+  --color-octiary-900: rgb(0, 0, 0, 0.9);
+  --color-octiary-1000: rgb(0, 0, 0);
   --color-septiary-100: rgb(217, 227, 235);
   /* --color-septiary-1000: rgb(163, 214, 255); */
   --color-septiary-500--dark: rgb(182, 193, 203);

@@ -1,0 +1,94 @@
+.body {
+  height: calc(100vh);
+}
+
+.homeBackground {
+  display: flex;
+  flex-direction: column;
+  /* position: fixed; */
+  min-height: 100vh;
+  top: 0;
+  background: radial-gradient(circle at 20% 30%, #2c2c2c, transparent 40%),
+    radial-gradient(circle at 80% 20%, #1f1f1f, transparent 50%),
+    radial-gradient(circle at 50% 70%, #3a3a3a, transparent 40%),
+    radial-gradient(circle at 30% 80%, #1a1a1a, transparent 50%),
+    radial-gradient(circle at 70% 60%, #111111, transparent 50%);
+  background-color: #0a0a0aa1;
+  background-blend-mode: overlay;
+  color: white;
+}
+
+.main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.heroSection {
+  display: flex;
+  font-family: var(--font-family-tertiary);
+  font-weight: 100;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 1.5rem 5rem;
+}
+
+.heading {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  font-weight: 100;
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 4.5rem;
+  }
+}
+
+.subheading {
+  max-width: 40rem;
+  font-size: 1.125rem;
+  color: #d1d5db;
+}
+
+.buttonRow {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.infoGrid {
+  padding: 3rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .infoGrid {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 3rem;
+  }
+}
+
+.card {
+  font-family: var(--font-family-tertiary);
+  font-weight: 100;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 100;
+  margin-bottom: 0.5rem;
+}
+
+.cardText {
+  font-size: 0.875rem;
+  color: #d1d5db;
+}

@@ -6,7 +6,7 @@
       "section": 1,
       "service_type": "Private lessons",
       "service_location_property": "In your home",
-      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation.",
+      "description": "Ramp up your skills with in person lessons!",
       "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
 
       "frequency": {
@@ -46,7 +46,7 @@
         "type": "Client option",
         "calculate_travel_time": true
       },
-      "instructor": 1,
+      "instructor": "Jarred C",
       "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
       "active": true,
       "cta_button_name": "Register"
@@ -57,7 +57,7 @@
       "section": 1,
       "service_type": "Private lessons",
       "service_location_property": "At my home",
-      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "description": "Take the next step in your musical future with in person lessons!",
       "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
 
       "frequency": {
@@ -95,7 +95,7 @@
         "type": "Client option",
         "schedule_assignment": 1
       },
-      "instructor": 1,
+      "instructor": "Jarred C",
       "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
       "active": true,
       "cta_button_name": "Register"
@@ -109,7 +109,7 @@
         "frequency_min": "Weekly",
         "frequency_max": "Monthly"
       },
-      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "description": "Refine your skills with personalized online lessons!",
       "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
 
       "service_location_property": "Virtual",
@@ -135,7 +135,7 @@
         "type": "Client option",
         "schedule_assignment": 1
       },
-      "instructor": 1,
+      "instructor": "Jarred C",
       "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
       "active": true,
       "cta_button_name": "Register"
@@ -146,7 +146,7 @@
       "section": 2,
       "service_type": "Piano tuning",
       "service_location_property": "Your location",
-      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "description": "Here at Intono, practice starts with percision tuning, so book your tuning today!",
       "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
 
       "duration": {
@@ -188,10 +188,10 @@
         "schedule_assignment": 1,
         "calculate_travel_time": true
       },
-      "instructor": 1,
+      "instructor": "Jarred C",
       "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
       "active": true,
-      "cta_button_name": "Book tuning"
+      "cta_button_name": "Book"
     },
     {
       "id": 5,
@@ -199,7 +199,7 @@
       "section": 3,
       "service_type": "Group music class",
       "service_location_property": "Virtual",
-      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music. Perfect for beginners of all ages, our classes cover essential topics such as rhythm, melody, harmony, and notation. Taught by experienced instructors in a supportive and collaborative environment, you'll develop a solid foundation that will enhance your musical skills and prepare you for further musical endeavors. Enjoy the camaraderie of learning with peers while gaining the knowledge and confidence to pursue your musical interests. Enroll today and take the first step towards mastering the fundamentals of music.",
+      "description": "Join our Group Music Fundamentals Class and embark on a journey to understand the core principles of music and performance.",
       "hashtags": "#virtualgroupmusic #gamingmeetsmusiceducation #allaroundmusicknowledge",
 
       "frequency": { "type": "static", "property": "Weekly" },
@@ -210,11 +210,16 @@
       "service_session": {
         "type": "Client option"
       },
+      "price": {
+        "price_min": 0,
+        "price_max": 25,
+        "price_per_15_minutes": 25
+      },
       "duration": { "type": "minutes static", "mins": 45 },
-
+      "frequency": "Weekly",
       "student_count": "2-12 students",
       "session_count": 13,
-      "instructor": 1,
+      "instructor": "Jarred C",
       "group_sessions": true,
       "events_summary": "Performance opportunities are announced one to two months prior to the performance dates.  You will receive an email when they are available for signup.",
       "required_audition": false,

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import classes from "./Services.module.css";
 import { PopupButton } from "react-calendly";
+import { useNavigate } from "react-router-dom";
 
 import {
   motion,
@@ -29,7 +30,7 @@ import ServicesJSON from "../../../data/services.json";
 function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
   const [isAPopupOpen, setIsAPopupOpen] = useState(false);
   const matches = useMediaQuery("(min-width: 800px)"); // Use the custom hook
-
+  const navigate = useNavigate();
   const popupRef = useRef(null);
 
   const fieldStateContent = [];
@@ -47,11 +48,13 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
   }
 
   function handleRegistrationClick(service) {
-    setSelectedService(service);
+    // setSelectedService(service);
     setIsFormOpen(true);
     if (onServiceClick) {
       onServiceClick(service);
     }
+    console.log(service);
+    navigate(`${service.slug}/register`);
   }
 
   function notMatchMedia(e) {
@@ -75,6 +78,11 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
   const togglePopup = () => {
     setIsAPopupOpen((prev) => !prev);
     setIsPopupOpen((prev) => !prev); // consider removing one of these
+  };
+
+  const closePopup = () => {
+    setIsAPopupOpen(false);
+    setIsPopupOpen(false);
   };
 
   function mediaChangeListener(ind) {
@@ -107,6 +115,22 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
   function falseClick(e) {
     e.stopPropagation();
   }
+
+  const handleCalendarTimeSelect = (selectedTimeData) => {
+    // Close the calendar popup
+    setIsAPopupOpen(false);
+
+    setIsPopupOpen(false);
+
+    // Perform the registration click action
+    // 'e' should be the service data associated with this specific ServicesComponent instance
+    handleRegistrationClick(e);
+    console.log(
+      "Calendar time selected, form should open for:",
+      e,
+      selectedTimeData
+    );
+  };
 
   if (prop.id == e.section) {
     let Frequency;
@@ -144,14 +168,17 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
 
     return (
       <AnimatePresence mode="wait">
-        <Calendar
-          isOpen={isPopupOpen}
-          ref={popupRef}
-          handleClose={(el) => togglePopup(el)}
-          service_id={e.id}
-          section_id={prop.id}
-          availability_organization={e.availability_organization}
-        />
+        {isPopupOpen && (
+          <Calendar
+            isOpen={isPopupOpen}
+            handleClose={closePopup}
+            section_id={e.id} // Assuming e.id is the correct section_id
+            service_id={e.service_id} // Assuming e.service_id is correct
+            availability_organization={e.availability_organization} // Assuming this is correct
+            onSelect={handleCalendarTimeSelect} // Pass the new handler here
+            initialDay={e.initial_day} // Assuming e.initial_day or similar exists
+          />
+        )}
         {selectedService && (
           <MultiStepForm
             service={selectedService}
@@ -191,24 +218,29 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
               >
                 {Instrument}
               </motion.div>
-              <motion.div
-                className={classes.subscriptionsPricingCardHeaderLocation}
-              >
-                Location:
-              </motion.div>
-              <motion.div
-                className={
-                  classes.subscriptionsPricingCardHeaderLocationPropertyContainer
-                }
-              >
-                <motion.div
-                  className={
-                    classes.subscriptionsPricingCardHeaderLocationProperty
-                  }
-                >
-                  {e.service_location_property}
-                </motion.div>
-              </motion.div>
+              {matches ? (
+                <>
+                  <motion.div
+                    className={classes.subscriptionsPricingCardHeaderLocation}
+                  >
+                    Location:
+                  </motion.div>
+
+                  <motion.div
+                    className={
+                      classes.subscriptionsPricingCardHeaderLocationPropertyContainer
+                    }
+                  >
+                    <motion.div
+                      className={
+                        classes.subscriptionsPricingCardHeaderLocationProperty
+                      }
+                    >
+                      {e.service_location_property}
+                    </motion.div>
+                  </motion.div>
+                </>
+              ) : null}
               <motion.div
                 className={
                   classes.subscriptionsPricingCardHeaderLocationPropertyBackgroundContainer
@@ -259,11 +291,37 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                     {/* <motion.div
                         className={
                           classes.subscriptionsPricingCardHeaderHeadline
+                          }
+                          >
+                          Gamifying Music Education for Kids in a Virtual Group
+                          Setting
+                          </motion.div> */}
+                    <motion.div
+                      className={
+                        classes.subscriptionsPricingCardHeaderLocationContainerSmall
+                      }
+                    >
+                      <motion.div
+                        className={
+                          classes.subscriptionsPricingCardHeaderLocationSmall
                         }
                       >
-                        Gamifying Music Education for Kids in a Virtual Group
-                        Setting
-                      </motion.div> */}
+                        Location:
+                      </motion.div>
+                      <motion.div
+                        className={
+                          classes.subscriptionsPricingCardHeaderLocationPropertyContainer
+                        }
+                      >
+                        <motion.div
+                          className={
+                            classes.subscriptionsPricingCardHeaderLocationPropertySmall
+                          }
+                        >
+                          {e.service_location_property}
+                        </motion.div>
+                      </motion.div>
+                    </motion.div>
                   </motion.div>
                 )}
                 <motion.div
@@ -328,7 +386,11 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                       ${classes.subscriptionsPricingCardBodySessionTiming} ${classes.subscriptionsPricingCardBodySessionText}
                     `}
                               >
-                                {Frequency}
+                                {typeof e.frequency === "object"
+                                  ? e.frequency.frequency_min +
+                                    "-" +
+                                    e.frequency.frequency_max
+                                  : e.frequency}
                               </motion.div>
                             </motion.div>
                           </motion.div>
@@ -348,10 +410,10 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                               }
                             >
                               <motion.img
-                                alt="verticle timeline icon"
-                                src={TimelineIcon}
+                                alt="group icon"
+                                src={GroupIcon}
                                 className={`
-                      ${classes.subscriptionsPricingCardBodySessionTimelineIcon} ${classes.subscriptionsPricingCardBodySessionIcon}
+                      ${classes.subscriptionsPricingCardBodySessionGroupIcon} ${classes.subscriptionsPricingCardBodySessionIcon}
                     `}
                               />
 
@@ -360,9 +422,7 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                       ${classes.subscriptionsPricingCardBodySessionTerm} ${classes.subscriptionsPricingCardBodySessionText}
                     `}
                               >
-                                {e.session_count == 1
-                                  ? e.session_count + " session"
-                                  : e.session_count + " sessions"}
+                                {e.instructor}
                               </motion.div>
                             </motion.div>
                             <motion.div
@@ -371,12 +431,13 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                               }
                             >
                               <motion.img
-                                alt="group icon"
-                                src={GroupIcon}
+                                alt="verticle timeline icon"
+                                src={TimelineIcon}
                                 className={`
-                      ${classes.subscriptionsPricingCardBodySessionGroupIcon} ${classes.subscriptionsPricingCardBodySessionIcon}
+                      ${classes.subscriptionsPricingCardBodySessionTimelineIcon} ${classes.subscriptionsPricingCardBodySessionIcon}
                     `}
                               />
+
                               <motion.div
                                 className={`
                       ${classes.subscriptionsPricingCardBodySessionEnrollment} ${classes.subscriptionsPricingCardBodySessionText}
@@ -492,8 +553,7 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                       {typeof e.frequency === "object"
                         ? e.frequency.frequency_min +
                           "-" +
-                          e.frequency.frequency_max +
-                          " months"
+                          e.frequency.frequency_max
                         : e.frequency}
                     </motion.div>
                   </motion.div>
@@ -514,27 +574,6 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                     }
                   >
                     <motion.img
-                      alt="verticle timeline icon"
-                      src={TimelineIcon}
-                      className={`
-                      ${classes.subscriptionsPricingCardBodySessionTimelineIcon} ${classes.subscriptionsPricingCardBodySessionIcon}
-                    `}
-                    />
-
-                    <motion.div
-                      className={`
-                      ${classes.subscriptionsPricingCardBodySessionTerm} ${classes.subscriptionsPricingCardBodySessionText}
-                    `}
-                    >
-                      {e.session_count + " sessions"}
-                    </motion.div>
-                  </motion.div>
-                  <motion.div
-                    className={
-                      classes.subscriptionsPricingCardBodySessionContainer
-                    }
-                  >
-                    <motion.img
                       alt="group icon"
                       src={GroupIcon}
                       className={`
@@ -543,12 +582,30 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
                     />
                     <motion.div
                       className={`
+                      ${classes.subscriptionsPricingCardBodySessionTerm} ${classes.subscriptionsPricingCardBodySessionText}
+                    `}
+                    >
+                      {e.instructor}
+                    </motion.div>
+                  </motion.div>
+                  <motion.div
+                    className={
+                      classes.subscriptionsPricingCardBodySessionContainer
+                    }
+                  >
+                    <motion.img
+                      alt="verticle timeline icon"
+                      src={TimelineIcon}
+                      className={`
+                      ${classes.subscriptionsPricingCardBodySessionTimelineIcon} ${classes.subscriptionsPricingCardBodySessionIcon}
+                    `}
+                    />
+                    <motion.div
+                      className={`
                       ${classes.subscriptionsPricingCardBodySessionEnrollment} ${classes.subscriptionsPricingCardBodySessionText}
                     `}
                     >
-                      {e.student_count == 1
-                        ? "1:1 sessions"
-                        : e.student_count + " per group"}
+                      {e.student_count == 1 ? "1:1 sessions" : e.student_count}
                     </motion.div>
                   </motion.div>
                 </motion.div>

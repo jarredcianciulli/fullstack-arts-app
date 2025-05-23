@@ -262,6 +262,10 @@
     font-size: 2.4rem;
   } */
 }
+
+
+
+
 .heading-box__group {
   color: #f7f7f7;
   margin-top: 3rem;
@@ -773,7 +777,7 @@
 
 .mapboxgl-popup-content {
   text-align: center;
-  font-family: 'Lato', sans-serif;
+  font-family: var(--font-family-quadiary);
   padding: 1.5rem !important;
   font-size: 1.4rem;
   -webkit-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15) !important;
@@ -784,17 +788,17 @@
   margin-top: calc(0px - 9vw);
   padding: calc(5rem + 9vw) 0;
   position: relative;
-  // z-index: 1000;
+  /* // z-index: 1000; */
   background: -webkit-gradient(
     linear,
     left top,
     right bottom,
-    from($color-grey-light-1),
-    to($color-grey-light-2)
+    from(var(--color-grey-light-1)),
+    to(var(--color-grey-light-2))
   );
   background: linear-gradient(
     to right bottom,
-    $color-grey-light-1,
+    var(--color-grey-light-1),
     $color-grey-light-2
   );
   clip-path: polygon(0 9vw, 100% 0, 100% calc(100% - 9vw), 0 100%);

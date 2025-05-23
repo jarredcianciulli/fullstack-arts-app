@@ -3,6 +3,10 @@
     height: calc(100vh - 5rem);
     overflow-x: hidden;
   }
+
+  .homeBodyActive {
+    height: calc(100vh);
+  }
 }
 
 @media (min-width: 800px) {
@@ -18,5 +22,8 @@
       var(--color-sextiary-light-200),
       var(--color-sextiary-light-100)
     );
+  }
+  .homeBodyActive {
+    height: calc(100vh);
   }
 }

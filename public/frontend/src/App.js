@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import HomePage from "./components/pages/Home";
+// import HomePage from "./components/pages/Home";
 import AboutPage from "./components/pages/About";
 import SubscriptionsPage from "./components/pages/Subscriptions";
 import ResourcesPage from "./components/pages/Resources";
@@ -11,6 +11,7 @@ import ArpeggiosPage from "./components/pages/resources/arpeggios/Arpeggios";
 import DoubleStopsPage from "./components/pages/resources/DoubleStops";
 import ModesPage from "./components/pages/resources/Modes";
 import PaymentStatus from "./components/main/form/PaymentStatus";
+import ProfilePage from "./components/pages/Profile";
 
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: <ProfilePage />,
       },
       {
         path: "services",

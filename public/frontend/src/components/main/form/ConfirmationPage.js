@@ -103,12 +103,12 @@ const ConfirmationPage = ({ formData, onEditStep }) => {
 
               return (
                 <div key={field.id} className={styles.field_row}>
-                  <span className={styles.field_label}>
+                  <div className={styles.field_label}>
                     {field.label || field.field_key}:
-                  </span>
-                  <span className={styles.field_value}>
+                  </div>
+                  <div className={styles.field_value}>
                     {formatFieldValue(field, formData[field.field_key])}
-                  </span>
+                  </div>
                 </div>
               );
             })}

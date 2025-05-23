@@ -182,3 +182,16 @@
 .availability__time:focus {
   background-color: var(--color-primary-100);
 }
+
+@media (max-width: 768px) {
+  .popupContent {
+    flex-direction: column;
+  }
+  .calendarActionsContainer {
+    width: 100%;
+    margin: 0;
+  }
+  .popupOverlay {
+    height: 101vh;
+  }
+}

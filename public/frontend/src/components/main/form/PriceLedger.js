@@ -11,7 +11,7 @@ const formatPrice = (price, includeSymbol = true) => {
 export const calculatePrice = (formData) => {
   // Find the selected package
   const selectedPackage = formFieldOptions.find(
-    (opt) => opt.value === formData.lesson_package
+    (opt) => opt.value === formData.package
   );
 
   if (!selectedPackage) return null;
@@ -34,11 +34,12 @@ export const calculatePrice = (formData) => {
 };
 
 const PriceLedger = ({ formData, onTotalCalculated }) => {
+  console.log(formData, "formData in PriceLedger");
   const breakdown = calculatePrice(formData);
   const total = breakdown ? breakdown.total : null;
 
   useEffect(() => {
-    if (total !== null && typeof total === 'number' && onTotalCalculated) {
+    if (total !== null && typeof total === "number" && onTotalCalculated) {
       onTotalCalculated(total); // Pass the numeric total
     }
     // Dependency array includes total and the callback itself
@@ -61,7 +62,10 @@ const PriceLedger = ({ formData, onTotalCalculated }) => {
           <span>
             Travel Fee{" "}
             {formData.location?.travel_price
-              ? `($${formatPrice(formData.location.travel_price, false)} per session)`
+              ? `($${formatPrice(
+                  formData.location.travel_price,
+                  false
+                )} per session)`
               : ""}
           </span>
           <span>{formatPrice(locationFee)}</span>
@@ -85,8 +89,8 @@ const PriceLedger = ({ formData, onTotalCalculated }) => {
 
 PriceLedger.propTypes = {
   formData: PropTypes.shape({
-    lesson_package: PropTypes.string,
-    location: PropTypes.object
+    package: PropTypes.string,
+    location: PropTypes.object,
   }).isRequired,
   onTotalCalculated: PropTypes.func,
 };

@@ -29,9 +29,12 @@ const MultiStepForm = ({
   const serviceConfig = serviceMetadata.find(
     (config) => config.serviceId === service.id
   );
-  const availableSteps = serviceConfig
-    ? formSteps.filter((step) => serviceConfig.formSteps.includes(step.step))
-    : [];
+  console.log(serviceConfig);
+  const availableSteps = serviceConfig.formSteps
+    .map((stepId) => formSteps.find((step) => step.id === stepId))
+    .filter(Boolean); // Filter out any undefined steps if there's an invalid ID
+
+  console.log(availableSteps);
 
   // Reset form when closed
   useEffect(() => {
@@ -53,20 +56,39 @@ const MultiStepForm = ({
   }, [currentStepIndex]); // Scroll to top whenever the step changes
 
   const getCurrentStepFields = () => {
-    const currentStep = currentStepIndex + 1;
-    const currentStepData = formSteps.find((s) => s.step === currentStep);
-    if (!currentStepData) return [];
+    const serviceConfig = serviceMetadata.find(
+      (config) => config.serviceId === service.id
+    );
 
+    if (!serviceConfig) return [];
+    console.log(serviceConfig);
+    // Filter form steps to those available for this service
+    // const availableSteps = formSteps.filter((step) =>
+    //   serviceConfig.formSteps.includes(step.step)
+    // );
+    const availableSteps = serviceConfig.formSteps
+      .map((stepId) => formSteps.find((step) => step.id === stepId))
+      .filter(Boolean); // Filter out any undefined steps if there's an invalid ID
+
+    const currentStep = currentStepIndex;
+    console.log(availableSteps);
+
+    const currentStepData = availableSteps.find(
+      (s, i) => i === currentStepIndex
+    );
+    console.log(currentStepData);
+    if (!currentStepData) return [];
+    console.log(currentStepData.fieldIds);
     // Get base fields for this step *in the order specified by fieldIds*
     const stepFields = currentStepData.fieldIds
       .map((id) => formFields.find((field) => field.id === id))
       .filter((field) => field !== undefined); // Filter out any undefined results if an ID doesn't match
-
+    console.log(stepFields);
     // Get conditional fields if needed
     let conditionalFields = [];
 
     // Handle student relationship conditionals
-    if (formData.student_relationship && currentStep === 1) {
+    if (formData.student_relationship && currentStep === 0) {
       const selectedOption = formFieldOptions.find(
         (opt) => opt.value === formData.student_relationship
       );
@@ -78,12 +100,17 @@ const MultiStepForm = ({
         conditionalFields.push(...fields);
       }
     }
-
+    console.log(formData.preferred_cadence);
+    const scheduleStep = availableSteps.findIndex(
+      (step) => step.title === "Schedule"
+    );
+    console.log(scheduleStep);
     // Handle schedule conditionals
-    if (formData.preferred_cadence && currentStep === 4) {
+    if (formData.preferred_cadence && currentStep === scheduleStep) {
       const selectedOption = formFieldOptions.find(
         (opt) => opt.value === formData.preferred_cadence
       );
+      console.log(selectedOption);
 
       if (selectedOption?.if_selected?.length > 0) {
         const fields = formFieldConditionals.filter((field) =>
@@ -195,6 +222,7 @@ const MultiStepForm = ({
   };
 
   const handleNext = () => {
+    console.log(availableSteps);
     const isValid = validateStep();
     if (isValid) {
       const currentStepData = availableSteps[currentStepIndex]; // Get current step data
@@ -211,7 +239,9 @@ const MultiStepForm = ({
           };
           console.log("Using Final Total from PriceLedger state:", finalTotal);
         } else {
-          console.error("Final total from PriceLedger state is null when proceeding to payment!");
+          console.error(
+            "Final total from PriceLedger state is null when proceeding to payment!"
+          );
           // Handle error - perhaps prevent moving forward or show a message
           // For now, we'll proceed but log the error.
           // Consider setting a default or fallback if finalTotal is crucial and missing.
@@ -262,6 +292,7 @@ const MultiStepForm = ({
   if (!isFormOpen || !serviceConfig) return null;
 
   const currentStepFields = getCurrentStepFields();
+  console.log(availableSteps);
   const isLastStep = currentStepIndex === availableSteps.length - 1;
   const currentStepData = availableSteps[currentStepIndex] || {};
   const isPackageStep = currentStepData?.title === "Package";
@@ -269,7 +300,10 @@ const MultiStepForm = ({
   const isPaymentStep = currentStepData?.title === "Payment";
 
   return (
-    <div ref={formContainerRef} className={`${styles.formContainer} ${isFormOpen ? styles.open : ""}`}>
+    <div
+      ref={formContainerRef}
+      className={`${styles.formContainer} ${isFormOpen ? styles.open : ""}`}
+    >
       <div className={`${styles.multi_step_form} ${className || ""}`}>
         <div className={styles.close_container}>
           <img
@@ -301,14 +335,14 @@ const MultiStepForm = ({
                 className={styles.step_number}
                 animate={{
                   scale: index === currentStepIndex ? 1.1 : 1,
-                  backgroundColor:
-                    index === currentStepIndex - 1
-                      ? "var(--color-quadiary-200)"
-                      : index < currentStepIndex
-                      ? "var(--color-quadiary-200)"
-                      : index === currentStepIndex
-                      ? "var(--color-primary-light-100)"
-                      : "var(--color-primary-light-100)",
+                  // backgroundColor:
+                  //   index === currentStepIndex - 1
+                  //     ? "var(--color-quadiary-200)"
+                  //     : index < currentStepIndex
+                  //     ? "var(--color-quadiary-200)"
+                  //     : index === currentStepIndex
+                  //     ? "var(--color-primary-light-100)"
+                  //     : "var(--color-primary-light-100)",
                   borderColor:
                     index === currentStepIndex - 1
                       ? "var(--color-quadiary-400)"
@@ -318,8 +352,8 @@ const MultiStepForm = ({
                       ? "var(--color-primary-500)"
                       : "var(--color-primary-400)",
                   color:
-                    index === currentStepIndex - 1
-                      ? "var(--color-quadiary-400)"
+                    index === currentStepIndex
+                      ? "var(--color-primary-600)"
                       : index <= currentStepIndex
                       ? "var(--color-quadiary-400)"
                       : "var(--color-primary-400)",
@@ -383,12 +417,15 @@ const MultiStepForm = ({
           {isPaymentStep && <PaymentForm formData={formData} />}
 
           {/* Render Price Ledger on Confirmation AND Payment steps, AFTER the main content */}
-          {(isPackageStep || isConfirmationStep || isPaymentStep) && formData.lesson_package && (
-            <PriceLedger
-              formData={formData}
-              onTotalCalculated={isConfirmationStep ? handleTotalUpdate : null}
-            />
-          )}
+          {(isPackageStep || isConfirmationStep || isPaymentStep) &&
+            formData.package && (
+              <PriceLedger
+                formData={formData}
+                onTotalCalculated={
+                  isConfirmationStep ? handleTotalUpdate : null
+                }
+              />
+            )}
 
           {/* --- Action Buttons --- */}
           {/* Render Action buttons AFTER Confirmation/Payment content */}

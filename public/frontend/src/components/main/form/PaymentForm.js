@@ -75,7 +75,10 @@ const PaymentForm = ({ formData }) => {
     const dataToSend = { formData };
 
     // --> ADDED: Log the data being sent for debugging
-    console.log('Sending data to /api/payment/create-checkout-session:', JSON.stringify(dataToSend, null, 2));
+    console.log(
+      "Sending data to /api/payment/create-checkout-session:",
+      JSON.stringify(dataToSend, null, 2)
+    );
 
     // Fetch the checkout session
     fetch("/api/payment/create-checkout-session", {

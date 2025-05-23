@@ -24,7 +24,7 @@ const BookingSignup = (props) => {
       <motion.div className={classes.butonContainer}>
         <PopupButton
           className={classes.button}
-          url="https://calendly.com/jcianci1/info-call"
+          url="https://calendly.com/jarred-cianciulli-3wtn/30min?preview_source=et_card&month=2025-05"
           /*
            * react-calendly uses React's Portal feature (https://reactjs.org/docs/portals.html) to render the popup modal. As a result, you'll need to
            * specify the rootElement property to ensure that the modal is inserted into the correct domNode.

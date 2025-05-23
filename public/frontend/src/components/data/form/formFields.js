@@ -82,7 +82,7 @@ export const formFields = [
     options: [9, 10, 11],
     visibility: "always",
     section: "package",
-    field_key: "lesson_package",
+    field_key: "package",
   },
   {
     id: 6,
@@ -98,5 +98,18 @@ export const formFields = [
     visibility: "always",
     section: "general",
     field_key: "email",
+  },
+  {
+    id: 7,
+    type: "select",
+    input_type: "card",
+    label: "Select your piano tuning package",
+    placeholder: "Select your package",
+    required: true,
+    default_option: "",
+    options: [16, 17],
+    visibility: "always",
+    section: "package",
+    field_key: "package",
   },
 ];

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./Form.module.css";
 import { calculateDistance } from "../../../utils/locationUtils";
 import axios from "axios";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const LocationField = ({
   field,
@@ -39,7 +40,7 @@ const LocationField = ({
     try {
       // Get place predictions from our backend
       const response = await axios.get(
-        "http://localhost:8081/api/location/autocomplete",
+        `${API_BASE_URL}/api/location/autocomplete`,
         {
           params: { query },
         }
@@ -47,9 +48,7 @@ const LocationField = ({
 
       // For each prediction, get its details to get coordinates
       const detailsPromises = response.data.map((prediction) =>
-        axios.get(
-          `http://localhost:8081/api/location/details/${prediction.place_id}`
-        )
+        axios.get(`${API_BASE_URL}/api/location/details/${prediction.place_id}`)
       );
 
       console.log("detailsPromises", detailsPromises);

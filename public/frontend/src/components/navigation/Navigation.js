@@ -4,6 +4,7 @@ import { NavLink, Form, useRouteLoaderData } from "react-router-dom";
 import logoIcon from "./assets/intono-logo-icon.png";
 import logo from "./assets/intono-logo-v1.png";
 import navIcon from "../pages/assets/nav_icon.svg";
+import { useLocation } from "react-router-dom";
 
 import { NavContext } from "./NavContext.jsx";
 import {
@@ -17,6 +18,8 @@ import BookingSignup from "../header/BookingSignup.js";
 import classes from "./Navigation.module.css";
 
 function Navigation() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
   const [showNav, setShowNav] = useState(false);
 
   const [matches, setMatches] = useState(
@@ -39,7 +42,11 @@ function Navigation() {
   };
 
   return (
-    <motion.div className={classes.headerMain}>
+    <motion.div
+      className={`${classes.headerMain} ${
+        isHome ? classes.homeHeaderMainActive : ""
+      }`}
+    >
       {!matches && (
         <NavContext.Provider value={{ showNav, setShowNav, navMenu }}>
           <AnimatePresence>
@@ -76,7 +83,7 @@ function Navigation() {
                     <NavLink
                       to="/"
                       className={({ isActive }) =>
-                        isActive ? classes.active : undefined
+                        isActive ? `${classes.active}` : undefined
                       }
                       onClick={navMenu}
                     >
@@ -87,7 +94,9 @@ function Navigation() {
                     <NavLink
                       to="/services"
                       className={({ isActive }) =>
-                        isActive ? classes.active : undefined
+                        isActive
+                          ? `${classes.active} ${classes.servicesActive}`
+                          : undefined
                       }
                       onClick={navMenu}
                     >
@@ -105,7 +114,7 @@ function Navigation() {
                       About
                     </NavLink>
                   </motion.li>
-                  <motion.li className={classes.listElement}>
+                  {/* <motion.li className={classes.listElement}>
                     <NavLink
                       to="/resources"
                       className={({ isActive }) =>
@@ -115,7 +124,7 @@ function Navigation() {
                     >
                       Resources
                     </NavLink>
-                  </motion.li>
+                  </motion.li> */}
                   <BookingSignup />
                 </motion.ul>
               </motion.div>
@@ -124,7 +133,11 @@ function Navigation() {
         </NavContext.Provider>
       )}
       <motion.header className={classes.header_1}>
-        <motion.nav className={classes.navContainer}>
+        <motion.nav
+          className={`${classes.navContainer} ${
+            isHome ? classes.homeActive : ""
+          }`}
+        >
           <motion.div className={classes.logoContainer}>
             <motion.img className={classes.logo} src={logo} />
           </motion.div>
@@ -178,7 +191,7 @@ function Navigation() {
                         About
                       </NavLink>
                     </motion.li>
-                    <motion.li className={classes.listElement}>
+                    {/* <motion.li className={classes.listElement}>
                       <NavLink
                         to="/resources"
                         className={({ isActive }) =>
@@ -188,7 +201,7 @@ function Navigation() {
                       >
                         Resources
                       </NavLink>
-                    </motion.li>
+                    </motion.li> */}
                     <BookingSignup />
                   </motion.ul>
                 </motion.div>
