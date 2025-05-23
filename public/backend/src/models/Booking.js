@@ -91,6 +91,10 @@ const bookingSchema = new mongoose.Schema({
     unique: true,
     sparse: true,
   },
+  paymentFailureReason: {
+    type: String, // To store the reason for payment failure
+    sparse: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

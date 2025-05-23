@@ -8,11 +8,13 @@ const Booking = require("../models/Booking"); // Import the updated model
 dotenv.config({ path: path.resolve(__dirname, "../../config.env") });
 
 // Dynamically use test or live keys based on NODE_ENV
-const stripe = require("stripe")(
-  process.env.NODE_ENV === "production"
-    ? process.env.STRIPE_SECRET_KEY
-    : process.env.STRIPE_SECRET_KEY_TEST
-);
+const secretKeyInUse = process.env.NODE_ENV === "production"
+  ? process.env.STRIPE_SECRET_KEY
+  : process.env.STRIPE_SECRET_KEY_TEST;
+
+console.log(`[PaymentRoute] Initializing Stripe with NODE_ENV: ${process.env.NODE_ENV}. Using secret key: ${secretKeyInUse ? secretKeyInUse.substring(0, 8) + '...' + secretKeyInUse.substring(secretKeyInUse.length - 4) : 'NOT FOUND'}`);
+
+const stripe = require("stripe")(secretKeyInUse);
 
 // Helper function to parse time string (e.g., "7:00pm") to HH:mm format
 const parseTime = (timeStr) => {
@@ -147,48 +149,166 @@ router.post("/create-checkout-session", async (req, res) => {
     try {
       const totalAmountCents = Math.round(newBooking.totalAmount * 100);
 
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: [
-          {
-            price_data: {
-              currency: newBooking.currency,
-              product_data: {
-                name: `Booking - ${newBooking.package}`,
-                description: `Booking for ${newBooking.student_name}`,
-              },
-              unit_amount: totalAmountCents,
+       // Create a Stripe Checkout Session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `Booking - ${formData.package}`,
+              description: `Booking for ${formData.student_name}`,
             },
-            quantity: 1,
+            unit_amount: Math.round(formData.totalAmount * 100),
           },
-        ],
-        mode: "payment",
-        customer_email: newBooking.email,
-        success_url: `${process.env.FRONTEND_URL}/payment/complete?session_id={CHECKOUT_SESSION_ID}&booking_id=${newBooking._id}`,
-        cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      customer_email: formData.email,
+      success_url: `${process.env.FRONTEND_URL}/payment/complete?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.FRONTEND_URL}/payment/cancel`,
+    });
+
+    console.log(`Stripe Checkout Session created: ${session.id}`);
+    res.status(200).json({ clientSecret: session.client_secret, bookingId: newBooking._id });
+  } catch (error) {
+    console.error("Error in /create-checkout-session:", error);
+    res.status(500).json({ error: "Failed to create Checkout Session." });
+  }
+  } catch (error) { // Catch for the outer try block (started on line 56)
+    console.error("Unhandled error in /create-checkout-session route:", error);
+    res.status(500).json({ error: "An unexpected error occurred processing your request." });
+  }
+});
+
+// POST /api/payment/create-payment-intent - For Stripe Embedded Checkout
+router.post("/create-payment-intent", async (req, res) => {
+  try {
+    const { formData } = req.body;
+    console.log(
+      "Received formData for /create-payment-intent:",
+      JSON.stringify(formData, null, 2)
+    );
+
+    // --- VALIDATION ---
+    if (
+      !formData ||
+      !formData.schedule_selection || // Ensure this is passed if needed for booking
+      !formData.package ||
+      !formData.student_name ||
+      !formData.email ||
+      !formData.totalAmount ||
+      typeof formData.totalAmount !== 'number' ||
+      formData.totalAmount <= 0
+    ) {
+      console.error("Validation Failed: Missing or invalid required fields in formData for Payment Intent.");
+      return res.status(400).json({
+        error:
+          "Missing or invalid required fields for payment intent. Check schedule_selection, package, student_name, email, and totalAmount (must be a positive number).",
+      });
+    }
+
+    // --- SCHEDULE PARSING (Copy from /create-checkout-session if booking creation needs it) ---
+    let parsedSchedule = [];
+    let mappedSchedule = [];
+    if (formData.schedule_selection) { // Make schedule parsing conditional if not always present
+      try {
+        parsedSchedule = JSON.parse(formData.schedule_selection);
+        if (!Array.isArray(parsedSchedule) || parsedSchedule.length === 0) {
+          // Allow empty schedule if your booking logic permits
+          // throw new Error("Parsed schedule_selection is not a non-empty array.");
+        }
+        mappedSchedule = parsedSchedule.map((item) => {
+          const startTime = parseTime(item.time);
+          const endTime = calculateEndTime(startTime);
+          const bookingDate = item.date ? new Date(item.date) : null;
+          if (
+            !startTime ||
+            !endTime ||
+            !bookingDate ||
+            isNaN(bookingDate.getTime())
+          ) {
+            throw new Error(
+              `Invalid time ('${item.time}') or date ('${item.date}') format in schedule_selection.`
+            );
+          }
+          return {
+            day: item.day,
+            time: item.time,
+            date: bookingDate,
+            startTime: startTime,
+            endTime: endTime,
+          };
+        });
+      } catch (parseError) {
+        console.error("Error parsing or mapping schedule_selection for Payment Intent:", parseError);
+        return res.status(400).json({
+          error: `Failed to parse or map schedule_selection: ${parseError.message}`,
+        });
+      }
+    }
+
+    // --- CREATE PENDING BOOKING ---
+    let newBooking;
+    try {
+      newBooking = new Booking({
+        student_relationship: formData.student_relationship,
+        student_name: formData.student_name,
+        email: formData.email,
+        customerPhone: formData.customerPhone,
+        location: formData.location || {},
+        package: formData.package,
+        schedule_sessions: formData.schedule_sessions,
+        preferred_cadence: formData.preferred_cadence,
+        schedule: mappedSchedule, // Use potentially empty mappedSchedule
+        additionalNotes: formData.additionalNotes,
+        customFields: formData.customFields || [],
+        totalAmount: formData.totalAmount,
+        currency: formData.currency || "usd",
+        paymentStatus: "pending", // Initial status
+      });
+      await newBooking.save();
+      console.log(`Pending booking created successfully for Payment Intent: ${newBooking._id}`);
+    } catch (dbError) {
+      console.error("Error saving booking to database for Payment Intent:", dbError);
+      return res.status(500).json({ error: "Failed to save booking data." });
+    }
+
+    // --- CREATE STRIPE PAYMENT INTENT ---
+    try {
+      const totalAmountCents = Math.round(newBooking.totalAmount * 100);
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: totalAmountCents,
+        currency: newBooking.currency,
+        receipt_email: formData.email, // For sending email receipts to the customer
         metadata: {
           bookingId: newBooking._id.toString(),
+        },
+        automatic_payment_methods: {
+          enabled: true,
         },
       });
 
       console.log(
-        `Stripe Checkout Session created: ${session.id} for booking ${newBooking._id}`
+        `Stripe Payment Intent created: ${paymentIntent.id} for booking ${newBooking._id}`
       );
       res.status(200).json({
-        sessionId: session.id,
+        clientSecret: paymentIntent.client_secret,
         bookingId: newBooking._id.toString(),
       });
     } catch (stripeError) {
-      console.error("Error creating Stripe checkout session:", stripeError);
+      console.error("Error creating Stripe Payment Intent:", stripeError);
+      // Consider reversing booking creation or marking it as failed if PI creation fails
       return res.status(500).json({
-        error: `Stripe session creation failed: ${stripeError.message}`,
+        error: `Stripe Payment Intent creation failed: ${stripeError.message}`,
       });
     }
   } catch (error) {
-    console.error("Unexpected error in /create-checkout-session:", error);
-    res
-      .status(500)
-      .json({ error: "An unexpected error occurred processing the payment." });
+    console.error("Unexpected error in /create-payment-intent:", error);
+    res.status(500).json({ error: "An unexpected error occurred." });
   }
 });
 
@@ -206,4 +326,89 @@ router.get("/stripe-key", (req, res) => {
   res.send({ publishableKey });
 });
 
+
+// Stripe Webhook Handler
+router.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    if (!sig || !webhookSecret) {
+      console.log('[Webhook] Error: Missing stripe-signature or webhook secret.');
+      return res.status(400).send('Webhook Error: Missing signature or secret.');
+    }
+    event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+  } catch (err) {
+    console.log(`[Webhook] Signature verification failed: ${err.message}`);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  // Handle the event
+  switch (event.type) {
+    case 'payment_intent.succeeded':
+      const paymentIntentSucceeded = event.data.object;
+      console.log('[Webhook] PaymentIntent succeeded:', paymentIntentSucceeded.id, 'for booking:', paymentIntentSucceeded.metadata.bookingId);
+      // Retrieve bookingId from metadata
+      const bookingId = paymentIntentSucceeded.metadata.bookingId;
+      if (bookingId) {
+        try {
+          const booking = await Booking.findById(bookingId);
+          if (booking) {
+            if (booking.paymentStatus !== 'confirmed') { // Idempotency check
+              booking.paymentStatus = 'confirmed';
+              booking.stripePaymentIntentId = paymentIntentSucceeded.id; // Store PI ID
+              await booking.save();
+              console.log(`[Webhook] Booking ${bookingId} updated to confirmed.`);
+            } else {
+              console.log(`[Webhook] Booking ${bookingId} already confirmed.`);
+            }
+          } else {
+            console.log(`[Webhook] Booking ${bookingId} not found.`);
+          }
+        } catch (dbError) {
+          console.error(`[Webhook] Error updating booking ${bookingId}:`, dbError);
+          // Potentially return 500 to Stripe if critical, so it retries
+        }
+      } else {
+        console.log('[Webhook] Warning: bookingId not found in PaymentIntent metadata for PI:', paymentIntentSucceeded.id);
+      }
+      break;
+    case 'payment_intent.payment_failed':
+      const paymentIntentFailed = event.data.object;
+      console.log('[Webhook] PaymentIntent failed:', paymentIntentFailed.id, 'Reason:', paymentIntentFailed.last_payment_error?.message);
+      const failedBookingId = paymentIntentFailed.metadata.bookingId;
+      if (failedBookingId) {
+        try {
+          const booking = await Booking.findById(failedBookingId);
+          if (booking) {
+            if (booking.paymentStatus !== 'confirmed') { // Avoid overwriting a confirmed payment
+                booking.paymentStatus = 'payment_failed';
+                if (paymentIntentFailed.last_payment_error) {
+                    booking.paymentFailureReason = paymentIntentFailed.last_payment_error.message;
+                }
+                await booking.save();
+                console.log(`[Webhook] Booking ${failedBookingId} updated to payment_failed.`);
+            } else {
+                 console.log(`[Webhook] Booking ${failedBookingId} was already confirmed, ignoring payment failure.`);
+            }
+          } else {
+            console.log(`[Webhook] Booking ${failedBookingId} not found for payment failure event.`);
+          }
+        } catch (dbError) {
+          console.error(`[Webhook] Error updating booking ${failedBookingId} to failed:`, dbError);
+        }
+      }
+      break;
+    // Add other event types as needed, e.g., 'charge.refunded', 'customer.subscription.deleted'
+    default:
+      console.log(`[Webhook] Unhandled event type ${event.type}`);
+  }
+
+  // Return a 200 response to acknowledge receipt of the event
+  res.status(200).send();
+});
+
 module.exports = router;
+
