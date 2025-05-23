@@ -2,33 +2,39 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
 
-// Set allowed origins for CORS
 const allowedOrigins = [
   "https://www.intonobyjarred.com",
-  "http://localhost:3000", // add this for local dev if needed
+  "http://localhost:3000",
 ];
 
-// CORS middleware with origin check
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin, like mobile apps or curl requests
+      console.log("CORS origin:", origin);
       if (!origin || allowedOrigins.includes(origin)) {
+        console.log("CORS allowed for:", origin);
         callback(null, true);
       } else {
+        console.log("CORS blocked for:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // if using cookies or authentication
+    credentials: true,
   })
 );
 
-// Debug middleware
+app.use((err, req, res, next) => {
+  if (err.message === "Not allowed by CORS") {
+    res.status(403).json({ error: "CORS error: Origin not allowed" });
+  } else {
+    next(err);
+  }
+});
+
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
@@ -38,11 +44,9 @@ app.get("/api/cors-test", (req, res) => {
   res.json({ message: "CORS is working!" });
 });
 
-// Webhook route (handles raw body parsing internally)
 app.use("/api/webhook", require("./src/routes/webhook"));
 app.use(express.json());
 
-// Routes
 const availabilityRoutes = require("./routes/availability");
 const locationRoutes = require("./routes/location");
 const paymentRoutes = require("./src/routes/payment");
