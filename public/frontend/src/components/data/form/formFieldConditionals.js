@@ -20,7 +20,7 @@ export const formFieldConditionals = [
 
     target_field_id: 3,
     source_field_key: "student_relationship",
-    show_when_values: ["child"],
+    show_when_values: ["My child"],
   },
   {
     id: 4,
@@ -38,7 +38,7 @@ export const formFieldConditionals = [
     field_key: "child_age",
     target_field_id: 4,
     source_field_key: "student_relationship",
-    show_when_values: ["child"],
+    show_when_values: ["My child"],
   },
   {
     id: 5,
@@ -56,7 +56,7 @@ export const formFieldConditionals = [
     field_key: "grandchild_name",
     target_field_id: 5,
     source_field_key: "student_relationship",
-    show_when_values: ["grandchild"],
+    show_when_values: ["My grandchild"],
   },
   {
     id: 6,
@@ -74,13 +74,13 @@ export const formFieldConditionals = [
     field_key: "grandchild_age",
     target_field_id: 6,
     source_field_key: "student_relationship",
-    show_when_values: ["grandchild"],
+    show_when_values: ["My grandchild"],
   },
   {
     id: 7,
     type: "input",
     input_type: "text",
-    label: "What is your relationship to the student?",
+    label: "What's your relationship to the student?",
     placeholder: "Relationship to student",
     required: true,
     visibility: "always",
@@ -92,7 +92,7 @@ export const formFieldConditionals = [
     field_key: "student_relationship_other",
     target_field_id: 7,
     source_field_key: "student_relationship",
-    show_when_values: ["other"],
+    show_when_values: ["Other"],
   },
   {
     id: 8,
@@ -110,13 +110,13 @@ export const formFieldConditionals = [
     field_key: "student_name_other",
     target_field_id: 8,
     source_field_key: "student_relationship",
-    show_when_values: ["other"],
+    show_when_values: ["Other"],
   },
   {
     id: 9,
     type: "input",
     input_type: "age",
-    label: "What's your student's age?",
+    label: "What's the student's age?",
     placeholder: "Student's age",
     visibility: "always",
 
@@ -128,7 +128,7 @@ export const formFieldConditionals = [
     field_key: "student_age_other",
     target_field_id: 9,
     source_field_key: "student_relationship",
-    show_when_values: ["other"],
+    show_when_values: ["Other"],
   },
 
   {

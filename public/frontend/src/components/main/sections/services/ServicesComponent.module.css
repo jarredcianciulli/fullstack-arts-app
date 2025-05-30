@@ -81,10 +81,6 @@
   transition: background-color 0.2s;
 }
 
-.subscriptionsPricingCardFooterButton:hover {
-  background-color: var(--color-primary-600);
-}
-
 .subscriptionsPricingCardFooterButtonDisabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -101,4 +97,10 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 800px) {
+  .subscriptionsPricingCardFooterButton:hover {
+    background-color: var(--color-primary-600);
+  }
 }

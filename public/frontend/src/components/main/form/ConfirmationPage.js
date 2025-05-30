@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { loadStripe } from '@stripe/stripe-js';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 import PropTypes from "prop-types";
 import styles from "./Form.module.css";
 import { FaEdit } from "react-icons/fa";
@@ -14,13 +14,44 @@ const ConfirmationPage = ({ formData, onEditStep, service }) => {
   const [isProcessingPayment, setIsProcessingPayment] = useState(false); // For payment submission
   const [paymentError, setPaymentError] = useState(null);
 
+  // Helper function to get the API base URL based on environment
+  const getApiBaseUrl = () => {
+    if (process.env.NODE_ENV === "production") {
+      // Using the correct production backend URL
+      return "https://fullstack-arts-app.onrender.com";
+    } else {
+      // For development, use relative paths (via proxy in package.json)
+      return "";
+    }
+  };
+
   useEffect(() => {
+    // Get API base URL using the helper function
+    const apiBaseUrl = getApiBaseUrl();
+
+    // Log environment and configuration details for debugging
+    console.log(`[ConfirmationPage] Environment: ${process.env.NODE_ENV}`);
+    console.log(
+      `[ConfirmationPage] API URL from env: ${
+        process.env.REACT_APP_API_URL || "not set"
+      }`
+    );
+    console.log(`[ConfirmationPage] Using API base URL: ${apiBaseUrl}`);
+
+    // Build the full URL for the Stripe key endpoint
+    const stripeKeyUrl = `${apiBaseUrl}/api/payment/stripe-key`;
+    console.log(`[ConfirmationPage] Fetching Stripe key from: ${stripeKeyUrl}`);
+
     // Fetch Stripe public key on component mount
-    fetch('/api/payment/stripe-key') // Using relative path assuming proxy or same origin
+    fetch(stripeKeyUrl) // Use environment-aware path
       .then(async (res) => {
         if (!res.ok) {
-          const text = await res.text().catch(() => "Could not read error response");
-          throw new Error(`Failed to fetch Stripe config: ${res.status} ${res.statusText} - ${text}`);
+          const text = await res
+            .text()
+            .catch(() => "Could not read error response");
+          throw new Error(
+            `Failed to fetch Stripe config: ${res.status} ${res.statusText} - ${text}`
+          );
         }
         return res.json();
       })
@@ -29,8 +60,13 @@ const ConfirmationPage = ({ formData, onEditStep, service }) => {
           const stripeInstance = loadStripe(data.publishableKey);
           setStripePromise(stripeInstance);
         } else {
-          console.error("[ConfirmationPage] Publishable key not found in response:", data);
-          setPaymentError('Failed to initialize payment system. Configuration error.');
+          console.error(
+            "[ConfirmationPage] Publishable key not found in response:",
+            data
+          );
+          setPaymentError(
+            "Failed to initialize payment system. Configuration error."
+          );
         }
       })
       .catch((err) => {
@@ -111,14 +147,24 @@ const ConfirmationPage = ({ formData, onEditStep, service }) => {
     }
   };
 
+  // Helper for retrieving fields from formData in a type-safe way
+  const getFieldValue = (key, defaultValue = "") => {
+    return formData && formData[key] !== undefined
+      ? formData[key]
+      : defaultValue;
+  };
+
   const handlePaymentSubmit = async () => {
-    if (!stripePromise || !formData || formData.totalAmount == null) { // Check for null or undefined totalAmount
-      setPaymentError('Please ensure all form details are complete and total is calculated.');
+    if (!stripePromise || !formData || formData.totalAmount == null) {
+      // Check for null or undefined totalAmount
+      setPaymentError(
+        "Please ensure all form details are complete and total is calculated."
+      );
       setIsProcessingPayment(false);
       return;
     }
     if (Object.keys(formData).length === 0) {
-      setPaymentError('Form data is incomplete.');
+      setPaymentError("Form data is incomplete.");
       setIsProcessingPayment(false);
       return;
     }
@@ -126,37 +172,61 @@ const ConfirmationPage = ({ formData, onEditStep, service }) => {
     setIsProcessingPayment(true);
     setPaymentError(null);
 
+    // Get the API base URL based on environment
+    const apiBaseUrl = getApiBaseUrl();
+
     try {
       // Prepare form data to send to backend
       const paymentFormData = { ...formData };
-      
+
       // Ensure schedule_selection is properly JSON stringified
-      if (paymentFormData.schedule_selection && typeof paymentFormData.schedule_selection === 'object') {
-        console.log('[ConfirmationPage] Converting schedule_selection to JSON string', paymentFormData.schedule_selection);
-        paymentFormData.schedule_selection = JSON.stringify(paymentFormData.schedule_selection);
+      if (
+        paymentFormData.schedule_selection &&
+        typeof paymentFormData.schedule_selection === "object"
+      ) {
+        console.log(
+          "[ConfirmationPage] Converting schedule_selection to JSON string",
+          paymentFormData.schedule_selection
+        );
+        paymentFormData.schedule_selection = JSON.stringify(
+          paymentFormData.schedule_selection
+        );
       }
-      
+
       // Construct a cancel URL with all current query parameters to ensure they're preserved
       const searchParams = new URLSearchParams(location.search);
       // Add the booking ID parameter that will be created
-      searchParams.append('returning', 'true'); // Add a flag to indicate the user is returning from checkout
-      
+      searchParams.append("returning", "true"); // Add a flag to indicate the user is returning from checkout
+
       // Construct the full cancel URL with all parameters
-      const cancelUrl = `${window.location.origin}${window.location.pathname}?${searchParams.toString()}`;
-      console.log('[ConfirmationPage] Constructed cancel_url:', cancelUrl);
-      
-      const response = await fetch('/api/payment/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+      const cancelUrl = `${window.location.origin}${
+        window.location.pathname
+      }?${searchParams.toString()}`;
+      console.log("[ConfirmationPage] Constructed cancel_url:", cancelUrl);
+
+      // Build the checkout session URL using the same pattern
+      const checkoutSessionUrl = `${apiBaseUrl}/api/payment/create-checkout-session`;
+      console.log(
+        `[ConfirmationPage] Creating checkout session at: ${checkoutSessionUrl}`
+      );
+
+      const response = await fetch(checkoutSessionUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           formData: paymentFormData,
-          cancel_url: cancelUrl 
+          cancel_url: cancelUrl,
         }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Server error without JSON response' }));
-        console.error('[ConfirmationPage] Error creating checkout session:', errorData);
+        const errorData = await response
+          .json()
+          .catch(() => ({ error: "Server error without JSON response" }));
+        console.error(
+          "[ConfirmationPage] Error creating checkout session:",
+          errorData
+        );
         setPaymentError(errorData.error || `Server error: ${response.status}`);
         setIsProcessingPayment(false);
         return;
@@ -166,32 +236,56 @@ const ConfirmationPage = ({ formData, onEditStep, service }) => {
       if (sessionData.sessionId) {
         const stripe = await stripePromise;
         if (stripe) {
-          const { error } = await stripe.redirectToCheckout({ sessionId: sessionData.sessionId });
+          const { error } = await stripe.redirectToCheckout({
+            sessionId: sessionData.sessionId,
+          });
           if (error) {
-            console.error('[ConfirmationPage] Error redirecting to Stripe Checkout:', error);
-            setPaymentError(error.message || 'Failed to redirect to payment page.');
+            console.error(
+              "[ConfirmationPage] Error redirecting to Stripe Checkout:",
+              error
+            );
+            setPaymentError(
+              error.message || "Failed to redirect to payment page."
+            );
             setIsProcessingPayment(false); // Only set if redirect fails
           }
           // If redirectToCheckout is successful, the user is redirected, component might unmount.
         } else {
-          console.error('[ConfirmationPage] Stripe.js not loaded, cannot redirect.');
-          setPaymentError('Payment system not ready. Please refresh and try again.');
+          console.error(
+            "[ConfirmationPage] Stripe.js not loaded, cannot redirect."
+          );
+          setPaymentError(
+            "Payment system not ready. Please refresh and try again."
+          );
           setIsProcessingPayment(false);
         }
       } else {
-        console.error('[ConfirmationPage] Invalid session data received:', sessionData);
-        setPaymentError('Failed to get payment session details from server.');
+        console.error(
+          "[ConfirmationPage] Invalid session data received:",
+          sessionData
+        );
+        setPaymentError("Failed to get payment session details from server.");
         setIsProcessingPayment(false);
       }
     } catch (error) {
-      console.error('[ConfirmationPage] Network or other error during payment process:', error);
-      setPaymentError('Network error or server unavailable. Please try again.');
+      console.error(
+        "[ConfirmationPage] Network or other error during payment process:",
+        error
+      );
+      setPaymentError("Network error or server unavailable. Please try again.");
       setIsProcessingPayment(false);
     }
   };
 
   if (isLoadingInitial) {
-    return <p className={styles.loading_message} style={{ padding: '20px', textAlign: 'center' }}>Loading payment options...</p>;
+    return (
+      <p
+        className={styles.loading_message}
+        style={{ padding: "20px", textAlign: "center" }}
+      >
+        Loading payment options...
+      </p>
+    );
   }
 
   return (
@@ -235,34 +329,77 @@ const ConfirmationPage = ({ formData, onEditStep, service }) => {
       ))}
 
       {/* Payment Initiation Section */}
-      <div className={styles.payment_initiation_section} style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #eee' }}>
-        <h4 style={{ marginBottom: '15px' }}>Ready to Complete Your Booking?</h4>
+      <div
+        className={styles.payment_initiation_section}
+        style={{
+          marginTop: "30px",
+          paddingTop: "20px",
+          borderTop: "1px solid #eee",
+        }}
+      >
+        <h4 style={{ marginBottom: "15px" }}>
+          Ready to Complete Your Booking?
+        </h4>
         {formData.totalAmount != null && (
-          <p className={styles.final_total_display} style={{ fontSize: '1.2em', fontWeight: 'bold', marginBottom: '20px' }}>
+          <p
+            className={styles.final_total_display}
+            style={{
+              fontSize: "1.2em",
+              fontWeight: "bold",
+              marginBottom: "20px",
+            }}
+          >
             Total Amount: ${parseFloat(formData.totalAmount).toFixed(2)}
           </p>
         )}
-        {paymentError && <p className={styles.payment_error_message} style={{ color: 'red', marginBottom: '10px' }}>Error: {paymentError}</p>}
-        {isProcessingPayment && <p className={styles.processing_message} style={{ marginBottom: '10px' }}>Processing your payment...</p>}
-        
-        <button 
-          onClick={handlePaymentSubmit} 
-          disabled={isProcessingPayment || !stripePromise || formData.totalAmount == null}
+        {paymentError && (
+          <p
+            className={styles.payment_error_message}
+            style={{ color: "red", marginBottom: "10px" }}
+          >
+            Error: {paymentError}
+          </p>
+        )}
+        {isProcessingPayment && (
+          <p
+            className={styles.processing_message}
+            style={{ marginBottom: "10px" }}
+          >
+            Processing your payment...
+          </p>
+        )}
+
+        <button
+          onClick={handlePaymentSubmit}
+          disabled={
+            isProcessingPayment ||
+            !stripePromise ||
+            formData.totalAmount == null
+          }
           className={styles.proceed_to_payment_button} // You might want to add specific styles for this button
-          style={{ 
-            backgroundColor: '#28a745', 
-            color: 'white', 
-            padding: '12px 25px', 
-            border: 'none', 
-            borderRadius: '5px', 
-            fontSize: '16px', 
-            cursor: 'pointer', 
-            opacity: (isProcessingPayment || !stripePromise || formData.totalAmount == null) ? 0.6 : 1
+          style={{
+            backgroundColor: "#28a745",
+            color: "white",
+            padding: "12px 25px",
+            border: "none",
+            borderRadius: "5px",
+            fontSize: "16px",
+            cursor: "pointer",
+            opacity:
+              isProcessingPayment ||
+              !stripePromise ||
+              formData.totalAmount == null
+                ? 0.6
+                : 1,
           }}
         >
-          {isProcessingPayment ? 'Processing...' : 'Proceed to Secure Payment'}
+          {isProcessingPayment ? "Processing..." : "Proceed to Secure Payment"}
         </button>
-        {!stripePromise && !paymentError && !isLoadingInitial && <p style={{ marginTop: '10px', fontSize: '0.9em', color: 'gray' }}>Initializing payment system...</p>}
+        {!stripePromise && !paymentError && !isLoadingInitial && (
+          <p style={{ marginTop: "10px", fontSize: "0.9em", color: "gray" }}>
+            Initializing payment system...
+          </p>
+        )}
       </div>
     </div>
   );

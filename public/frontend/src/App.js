@@ -14,6 +14,8 @@ import PaymentStatus from "./components/main/form/PaymentStatus";
 import ProfilePage from "./components/pages/Profile";
 import PaymentSuccess from "./components/main/payment/PaymentSuccess";
 import PaymentCancel from "./components/main/payment/PaymentCancel";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
+import TermsOfService from "./components/pages/TermsOfService";
 
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -92,6 +94,14 @@ const router = createBrowserRouter([
         path: "/contact",
         index: true,
         element: <ContactPage />,
+      },
+      {
+        path: "/privacy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms",
+        element: <TermsOfService />,
       },
       {
         path: "/payment/complete",

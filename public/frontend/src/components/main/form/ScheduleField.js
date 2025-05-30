@@ -18,21 +18,39 @@ const ScheduleField = ({
   const { id, field_key, label, required } = field;
   const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [calendarProps, setCalendarProps] = useState({
+    initialDate: null,
+    initialTime: null,
+  });
+  const clearCalendarProps = () => {
+    setCalendarProps({
+      initialDate: null,
+      initialTime: null,
+      initialDay: null,
+    });
+  };
+
   const [selectedSessions, setSelectedSessions] = useState(() => {
     try {
       // Handle the case when schedule_selection is already an array (from URL params)
       if (Array.isArray(formData[field_key])) {
-        console.log('[ScheduleField] Using array data directly:', formData[field_key]);
+        console.log(
+          "[ScheduleField] Using array data directly:",
+          formData[field_key]
+        );
         return formData[field_key];
       }
       // Handle case when it's a JSON string
       else if (formData[field_key]) {
-        console.log('[ScheduleField] Parsing JSON string:', formData[field_key]);
+        console.log(
+          "[ScheduleField] Parsing JSON string:",
+          formData[field_key]
+        );
         return JSON.parse(formData[field_key]);
       }
       return [];
     } catch (e) {
-      console.error('[ScheduleField] Error parsing schedule data:', e);
+      console.error("[ScheduleField] Error parsing schedule data:", e);
       return [];
     }
   });
@@ -68,8 +86,39 @@ const ScheduleField = ({
   };
 
   const handleEditSession = (index) => {
+    const sessionToEdit = selectedSessions[index];
     setEditingSessionIndex(index);
-    setIsCalendarOpen(true);
+
+    try {
+      // If sessionToEdit is already an object, use it directly
+      // Otherwise, try to parse it if it's a string
+      const sessionData =
+        typeof sessionToEdit === "string"
+          ? JSON.parse(sessionToEdit)
+          : sessionToEdit;
+
+      console.log("[ScheduleField] Editing session:", sessionData);
+
+      // Format the date to match the expected format
+      const formattedDate = moment(sessionData.date).format("YYYY-MM-DD");
+
+      setCalendarProps({
+        initialDate: formattedDate,
+        initialTime: sessionData.time,
+        initialDay: sessionData.day, // Add this if needed
+      });
+
+      console.log("[ScheduleField] Setting calendar props:", {
+        initialDate: formattedDate,
+        initialTime: sessionData.time,
+        initialDay: sessionData.day,
+      });
+
+      setIsCalendarOpen(true);
+    } catch (error) {
+      console.error("[ScheduleField] Error parsing session data:", error);
+      setIsCalendarOpen(true);
+    }
   };
 
   const handleCalendarEditSelect = ({ day, time, date }) => {
@@ -148,9 +197,11 @@ const ScheduleField = ({
     while (currentTime.isSameOrBefore(endTime)) {
       const timeStr = currentTime.format("h:mm A");
       // Only add the time if it's not already selected for this day
-      if (!selectedSessions.some(session => 
-        session.day === day && session.time === timeStr
-      )) {
+      if (
+        !selectedSessions.some(
+          (session) => session.day === day && session.time === timeStr
+        )
+      ) {
         times.push(timeStr);
       }
       currentTime.add(daySlot.interval_minutes, "minutes");
@@ -160,9 +211,9 @@ const ScheduleField = ({
   };
 
   const getAvailableTimesForDay = (day) => {
-    console.log('Getting times for day:', day);
+    console.log("Getting times for day:", day);
     const daySlot = organization?.availability.find((slot) => slot.day === day);
-    console.log('Found day slot:', daySlot);
+    console.log("Found day slot:", daySlot);
     if (!daySlot) return [];
 
     const times = [];
@@ -175,18 +226,18 @@ const ScheduleField = ({
       minute: daySlot.end_minutes,
     });
 
-    console.log('Start time:', currentTime.format('h:mm A'));
-    console.log('End time:', endTime.format('h:mm A'));
+    console.log("Start time:", currentTime.format("h:mm A"));
+    console.log("End time:", endTime.format("h:mm A"));
 
     const intervalMinutes = organization?.start_time_increments_minutes || 30;
-    console.log('Interval minutes:', intervalMinutes);
+    console.log("Interval minutes:", intervalMinutes);
 
     while (currentTime.isSameOrBefore(endTime)) {
       times.push(currentTime.format("h:mm A"));
       currentTime.add(intervalMinutes, "minutes");
     }
 
-    console.log('Available times:', times);
+    console.log("Available times:", times);
     return times;
   };
 
@@ -248,6 +299,7 @@ const ScheduleField = ({
                     return;
                   }
                   setEditingSessionIndex(null);
+                  clearCalendarProps(); // Clear props when adding new session
                   setIsCalendarOpen(true);
                 }}
               >
@@ -309,6 +361,7 @@ const ScheduleField = ({
               handleClose={() => {
                 setIsCalendarOpen(false);
                 setEditingSessionIndex(null);
+                clearCalendarProps(); // Clear props when closing calendar
               }}
               onSelect={
                 editingSessionIndex !== null
@@ -316,6 +369,7 @@ const ScheduleField = ({
                   : handleCalendarSelect
               }
               availability_organization={field.availableOrganizations || 1}
+              {...calendarProps}
             />
           </div>
         ) : (

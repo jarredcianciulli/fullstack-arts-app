@@ -15,9 +15,21 @@ const AvailabilityDay = ({
   section_id,
   availability_organization,
   onSelect,
+  initialTime,
+  initialDate,
 }) => {
+  // Add detailed logging of props
+  console.log("AvailabilityDay props:", {
+    selectedDate: selectedDate
+      ? moment(selectedDate).format("YYYY-MM-DD")
+      : null,
+    initialTime,
+    initialDate,
+  });
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [busyTimes, setBusyTimes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const getAvailabilityById = (array, id) => {
     return array.find((obj) => obj.id === id);
@@ -29,35 +41,29 @@ const AvailabilityDay = ({
 
   useEffect(() => {
     const fetchAvailability = async () => {
+      if (!selectedDate) return;
+
+      setIsLoading(true);
+      setError(null);
       const date = moment(selectedDate).format("YYYY-MM-DD");
-      console.log("Fetching availability for date:", date);
+
       try {
-        console.log("Checking availability for date:", date);
+        console.log("Fetching availability for date:", date);
         const response = await fetch(
           `${API_BASE_URL}/api/availability/check-date/${date}`
         );
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
         console.log("Raw response data:", data);
 
-        // The backend already sends us formatted HH:mm times
+        // Process the data as before
         const { busySlots } = data;
-        console.log("Busy slots from backend:", busySlots);
+        setBusyTimes(busySlots || []);
 
-        if (!Array.isArray(busySlots)) {
-          console.error(
-            "Expected busySlots to be an array, got:",
-            typeof busySlots
-          );
-          setBusyTimes([]);
-          return;
-        }
-
-        setBusyTimes(busySlots);
-
-        // Get organization's availability for this day
         const org = getAvailabilityById(
           availability_organizationJSON.availability_organization,
           availability_organization
@@ -73,7 +79,6 @@ const AvailabilityDay = ({
           moment(selectedDate).format("dddd")
         );
 
-        // Generate time slots for each availability window
         const allTimeSlots = dayAvailability.flatMap((window) => {
           const increment = 45; // 45 minute sessions
           const step = 15; // 15 minute intervals
@@ -83,28 +88,71 @@ const AvailabilityDay = ({
         setAvailableTimeSlots(allTimeSlots);
       } catch (error) {
         console.error("Error fetching availability:", error);
+        setError("Failed to load availability. Please try again.");
         setAvailableTimeSlots([]);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchAvailability();
   }, [selectedDate, availability_organization]);
 
+  // loading and error states to the render
+  if (isLoading) {
+    return (
+      <div className={classes.loadingContainer}>
+        <div className={classes.loadingSpinner}></div>
+        <p>Loading available times...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={classes.errorContainer}>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
   const renderTimeSlots = () => {
-    return availableTimeSlots.map((slot) => {
+    return availableTimeSlots.map((slot, index) => {
       const startTime = timeFormatter(slot.start_hour, slot.start_minutes);
       const endTime = timeFormatter(slot.end_hour, slot.end_minutes);
-      const timeSlotId = `${moment(selectedDate).format(
-        "YYYY-MM-DD"
-      )}-${startTime}`;
+      const currentDate = moment(selectedDate).format("YYYY-MM-DD");
+      const timeSlotId = `${currentDate}-${startTime}`;
+
+      // Normalize time formats for comparison
+      const normalizeTime = (timeStr) => {
+        if (!timeStr) return "";
+        // Remove any spaces and convert to lowercase
+        return timeStr.replace(/\s+/g, "").toLowerCase();
+      };
+
+      const normalizedStartTime = normalizeTime(startTime);
+      const normalizedInitialTime = normalizeTime(initialTime);
+
+      // Log time comparison with normalized values
+      if (initialTime) {
+        console.log(
+          `Time slot: "${startTime}" (${normalizedStartTime}) vs initialTime: "${initialTime}" (${normalizedInitialTime}) - Match: ${
+            normalizedStartTime === normalizedInitialTime
+          }`
+        );
+      }
+
+      // Debug logs can be enabled when needed
+      // console.log(`Rendering time slot: ${startTime} on ${currentDate}`);
       // Check if this time slot overlaps with any busy period
       const isBooked = busyTimes.some((busySlot) => {
-        console.log(
-          "Checking slot:",
-          startTime,
-          "against busy slot:",
-          busySlot
-        );
+        // Debug logs commented out for cleaner console
+        // console.log(
+        //   "Checking slot:",
+        //   startTime,
+        //   "against busy slot:",
+        //   busySlot
+        // );
 
         // Convert time strings to 24-hour format for comparison
         const slotTime = moment(startTime, ["h:mma", "H:mm"]).format("HH:mm");
@@ -121,12 +169,13 @@ const AvailabilityDay = ({
         const busyStartMinutesTotal = busyStartHours * 60 + busyStartMinutes;
         const busyEndMinutesTotal = busyEndHours * 60 + busyEndMinutes;
 
-        console.log("Comparing times (in minutes):", {
-          slotTime: slotTime,
-          slotMinutes: slotMinutesTotal,
-          busyStart: busyStartMinutesTotal,
-          busyEnd: busyEndMinutesTotal,
-        });
+        // Debug logs commented out for cleaner console
+        // console.log("Comparing times (in minutes):", {
+        //   slotTime: slotTime,
+        //   slotMinutes: slotMinutesTotal,
+        //   busyStart: busyStartMinutesTotal,
+        //   busyEnd: busyEndMinutesTotal,
+        // });
 
         // Check if slot start time falls within busy period
         const isWithinBusyPeriod =
@@ -134,9 +183,10 @@ const AvailabilityDay = ({
           slotMinutesTotal < busyEndMinutesTotal;
 
         if (isWithinBusyPeriod) {
-          console.log(
-            `BUSY: ${startTime} falls within busy period ${busySlot.start}-${busySlot.end}`
-          );
+          // Debug logs commented out for cleaner console
+          // console.log(
+          //   `BUSY: ${startTime} falls within busy period ${busySlot.start}-${busySlot.end}`
+          // );
         }
 
         return isWithinBusyPeriod;
@@ -144,9 +194,17 @@ const AvailabilityDay = ({
 
       return (
         <motion.div
-          key={timeSlotId}
+          key={index}
           className={`${classes.availability__time} ${
             isBooked ? classes.booked : ""
+          } ${
+            initialDate && // Check if initialDate is provided (i.e., we are in edit mode)
+            moment(selectedDate).format("YYYY-MM-DD") === initialDate && // Check if the current AvailabilityDay's date matches initialDate
+            normalizedInitialTime &&
+            normalizedStartTime &&
+            normalizedStartTime === normalizedInitialTime // Check if the normalized times match
+              ? classes.selected
+              : ""
           }`}
           onClick={() => !isBooked && onSelect(startTime)}
           style={{ cursor: isBooked ? "not-allowed" : "pointer" }}

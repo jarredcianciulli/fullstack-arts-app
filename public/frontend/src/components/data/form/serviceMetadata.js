@@ -13,7 +13,7 @@ export const serviceMetadata = [
   },
   {
     serviceId: 4, // Piano tuning
-    formSteps: [1, 2, 7, 4, 5, 6], // General Info -> Location -> Schedule -> Confirmation -> Payment
+    formSteps: [8, 2, 7, 4, 5, 6], // General Info -> Location -> Schedule -> Confirmation -> Payment
   },
   {
     serviceId: 5, // Group music class - Virtual

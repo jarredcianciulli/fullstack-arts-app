@@ -7,33 +7,40 @@ const cors = require("cors");
 const app = express();
 
 // Dynamic CORS configuration
-// const allowedOrigins =
-//   process.env.NODE_ENV === "production"
-//     ? [
-//         "https://www.intonobyjarred.com",
-//         "http://www.intonobyjarred.com.s3-website-us-east-1.amazonaws.com",
-//       ] // Replace with your production frontend domain
-//     : ["http://localhost:3000", "http://localhost:3001"]; // Development origins
-
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//   })
-// );
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? [
+        "https://www.intonobyjarred.com",
+        "http://www.intonobyjarred.com",
+        "http://www.intonobyjarred.com.s3-website-us-east-1.amazonaws.com",
+        "https://intonobyjarred.com",
+        "http://intonobyjarred.com",
+      ] // Production frontend domains
+    : ["http://localhost:3000", "http://localhost:3001", "http://localhost:8081"]; // Development origins
 
 app.use(
   cors({
-    origin: "*", // Allow all origins
-    credentials: true, // Allow cookies or authentication headers
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log(`CORS blocked origin: ${origin}`);
+        callback(null, true); // Still allow for now, but log it for debugging
+        // Eventually change to: callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
+
+// Fallback CORS for debugging - comment this out in production
+// app.use(
+//   cors({
+//     origin: "*", // Allow all origins
+//     credentials: true, // Allow cookies or authentication headers
+//   })
+// );
 
 // Middleware
 app.use(express.json());

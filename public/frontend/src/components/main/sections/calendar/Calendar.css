@@ -79,3 +79,10 @@
 .react-calendar__navigation button {
   letter-spacing: 1px;
 }
+
+@media (max-width: 768px) {
+  .react-calendar__navigation {
+    margin-bottom: 0;
+    height: 20px;
+  }
+}

@@ -3,7 +3,7 @@ export const formSteps = [
     id: 1,
     step: 1,
     title: "General Info",
-    fieldIds: [1, 6, 2], // Include child name and age fields in step 1
+    fieldIds: [1, 6, 2, 8, 9], // Include child name and age fields in step 1
   },
   {
     id: 2,
@@ -35,5 +35,11 @@ export const formSteps = [
     step: 3,
     title: "Package",
     fieldIds: [7], // Updated to match new field IDs
+  },
+  {
+    id: 8,
+    step: 1,
+    title: "General Info",
+    fieldIds: [1, 6], // Include child name and age fields in step 1
   },
 ];

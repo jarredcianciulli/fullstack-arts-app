@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import classes from "./Services.module.css";
 import { PopupButton } from "react-calendly";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import {
   motion,
@@ -28,9 +28,13 @@ import MultiStepForm from "../../form/MultiStepForm";
 import ServicesJSON from "../../../data/services.json";
 
 function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [isAPopupOpen, setIsAPopupOpen] = useState(false);
   const matches = useMediaQuery("(min-width: 800px)"); // Use the custom hook
-  const navigate = useNavigate();
   const popupRef = useRef(null);
 
   const fieldStateContent = [];
@@ -75,6 +79,24 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
     setCardFlipState(updatedArray);
   }
 
+  // Add this effect to sync form state with URL
+  useEffect(() => {
+    // Check if current URL matches the registration path for this service
+    const isRegistrationPath = location.pathname.endsWith("/register");
+    setIsFormOpen(isRegistrationPath);
+
+    // If we're on the registration path, set the selected service
+    if (isRegistrationPath) {
+      setSelectedService(e);
+    }
+  }, [location.pathname, e]);
+
+  // Update handleRegistrationClick
+  function handleRegistrationClick(service) {
+    setSelectedService(service);
+    navigate(`${service.slug}/register`);
+  }
+
   const togglePopup = () => {
     setIsAPopupOpen((prev) => !prev);
     setIsPopupOpen((prev) => !prev); // consider removing one of these
@@ -102,9 +124,6 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
   }
 
   //   const homeCardOptions = ServicesJSON.services.map((e, ind) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
 
   const transition_text = {
     duration: 0.3,
@@ -183,7 +202,13 @@ function ServicesComponent({ id, e, prop, ind, onServiceClick }) {
           <MultiStepForm
             service={selectedService}
             isFormOpen={isFormOpen}
-            setIsFormOpen={setIsFormOpen}
+            setIsFormOpen={(isOpen) => {
+              setIsFormOpen(isOpen);
+              if (!isOpen) {
+                // When closing the form, navigate back to the services page
+                navigate(-1);
+              }
+            }}
           />
         )}
         <motion.div

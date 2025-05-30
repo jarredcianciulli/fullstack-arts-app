@@ -16,7 +16,20 @@ export const calculatePrice = (formData) => {
 
   if (!selectedPackage) return null;
 
-  const { price, sessions } = selectedPackage;
+  let { price, sessions } = selectedPackage;
+  
+  // Get the selected duration and its price increase
+  const selectedDuration = formFieldOptions.find(
+    (opt) => opt.value === formData.duration
+  );
+  
+  const durationPriceIncrease = selectedDuration?.price_increase_per_session || 0;
+  const totalDurationIncrease = durationPriceIncrease * sessions;
+
+  // Calculate price increase per session if applicable
+  const sessionIncrease = selectedPackage.price_increase_per_session
+    ? selectedPackage.price_increase_per_session * sessions
+    : 0;
 
   // Calculate location fee if applicable
   const calculateTravelCost = () => {
@@ -25,16 +38,33 @@ export const calculatePrice = (formData) => {
   };
 
   const locationFee = calculateTravelCost();
-  const subtotal = price + locationFee;
+  const subtotal = price + sessionIncrease + totalDurationIncrease + locationFee;
   const taxRate = 0.07;
   const tax = subtotal * taxRate;
   const total = subtotal + tax;
 
-  return { price, sessions, locationFee, subtotal, taxRate, tax, total };
+  // Calculate the total base price including duration increase
+  const basePriceWithIncrease = price + totalDurationIncrease;
+  
+  return {
+    price: basePriceWithIncrease, // Include duration increase in base price
+    sessions,
+    sessionIncrease,
+    locationFee,
+    subtotal,
+    taxRate,
+    tax,
+    total,
+  };
 };
 
 const PriceLedger = ({ formData, onTotalCalculated }) => {
   console.log(formData, "formData in PriceLedger");
+  // Get the selected duration for display
+  const selectedDuration = formFieldOptions.find(
+    (opt) => opt.value === formData.duration
+  );
+  
   const breakdown = calculatePrice(formData);
   const total = breakdown ? breakdown.total : null;
 
@@ -46,7 +76,8 @@ const PriceLedger = ({ formData, onTotalCalculated }) => {
   }, [total, onTotalCalculated]);
 
   if (!breakdown) return null; // Still render nothing if calculation fails
-  const { price, sessions, locationFee, subtotal, tax } = breakdown; // Destructure remaining needed values
+  const { price, sessions, sessionIncrease, locationFee, subtotal, tax } =
+    breakdown; // Destructure remaining needed values
 
   return (
     <div className={styles.price_ledger}>
@@ -54,9 +85,30 @@ const PriceLedger = ({ formData, onTotalCalculated }) => {
       <div className={styles.ledger_item}>
         <span>
           Base Price ({sessions} {sessions === 1 ? "Session" : "Sessions"})
+          {selectedDuration?.price_increase_per_session > 0 && (
+            <span className={styles.price_increase_note}>
+              (includes ${selectedDuration.price_increase_per_session}/session for {selectedDuration.value})
+            </span>
+          )}
         </span>
         <span>{formatPrice(price)}</span>
       </div>
+      {sessionIncrease > 0 && (
+        <div className={styles.ledger_item}>
+          <span>
+            Price Increase Per Session{" "}
+            {formFieldOptions.find((opt) => opt.value === formData.package)
+              ?.price_increase_per_session
+              ? `($${formatPrice(
+                  formFieldOptions.find((opt) => opt.value === formData.package)
+                    .price_increase_per_session,
+                  false
+                )} per session)`
+              : ""}
+          </span>
+          <span>{formatPrice(sessionIncrease)}</span>
+        </div>
+      )}
       {locationFee > 0 && (
         <div className={styles.ledger_item}>
           <span>

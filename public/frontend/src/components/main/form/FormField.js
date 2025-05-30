@@ -77,14 +77,13 @@ const FormField = ({
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    // Find the selected option to get its label
     const option = formFieldOptions.find((opt) => {
       const isInOptions = options?.includes(opt.id);
       const valueMatches = opt.value === value;
       return isInOptions && valueMatches;
     });
 
-    // Update the selected value
+    // First, update the selected value
     handleInputChange({
       target: {
         name,
@@ -93,8 +92,10 @@ const FormField = ({
       },
     });
 
-    // If the option has sessions, update schedule_sessions
-    if (option?.sessions) {
+    if (!option) return;
+
+    // Handle sessions update if available
+    if (option.sessions) {
       handleInputChange({
         target: {
           name: "schedule_sessions",
@@ -103,9 +104,93 @@ const FormField = ({
         },
       });
     }
-  };
 
-  if (!isVisible()) {
+    // Calculate price based on field type
+    if (field_key === "package") {
+      // If selecting a package, calculate with current duration
+      const basePrice = option.price || 0;
+      const sessions = option.sessions || 0;
+      const durationPriceIncrease = formData.duration
+        ? formFieldOptions.find((opt) => opt.value === formData.duration)
+            ?.price_increase_per_session || 0
+        : 0;
+
+      const totalPriceIncrease = sessions * durationPriceIncrease;
+      const totalPrice = basePrice + totalPriceIncrease;
+
+      console.log("[FormField] Package selection - Calculating price:", {
+        basePrice,
+        sessions,
+        durationPriceIncrease,
+        totalPriceIncrease,
+        totalPrice,
+        currentDuration: formData.duration,
+      });
+      console.log(totalPriceIncrease, "totalPriceIncrease");
+
+      handleInputChange({
+        target: {
+          name: "totalAmount",
+          value: totalPrice,
+          type: "number",
+        },
+      });
+    } else if (field_key === "duration") {
+      // If selecting duration, recalculate with current package
+      const packageOption = formFieldOptions.find(
+        (opt) => opt.value === formData.package
+      );
+
+      if (packageOption) {
+        const basePrice = packageOption.price || 0;
+        const sessions = packageOption.sessions || 0;
+        const durationPriceIncrease = option.price_increase_per_session || 0;
+
+        const totalPriceIncrease = sessions * durationPriceIncrease;
+        const totalPrice = basePrice + totalPriceIncrease;
+
+        console.log("[FormField] Duration selection - Calculating price:", {
+          basePrice,
+          sessions,
+          durationPriceIncrease,
+          totalPriceIncrease,
+          totalPrice,
+          currentPackage: formData.package,
+        });
+
+        handleInputChange({
+          target: {
+            name: "totalAmount",
+            value: totalPrice,
+            type: "number",
+          },
+        });
+      }
+    }
+  };
+  // Auto-select the only option if there's exactly one
+  React.useEffect(() => {
+    if (type === "select" && options?.length === 1) {
+      const singleOption = formFieldOptions.find(
+        (opt) => opt.id === options[0]
+      );
+      if (singleOption && formData[field_key] !== singleOption.value) {
+        handleInputChange({
+          target: {
+            name: field_key,
+            value: singleOption.value,
+            type: "select",
+          },
+        });
+      }
+    }
+  }, [type, options, field_key, formData, handleInputChange]);
+
+  // Don't render if not visible or if it's a single-option select field that's already selected
+  if (
+    !isVisible() ||
+    (type === "select" && options?.length === 1 && formData[field_key])
+  ) {
     return null;
   }
 
@@ -164,6 +249,7 @@ const FormField = ({
           onChange={handleSelectChange}
           field_key={field_key}
           required={required}
+          formData={formData}
         />
       ) : type === "select" ? (
         <div className={styles.schedule_options_grid}>

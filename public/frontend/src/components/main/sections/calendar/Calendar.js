@@ -18,11 +18,24 @@ const Calendar = ({
   availability_organization,
   onSelect,
   initialDay,
+  initialTime,
+  initialDate,
 }) => {
   let CalendarPopup;
 
+  // Add debug log when initialDate is provided
+  if (initialDate) {
+    console.log('Calendar received initialDate:', initialDate);
+  }
+
   const [selectedDate, setSelectedDate] = useState(() => {
-    if (initialDay) {
+    // If initialDate is provided (when editing a session), use it directly
+    if (initialDate) {
+      console.log('Setting Calendar date to:', moment(initialDate).format('YYYY-MM-DD'));
+      return moment(initialDate).toDate();
+    }
+    // Otherwise, if initialDay is provided, calculate the date
+    else if (initialDay) {
       // Convert day name to date
       const today = new Date();
       const days = [
@@ -235,6 +248,8 @@ const Calendar = ({
                   service_id={service_id}
                   section_id={section_id}
                   availability_organization={availability_organization}
+                  initialTime={initialTime}
+                  initialDate={initialDate}
                   onSelect={(time) => {
                     const day = moment(selectedDate).format("dddd");
                     const date = moment(selectedDate).format("YYYY-MM-DD");

@@ -30,15 +30,6 @@
   white-space: nowrap;
 }
 
-.subscriptionsPricingCardFooterButtonDisabled {
-  pointer-events: none;
-}
-
-.subscriptionsPricingCardFooterButton:hover {
-  box-shadow: 1px 2px var(--color-sextiary-800);
-  transform: translateY(-2px);
-}
-
 .subscriptionsPricingCardBodySessionIcon {
   width: 15px;
   margin-right: 0.5rem;
@@ -156,15 +147,57 @@
   transform: rotateY(180deg);
   transform: rotateX(180deg);
 }
+
 .subscriptionsPricingCardFooterButton {
   height: min-content;
+
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  outline: none !important;
+
+  /* Reset button styles */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Prevent focus outline */
+  &:focus {
+    outline: none;
+  }
+
+  /* Prevent active/pressed state styles */
+  &:active {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+    transform: none;
+  }
+
+  /* Remove default button highlight on mobile */
+  &::-moz-focus-inner {
+    border: 0;
+  }
 }
 
 .subscriptionsPricingCardBack {
   font-family: var(--font-family-primary);
 }
 
+.subscriptionsPricingCardFooterButtonDisabled {
+  pointer-events: none;
+}
+
 @media (min-width: 800px) {
+  .subscriptionsPricingCardFooterButton:hover {
+    text-shadow: 1px 2px var(--color-sextiary-400);
+    box-shadow: 1px 2px var(--color-sextiary-800);
+    transform: translateY(-2px);
+  }
+
   .subscriptionsPricingCardContainer {
     min-height: 400px;
     min-width: 320px;
@@ -612,12 +645,6 @@
 
 .subscriptionsPricingCardFooterButtonDisabled {
   pointer-events: none;
-}
-
-.subscriptionsPricingCardFooterButton:hover {
-  text-shadow: 1px 2px var(--color-sextiary-400);
-  box-shadow: 1px 2px var(--color-sextiary-800);
-  transform: translateY(-2px);
 }
 
 .subscriptionsPricingCardBodySessionIcon {
